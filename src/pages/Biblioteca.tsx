@@ -1,8 +1,9 @@
 import { AccountChip, Byline, Cover, EditButton, StatusBadge } from '@/components/Bits'
+import { Icon } from '@/components/Icon'
 import { useData } from '@/context/DataContext'
 import { useUi } from '@/context/UiContext'
-import { dm } from '@/lib/dates'
-import { matchesAccount } from '@/lib/logic'
+import { dm, todayISO } from '@/lib/dates'
+import { matchesAccount, postAlert } from '@/lib/logic'
 import type { PostFormat } from '@/lib/types'
 
 export function Biblioteca({ format, title }: { format: PostFormat; title: string }) {
@@ -35,6 +36,7 @@ export function Biblioteca({ format, title }: { format: PostFormat; title: strin
             <div className="tg">
               <StatusBadge status={post.status} />
               <span className="chip c-gray">{dm(post.scheduled_date)}</span>
+              {postAlert(post, todayISO()) && <span className="ared"><Icon name="alert" />{postAlert(post, todayISO())?.line}</span>}
             </div>
             <Byline name={post.updated_by} />
           </div>

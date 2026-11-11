@@ -46,7 +46,7 @@ export function timeLabel(value: string | null): string | null {
 export type AlertInfo = { when: string; miss: string; line: string }
 
 export function postAlert(post: Post, today: string): AlertInfo | null {
-  if (post.status === 'postado' || post.status === 'arte_pronta' || isPlaceholder(post.title)) return null
+  if (post.status === 'postado') return null
   const days = daysBetween(today, post.scheduled_date)
   if (days < 0 || days > 7) return null
   const noCover = !post.cover_url

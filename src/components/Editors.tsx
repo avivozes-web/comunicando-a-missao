@@ -20,7 +20,7 @@ import {
   type Task,
   type TaskStep,
 } from '@/lib/types'
-import { uid } from '@/lib/utils'
+import { mediaUrl, uid } from '@/lib/utils'
 
 const STEPS = ['Conta', 'Formato', 'Tema', 'Data', 'Quem faz', 'Confirmar'] as const
 
@@ -73,6 +73,7 @@ function PostEditor() {
   const [updatedBy, setUpdatedBy] = useState('Isabelle')
   const [checks, setChecks] = useState<CheckItem[]>([])
   const [checkText, setCheckText] = useState('')
+  const [coverUrl, setCoverUrl] = useState<string | null>(null)
   const [who, setWho] = useState<Assignees>(DEFAULT_ASSIGNEES)
   const [busy, setBusy] = useState(false)
 
@@ -93,6 +94,7 @@ function PostEditor() {
       setStatus(editing.status)
       setUpdatedBy(editing.updated_by || 'Isabelle')
       setChecks(editing.checklist || [])
+      setCoverUrl(editing.cover_url)
     } else {
       setAccount('escola')
       setFormat('reel')
@@ -107,6 +109,7 @@ function PostEditor() {
       setStatus('ideia')
       setUpdatedBy('Isabelle')
       setChecks([])
+      setCoverUrl(null)
       setWho(DEFAULT_ASSIGNEES)
     }
   }, [open, editing, ui.postDate])
@@ -122,7 +125,7 @@ function PostEditor() {
       scheduled_time: time || null,
       aspect: aspect.trim() || null,
       legenda: legenda.trim() || null,
-      cover_url: editing?.cover_url || null,
+      cover_url: coverUrl,
       drive_url: drive.trim() || null,
       checklist: checks,
       note: note.trim() || null,
@@ -283,12 +286,23 @@ function PostEditor() {
                       <button type="button" className="btn" onClick={() => { if (!checkText.trim()) return; setChecks([...checks, { label: checkText.trim(), done: false }]); setCheckText('') }}>Adicionar</button>
                     </div>
                   </div>
-                  <label className="field">Capa
-                    <input className="inp" type="file" accept="image/*" onChange={(event) => {
-                      const file = event.target.files?.[0]
-                      if (file && editing) void data.setCover(editing.id, file).then(() => ui.toast('Capa atualizada.'))
-                    }} />
-                  </label>
+                  <div className="field">Capa
+                    <div className="cover-preview-row">
+                      {coverUrl ? <img src={mediaUrl(coverUrl) || ''} alt="Capa atual" /> : <span className="src">Sem capa ainda.</span>}
+                      <label className="btn">
+                        Trocar capa
+                        <input type="file" accept="image/*" hidden onChange={(event) => {
+                          const file = event.target.files?.[0]
+                          if (!file || !editing) return
+                          setBusy(true)
+                          void data.setCover(editing.id, file).then((url) => {
+                            setCoverUrl(url)
+                            ui.toast('Capa atualizada.')
+                          }).catch(() => ui.toast('Não foi possível enviar a capa.')).finally(() => setBusy(false))
+                        }} />
+                      </label>
+                    </div>
+                  </div>
                 </>
               )}
             </div>

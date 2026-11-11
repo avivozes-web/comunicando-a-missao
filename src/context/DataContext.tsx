@@ -11,7 +11,7 @@ type DataValue = {
   bundle: Bundle
   savePost: (post: Post, assignees?: Assignees) => Promise<void>
   removePost: (id: string) => Promise<void>
-  setCover: (postId: string, file: File) => Promise<void>
+  setCover: (postId: string, file: File) => Promise<string>
   toggleCheck: (postId: string, index: number) => Promise<void>
   saveIdea: (idea: Idea) => Promise<void>
   removeIdea: (id: string) => Promise<void>
@@ -145,14 +145,26 @@ export function DataProvider({ children }: { children: ReactNode }) {
       }
       await api.removePost(id)
     }),
-    setCover: (postId, file) => run(async (current) => {
-      if (PREVIEW) {
-        const url = await readFile(file)
-        current.posts = current.posts.map((post) => (post.id === postId ? { ...post, cover_url: url } : post))
-        return current
+    setCover: async (postId, file) => {
+      setError(null)
+      try {
+        if (PREVIEW) {
+          const url = await readFile(file)
+          setBundle((current) => ({
+            ...current,
+            posts: current.posts.map((post) => (post.id === postId ? { ...post, cover_url: url } : post)),
+          }))
+          return url
+        }
+        const url = await api.uploadCover(postId, file)
+        setBundle(await api.loadBundle())
+        return url
+      } catch (err) {
+        const message = err instanceof Error ? err.message : 'Não foi possível salvar a capa.'
+        setError(message)
+        throw err
       }
-      await api.uploadCover(postId, file)
-    }),
+    },
     toggleCheck: (postId, index) => run(async (current) => {
       const post = current.posts.find((item) => item.id === postId)
       if (!post) return current
