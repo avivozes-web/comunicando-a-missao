@@ -14,7 +14,7 @@ export function Tarefas() {
   const today = todayISO()
   const [offset, setOffset] = useState(1)
   const monday = addDays(startOfWeek(today), offset * 7)
-  const days = [0, 1, 2, 3, 4].map((index) => addDays(monday, index))
+  const days = [0, 1, 2, 3, 4, 5, 6].map((index) => addDays(monday, index))
   const tasks = data.bundle.tasks.filter((task) => matchesAccount(task.account, ui.filter) && showTask(task))
   const todayTasks = tasks.filter((task) => task.due_date === today).sort(bySort)
   const ghost = todayTasks.length > 0 && todayTasks.length < 3 && isoWeekday(today) === 3
@@ -48,7 +48,7 @@ export function Tarefas() {
       </div>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', margin: '0 0 8px' }}>
         <div style={{ fontSize: 12.5, fontWeight: 600, color: 'var(--muted)' }}>
-          Semana {dayNumber(days[0])}–{dayNumber(days[4])} {['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'][Number(days[4].slice(5, 7)) - 1]}
+          Semana {dayNumber(days[0])}–{dayNumber(days[6])} {['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'][Number(days[6].slice(5, 7)) - 1]}
         </div>
         <div style={{ display: 'flex', gap: 8 }}>
           <button type="button" className="btn" onClick={() => setOffset(offset - 1)}><Icon name="chevronL" /></button>
@@ -63,13 +63,15 @@ export function Tarefas() {
             const showGhost = (isoWeekday(date) === 3 || isoWeekday(date) === 4) && list.some((task) => task.sort < 60)
             const fixed = list.filter((task) => task.sort < 60)
             const rest = list.filter((task) => task.sort >= 60)
+            const weekend = isoWeekday(date) >= 6
             return (
-              <div className="dcol" key={date}>
+              <div className={`dcol ${weekend ? 'weekend' : ''}`} key={date}>
                 <div className="dh2"><b>{dayNumber(date)}</b><span>{weekdayShort(date)}</span></div>
                 <div className="list">
                   {fixed.map((task) => <TaskCard key={task.id} task={task} />)}
                   {showGhost && <Ghost onClick={() => ui.openTask(null, date)} />}
                   {rest.map((task) => <TaskCard key={task.id} task={task} />)}
+                  {weekend && list.length === 0 && <div className="tc ghost"><div className="tt">Folga</div></div>}
                 </div>
               </div>
             )

@@ -19,6 +19,7 @@ export function Hoje() {
   const summary = resumoDoDia(tasks, posts, today)
   const sunday = addDays(startOfWeek(today), 6)
   const later = posts.filter((post) => post.scheduled_date > tomorrow && post.scheduled_date <= sunday)
+  const lastLater = later.reduce((max, post) => (post.scheduled_date > max ? post.scheduled_date : max), '')
   const next = pendencias(data.bundle.posts.filter((post) => matchesAccount(post.account, ui.filter)), today)
 
   async function gravado(post?: Post) {
@@ -41,6 +42,7 @@ export function Hoje() {
             <div className="eyebrow">{longDate(today)}</div>
             <h1>Olá, Isabelle</h1>
             <div className="sub">O que precisa sair hoje e amanhã, nas duas contas.</div>
+            <div className="resumo-k">Resumo do dia</div>
             <div className="resumo">{summary}</div>
             <div className="ico-row">
               <span className="ico-c navy"><Icon name="book" /></span>
@@ -61,7 +63,7 @@ export function Hoje() {
         </div>
         <div className="card pend" style={{ marginBottom: 10 }}>
           <div className="bh">
-            <h2><Icon name="calx" /> Resto desta semana{later[0] ? ` · ${weekdayShort(later[0].scheduled_date)} ${dayNumber(later[0].scheduled_date)}/${Number(later[0].scheduled_date.slice(5, 7))}` : ''}</h2>
+            <h2><Icon name="calx" /> Resto desta semana{lastLater ? ` · ${weekdayShort(lastLater)} ${dayNumber(lastLater)}/${Number(lastLater.slice(5, 7))}` : ''}</h2>
             <span className="pill">{later.length} {later.length === 1 ? 'lugar na grade' : 'lugares na grade'}</span>
           </div>
           {later.length === 0 && <div className="empty">Nada mais nesta semana.</div>}
@@ -96,6 +98,7 @@ export function Hoje() {
         </div>
       </div>
       <div className="only-mobile">
+        <div className="resumo-k">Resumo do dia</div>
         <div className="resumo mobile-resumo">{summary}</div>
         <div className="seg2">
           <button type="button" className={ui.filter === 'todas' ? 'on' : ''} onClick={() => ui.setFilter('todas')}>Todas</button>
@@ -191,14 +194,16 @@ function LaterCard({ post, onGravado }: { post: Post; onGravado: (post: Post) =>
   const ui = useUi()
   const data = useData()
   const vague = isPlaceholder(post.title)
+  const alert = postAlert(post, todayISO())
   return (
-    <div className="pi">
+    <div className={`pi ${alert ? 'warn' : ''}`}>
       <div className="dt"><small>{weekdayShort(post.scheduled_date)}</small><b>{dayNumber(post.scheduled_date)}</b></div>
       <div className="tx">
         {vague ? `${post.format === 'carrossel' ? 'Carrossel' : 'Vídeo'} · ${post.title.replace(/^Vídeo · |^Carrossel · /, '')}` : post.title}
         <small style={{ display: 'flex', gap: 6, alignItems: 'center', flexWrap: 'wrap' }}>
           <AccountChip account={post.account} />
           {post.note && <span style={{ fontWeight: 500 }}>{post.note}</span>}
+          {alert && <span className="ared"><Icon name="alert" />{alert.line}</span>}
         </small>
         <div className="acts">
           {!post.cover_url && <Cover post={post} onFile={(file) => void data.setCover(post.id, file)} />}
@@ -232,6 +237,7 @@ function MobileDay({ label, date, posts }: { label: string; date: string; posts:
               {timeLabel(post.scheduled_time) && <span><Icon name="clock" />{timeLabel(post.scheduled_time)}</span>}
               {post.aspect && <span>{post.aspect}</span>}
             </div>
+            {postAlert(post, date) && <span className="ared"><Icon name="alert" />{postAlert(post, date)?.line}</span>}
             <Byline name={post.updated_by} />
           </div>
         </div>
