@@ -1,0 +1,247 @@
+{
+ "titulo": "Relatório semanal Instagram @missaojosue.educacao",
+ "periodo": "Semana 03/11 a 09/11/2026 (últimos 7 dias, coletado em 09/11/2026)",
+ "gerado_em": "09/11/2026",
+ "saida": "/workspace/relatorios/2026-11-09/relatorio-2026-11-09.pdf",
+ "conta": {
+  "visualizacoes": 1012,
+  "vis_seguidores_pct": 32.3,
+  "vis_nao_seguidores_pct": 67.7,
+  "contas_visualizaram": 349,
+  "vis_por_tipo_pct": {
+   "Reels": 52.1,
+   "Stories": 45.7,
+   "Posts": 2.3
+  },
+  "interacoes": 48,
+  "int_seguidores_pct": 54.2,
+  "int_nao_seguidores_pct": 45.8,
+  "contas_engajamento": 24,
+  "int_por_tipo_pct": {
+   "Posts": 72.9,
+   "Reels": 16.7,
+   "Stories": 10.4
+  },
+  "atividade_perfil": 10,
+  "visitas_perfil": 9,
+  "toques_links": 1,
+  "seguidores": 252,
+  "horarios_semana": {
+   "faixas": [],
+   "dias": {},
+   "leitura": "<b>[Dado]</b> Sem dado de horário nesta semana (a grade apareceu sem horário de pico legível)."
+  }
+ },
+ "seguidores_semana": {
+  "inicio": 252,
+  "fim": 252,
+  "ganho": 0,
+  "meta": 55,
+  "ganho_semana_meta": 0,
+  "dias": [
+   [
+    "Ter 03/11",
+    0,
+    ""
+   ],
+   [
+    "Qua 04/11",
+    -1,
+    ""
+   ],
+   [
+    "Qui 05/11",
+    1,
+    ""
+   ],
+   [
+    "Sex 06/11",
+    0,
+    "carrossel Teologia"
+   ],
+   [
+    "Sáb 07/11",
+    0,
+    ""
+   ],
+   [
+    "Dom 08/11",
+    0,
+    ""
+   ],
+   [
+    "Seg 09/11",
+    0,
+    ""
+   ]
+  ],
+  "nota": "Contagem pelos snapshots de seguidores. De 252 (06/11) para 252 (09/11): saldo 0 (0 entradas, 0 saídas). Meta da semana 03/11 a 09/11: 55 (11 por dia útil)."
+ },
+ "funil": {
+  "toques_link_bio": 1,
+  "visitas_perfil": 9,
+  "cliques_link_stories": 0,
+  "respostas_stories": 0,
+  "quero": null
+ },
+ "posts": [
+  {
+   "nome": "Carrossel Teologia",
+   "data": "06/11",
+   "titulo": "Básico de Teologia",
+   "url": "https://www.instagram.com/p/DfZ5cQ3jd8h/",
+   "visualizacoes": 530,
+   "nao_seg_pct": 65.7,
+   "contas": 220,
+   "interacoes": 28,
+   "curtidas": 15,
+   "comentarios": 7,
+   "salvamentos": 0,
+   "compartilhamentos": 3,
+   "seguidores_ganhos": 0,
+   "engajadas": 16,
+   "visitas_perfil": 1,
+   "cliques_link": 0
+  }
+ ],
+ "stories": {
+  "quantidade": 1,
+  "visualizacoes": 123,
+  "lista_vis": [
+   123
+  ],
+  "interacoes": 3,
+  "curtidas": 1,
+  "compartilhamentos": 2,
+  "respostas": 0,
+  "visitas_perfil": 0,
+  "seguidores": 0,
+  "cliques_link": 0,
+  "alcance": 93,
+  "tipos": [
+   [
+    "Arte própria\n(1 story)",
+    123.0
+   ]
+  ],
+  "top": [
+   {
+    "img": "/workspace/relatorios/2026-11-09/thumbs-jpg/story1.jpg",
+    "vis": 123,
+    "desc": "<b>Story do carrossel Básico de Teologia</b> (06/11) · 123 visualizações · alcance 93 · 1 curtida · 2 compartilhamentos"
+   }
+  ],
+  "piores": [
+   {
+    "img": "/workspace/relatorios/2026-11-09/thumbs-jpg/story1.jpg",
+    "vis": 123,
+    "desc": "<b>Único story da semana</b> — também o de menor alcance (só houve 1)"
+   }
+  ],
+  "leitura": "<b>[Dado]</b> Só 1 story na semana (o do carrossel de Teologia): 123 visualizações, alcance 93, 3 interações (1 curtida, 2 compartilhamentos, 0 respostas), 0 cliques em link. <b>[Opinião]</b> Um único story não sustenta a conversa diária. Voltar à cadência de stories (arte própria + chamada para o post/WhatsApp) nos dias úteis."
+ },
+ "analise_posts": [
+  {
+   "nome": "Carrossel Básico de Teologia (DfZ5cQ3jd8h)",
+   "data": "06/11",
+   "titulo": "Básico de Teologia",
+   "kpis": [
+    [
+     "530",
+     "visualizações"
+    ],
+    [
+     "220",
+     "contas alcançadas"
+    ],
+    [
+     "65,7%",
+     "não seguidores"
+    ],
+    [
+     "0",
+     "novos seguidores"
+    ]
+   ],
+   "dados": [
+    "28 interações: 15 curtidas, 7 comentários, 0 salvamentos, 3 compartilhamentos. 16 contas com engajamento.",
+    "65,7% das visualizações de não seguidores; 34,3% de seguidores.",
+    "2,41 visualizações por pessoa alcançada (530 ÷ 220): quem abriu passou os slides.",
+    "Engajamento por alcance: 12,7% (28 ÷ 220). Novos seguidores a cada 100 pessoas alcançadas: 0 (saldo da conta na semana = 0).",
+    "1 visita ao perfil pelo post · 0 cliques no link · QUERO nesta semana: sem contagem conhecida.",
+    "Sozinho: 52,4% das visualizações da conta (530 de 1.012) e 58,3% das interações (28 de 48)."
+   ],
+   "como": "Foi o único post novo dos últimos 7 dias. Chegou bem a quem ainda não segue (65,7%) e gerou conversa (7 comentários), mas não virou seguidor nem salvamento. Sem pedido claro para salvar e sem volume de Reels na semana, o crescimento zerou.",
+   "melhorar": [
+    "Incluir um slide “SALVA PRA REVER DEPOIS” e CTA final com Comenta QUERO.",
+    "Publicar o story “Post novo no feed” logo após o carrossel (e mais stories nos dias seguintes).",
+    "Voltar aos Reels na semana: nesta semana Reels ainda puxaram 52,1% das visualizações, mas não houve Reel novo nos últimos 7 dias.",
+    "1º comentário completo: “Comenta QUERO que a gente te chama no direct”."
+   ]
+  }
+ ],
+ "estrategia": {
+  "continuar": [
+   "<b>[Dado]</b> O carrossel alcançou 65,7% de não seguidores e 12,7% de engajamento por alcance. <b>[Opinião]</b> Manter o carrossel de quinta com pergunta-dor e CTA claro.",
+   "<b>[Dado]</b> Reels ainda fizeram 52,1% das visualizações da conta (conteúdo anterior ainda rodando). <b>[Opinião]</b> Não abandonar Reels — eles são o motor de alcance.",
+   "<b>[Dado]</b> 1 toque no link da bio em 9 visitas ao perfil. <b>[Opinião]</b> Manter o link da bio apontando para o WhatsApp com mensagem pronta."
+  ],
+  "parar": [
+   "<b>[Dado]</b> Só 1 story e 1 post na semana; saldo de seguidores = 0 (meta 55). <b>[Opinião]</b> Parar a semana “só com o carrossel de quinta”.",
+   "<b>[Dado]</b> 0 salvamentos no carrossel prático de Teologia. <b>[Opinião]</b> Parar de publicar carrossel sem slide de “salva pra rever”."
+  ],
+  "testar": [
+   "<b>[Opinião]</b> Voltar a 2–3 Reels na semana (ter/qua/sex), com gancho nos 2 primeiros segundos e QUERO no final.",
+   "<b>[Opinião]</b> Stories diários nos dias úteis: 1 arte própria + 1 story apontando para o post ou WhatsApp.",
+   "<b>[Opinião]</b> Contar QUERO e chegadas ao WhatsApp toda sexta (planilha simples)."
+  ],
+  "estrategico": [
+   "<b>Missiologia (qui 12/11, 12h07):</b> carrossel da semana — capa pergunta-dor, faixa de matrículas, slide “SALVA PRA REVER DEPOIS” e CTA QUERO.",
+   "<b>FIMC (qui 26/11):</b> carrossel prático com dicas para salvar (rodízio).",
+   "<b>Portal / app:</b> Reel curto mostrando telas, fechando com QUERO.",
+   "<b>Teologia:</b> o carrossel desta semana mostrou que o tema alcança não seguidores; o próximo precisa converter em salvamento e seguidor."
+  ],
+  "previsao": "<b>[Opinião]</b> Com saldo 0 e só 1 post novo, a meta de +55 desta semana não foi batida. Sem Reels novos e sem stories diários, a próxima semana também fica longe da meta (+65). Meta honesta se voltarmos à cadência: crescer de novo (meta realista parcial: 15–25) e registrar QUERO + WhatsApp."
+ },
+ "aprendizados": [
+  "<b>Sem volume, não há crescimento.</b> Só 1 post e 1 story nos últimos 7 dias; saldo de seguidores = 0 (252 → 252), contra meta de +55.",
+  "<b>Carrossel alcança quem não segue, mas não converteu.</b> 65,7% de não seguidores, 7 comentários e 0 salvamentos / 0 novos seguidores atribuídos.",
+  "<b>A métrica principal ainda está cega.</b> 1 toque no link e 0 respostas aos stories; quantidade de QUERO e de chegadas ao WhatsApp sem contagem conhecida."
+ ],
+ "aplicar": [
+  [
+   "<font color='#F28C28'><b>Alta</b></font>",
+   "<b>Qui 12/11, 12h07:</b> carrossel Missiologia com capa pergunta-dor, slide “SALVA PRA REVER DEPOIS”, CTA QUERO e story “Post novo no feed” na hora."
+  ],
+  [
+   "<font color='#F28C28'><b>Alta</b></font>",
+   "<b>Voltar aos Reels:</b> pelo menos 2 na semana (ter/qua ou sex), 12h–14h, com pedido para seguir e QUERO no final."
+  ],
+  [
+   "<font color='#F28C28'><b>Alta</b></font>",
+   "<b>Stories nos dias úteis:</b> mínimo 1 arte própria + 1 chamada (post ou WhatsApp); não deixar a semana com 1 story só."
+  ],
+  [
+   "Média",
+   "<b>Contar a métrica principal:</b> anotar QUERO e quem chegou ao WhatsApp (data, @, post de origem)."
+  ],
+  [
+   "Média",
+   "<b>1º comentário completo</b> em todo post: “Comenta QUERO que a gente te chama no direct”."
+  ],
+  [
+   "Baixa",
+   "Responder todo QUERO em até 1 hora (comentário + direct com link do WhatsApp)."
+  ]
+ ],
+ "conclusoes": [
+  "Semana fraca de volume: 1.012 visualizações, 349 contas alcançadas e só 1 post novo (carrossel de Teologia).",
+  "Crescimento zerou (252 → 252; 0 novos a cada 100 alcançadas). Meta da semana (+55) não foi batida.",
+  "A métrica que importa (WhatsApp/direct) ficou sem contagem de QUERO; só 1 toque no link da bio e 0 respostas aos stories."
+ ],
+ "limitacoes_report": [
+  "Horário de pico não foi lido nesta semana.",
+  "Entradas/saídas diárias entre 07/11 e 08/11 não têm snapshot próprio (saldo da semana veio da comparação 06/11 → 09/11 = 0).",
+  "Quantidade de comentários QUERO nesta semana: sem contagem conhecida."
+ ]
+}

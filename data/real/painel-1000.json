@@ -1,0 +1,2208 @@
+{
+ "atualizado_em": "2026-11-11 06:19",
+ "perfil": "missaojosue.educacao",
+ "meta": {
+  "alvo": 1000,
+  "data_alvo": "2026-12-31",
+  "inicio": "2026-10-20",
+  "base": 200,
+  "base_data": "2026-10-19",
+  "_rampa": "Marcos semanais do plano (pág. 2): semanas de terça a segunda; meta/dia = novos na semana ÷ dias",
+  "rampa": [
+   [
+    "2026-10-20",
+    "2026-10-26",
+    35,
+    235,
+    "Lançamento do curta (21/10)"
+   ],
+   [
+    "2026-10-27",
+    "2026-11-02",
+    45,
+    280,
+    "Cortes do curta em Reels"
+   ],
+   [
+    "2026-11-03",
+    "2026-11-09",
+    55,
+    335,
+    "4 Reels/semana + 1ª live"
+   ],
+   [
+    "2026-11-10",
+    "2026-11-16",
+    65,
+    400,
+    "Collabs com igrejas"
+   ],
+   [
+    "2026-11-17",
+    "2026-11-23",
+    75,
+    475,
+    "Série “identidade em Cristo”"
+   ],
+   [
+    "2026-11-24",
+    "2026-11-30",
+    85,
+    560,
+    "Concurso cultural"
+   ],
+   [
+    "2026-12-01",
+    "2026-12-07",
+    90,
+    650,
+    "Abertura do push de dezembro"
+   ],
+   [
+    "2026-12-08",
+    "2026-12-14",
+    100,
+    750,
+    "Matrículas 2027 + live"
+   ],
+   [
+    "2026-12-15",
+    "2026-12-21",
+    110,
+    860,
+    "Pico: Natal + indicações"
+   ],
+   [
+    "2026-12-22",
+    "2026-12-28",
+    100,
+    960,
+    "Natal (agendar antes)"
+   ],
+   [
+    "2026-12-29",
+    "2026-12-31",
+    40,
+    1000,
+    "Retrospectiva + “2027 começa aqui”"
+   ]
+  ],
+  "checkpoints": [
+   {
+    "data": "2026-10-31",
+    "valor": 265
+   },
+   {
+    "data": "2026-11-30",
+    "valor": 560
+   },
+   {
+    "data": "2026-12-31",
+    "valor": 1000
+   }
+  ]
+ },
+ "historico": [
+  {
+   "data": "2026-10-19",
+   "total": 200,
+   "entraram": null,
+   "sairam": null,
+   "fonte": "perfil (Isabelle)",
+   "saldo": null,
+   "meta_dia": null,
+   "batida": null,
+   "status": null
+  },
+  {
+   "data": "2026-10-20",
+   "total": 209,
+   "entraram": 10,
+   "sairam": 1,
+   "fonte": "snapshot + notificações do Instagram (Isabelle) — antes do 1º snapshot",
+   "saldo": 9,
+   "meta_dia": {
+    "meta": 7.0,
+    "meta_semana": 35,
+    "acumulada": 235,
+    "foco": "Lançamento do curta (21/10)",
+    "dias_uteis": 5,
+    "fim_de_semana": false,
+    "semana": "20/10–26/10"
+   },
+   "batida": true,
+   "status": "batida"
+  },
+  {
+   "data": "2026-10-21",
+   "total": 223,
+   "entraram": 14,
+   "sairam": 0,
+   "fonte": "snapshot",
+   "saldo": 14,
+   "meta_dia": {
+    "meta": 7.0,
+    "meta_semana": 35,
+    "acumulada": 235,
+    "foco": "Lançamento do curta (21/10)",
+    "dias_uteis": 5,
+    "fim_de_semana": false,
+    "semana": "20/10–26/10"
+   },
+   "batida": true,
+   "status": "batida"
+  },
+  {
+   "data": "2026-10-22",
+   "total": 225,
+   "entraram": 2,
+   "sairam": 0,
+   "fonte": "snapshot",
+   "saldo": 2,
+   "meta_dia": {
+    "meta": 7.0,
+    "meta_semana": 35,
+    "acumulada": 235,
+    "foco": "Lançamento do curta (21/10)",
+    "dias_uteis": 5,
+    "fim_de_semana": false,
+    "semana": "20/10–26/10"
+   },
+   "batida": false,
+   "status": "não batida"
+  },
+  {
+   "data": "2026-10-23",
+   "total": 236,
+   "entraram": 11,
+   "sairam": 0,
+   "fonte": "snapshot",
+   "saldo": 11,
+   "meta_dia": {
+    "meta": 7.0,
+    "meta_semana": 35,
+    "acumulada": 235,
+    "foco": "Lançamento do curta (21/10)",
+    "dias_uteis": 5,
+    "fim_de_semana": false,
+    "semana": "20/10–26/10"
+   },
+   "batida": true,
+   "status": "batida"
+  },
+  {
+   "data": "2026-10-24",
+   "total": 237,
+   "entraram": 1,
+   "sairam": 0,
+   "fonte": "snapshot",
+   "saldo": 1,
+   "meta_dia": {
+    "meta": null,
+    "meta_semana": 35,
+    "acumulada": 235,
+    "foco": "Lançamento do curta (21/10)",
+    "dias_uteis": 5,
+    "fim_de_semana": true,
+    "semana": "20/10–26/10"
+   },
+   "batida": null,
+   "status": "fim de semana (sem meta)"
+  },
+  {
+   "data": "2026-10-25",
+   "total": 237,
+   "entraram": 0,
+   "sairam": 0,
+   "fonte": "snapshot",
+   "saldo": 0,
+   "meta_dia": {
+    "meta": null,
+    "meta_semana": 35,
+    "acumulada": 235,
+    "foco": "Lançamento do curta (21/10)",
+    "dias_uteis": 5,
+    "fim_de_semana": true,
+    "semana": "20/10–26/10"
+   },
+   "batida": null,
+   "status": "fim de semana (sem meta)"
+  },
+  {
+   "data": "2026-10-26",
+   "total": 239,
+   "entraram": 2,
+   "sairam": 0,
+   "fonte": "snapshot",
+   "saldo": 2,
+   "meta_dia": {
+    "meta": 7.0,
+    "meta_semana": 35,
+    "acumulada": 235,
+    "foco": "Lançamento do curta (21/10)",
+    "dias_uteis": 5,
+    "fim_de_semana": false,
+    "semana": "20/10–26/10"
+   },
+   "batida": false,
+   "status": "não batida"
+  },
+  {
+   "data": "2026-10-27",
+   "total": 240,
+   "entraram": 2,
+   "sairam": 1,
+   "fonte": "snapshot",
+   "saldo": 1,
+   "meta_dia": {
+    "meta": 9.0,
+    "meta_semana": 45,
+    "acumulada": 280,
+    "foco": "Cortes do curta em Reels",
+    "dias_uteis": 5,
+    "fim_de_semana": false,
+    "semana": "27/10–02/11"
+   },
+   "batida": false,
+   "status": "não batida"
+  },
+  {
+   "data": "2026-10-28",
+   "total": 243,
+   "entraram": 3,
+   "sairam": 0,
+   "fonte": "snapshot",
+   "saldo": 3,
+   "meta_dia": {
+    "meta": 9.0,
+    "meta_semana": 45,
+    "acumulada": 280,
+    "foco": "Cortes do curta em Reels",
+    "dias_uteis": 5,
+    "fim_de_semana": false,
+    "semana": "27/10–02/11"
+   },
+   "batida": false,
+   "status": "não batida"
+  },
+  {
+   "data": "2026-10-29",
+   "total": 246,
+   "entraram": 3,
+   "sairam": 0,
+   "fonte": "snapshot",
+   "saldo": 3,
+   "meta_dia": {
+    "meta": 9.0,
+    "meta_semana": 45,
+    "acumulada": 280,
+    "foco": "Cortes do curta em Reels",
+    "dias_uteis": 5,
+    "fim_de_semana": false,
+    "semana": "27/10–02/11"
+   },
+   "batida": false,
+   "status": "não batida"
+  },
+  {
+   "data": "2026-10-30",
+   "total": 252,
+   "entraram": 6,
+   "sairam": 0,
+   "fonte": "snapshot",
+   "saldo": 6,
+   "meta_dia": {
+    "meta": 9.0,
+    "meta_semana": 45,
+    "acumulada": 280,
+    "foco": "Cortes do curta em Reels",
+    "dias_uteis": 5,
+    "fim_de_semana": false,
+    "semana": "27/10–02/11"
+   },
+   "batida": false,
+   "status": "não batida"
+  },
+  {
+   "data": "2026-10-31",
+   "total": 253,
+   "entraram": 1,
+   "sairam": 0,
+   "fonte": "snapshot",
+   "saldo": 1,
+   "meta_dia": {
+    "meta": null,
+    "meta_semana": 45,
+    "acumulada": 280,
+    "foco": "Cortes do curta em Reels",
+    "dias_uteis": 5,
+    "fim_de_semana": true,
+    "semana": "27/10–02/11"
+   },
+   "batida": null,
+   "status": "fim de semana (sem meta)"
+  },
+  {
+   "data": "2026-11-01",
+   "total": 253,
+   "entraram": 0,
+   "sairam": 0,
+   "fonte": "snapshot",
+   "saldo": 0,
+   "meta_dia": {
+    "meta": null,
+    "meta_semana": 45,
+    "acumulada": 280,
+    "foco": "Cortes do curta em Reels",
+    "dias_uteis": 5,
+    "fim_de_semana": true,
+    "semana": "27/10–02/11"
+   },
+   "batida": null,
+   "status": "fim de semana (sem meta)"
+  },
+  {
+   "data": "2026-11-02",
+   "total": 252,
+   "entraram": 0,
+   "sairam": 1,
+   "fonte": "snapshot",
+   "saldo": -1,
+   "meta_dia": {
+    "meta": 9.0,
+    "meta_semana": 45,
+    "acumulada": 280,
+    "foco": "Cortes do curta em Reels",
+    "dias_uteis": 5,
+    "fim_de_semana": false,
+    "semana": "27/10–02/11"
+   },
+   "batida": false,
+   "status": "não batida"
+  },
+  {
+   "data": "2026-11-03",
+   "total": 252,
+   "entraram": 0,
+   "sairam": 0,
+   "fonte": "snapshot",
+   "saldo": 0,
+   "meta_dia": {
+    "meta": 11.0,
+    "meta_semana": 55,
+    "acumulada": 335,
+    "foco": "4 Reels/semana + 1ª live",
+    "dias_uteis": 5,
+    "fim_de_semana": false,
+    "semana": "03/11–09/11"
+   },
+   "batida": false,
+   "status": "não batida"
+  },
+  {
+   "data": "2026-11-04",
+   "total": 251,
+   "entraram": 0,
+   "sairam": 1,
+   "fonte": "snapshot",
+   "saldo": -1,
+   "meta_dia": {
+    "meta": 11.0,
+    "meta_semana": 55,
+    "acumulada": 335,
+    "foco": "4 Reels/semana + 1ª live",
+    "dias_uteis": 5,
+    "fim_de_semana": false,
+    "semana": "03/11–09/11"
+   },
+   "batida": false,
+   "status": "não batida"
+  },
+  {
+   "data": "2026-11-05",
+   "total": 252,
+   "entraram": 1,
+   "sairam": 0,
+   "fonte": "snapshot",
+   "saldo": 1,
+   "meta_dia": {
+    "meta": 11.0,
+    "meta_semana": 55,
+    "acumulada": 335,
+    "foco": "4 Reels/semana + 1ª live",
+    "dias_uteis": 5,
+    "fim_de_semana": false,
+    "semana": "03/11–09/11"
+   },
+   "batida": false,
+   "status": "não batida"
+  },
+  {
+   "data": "2026-11-08",
+   "total": 252,
+   "entraram": 0,
+   "sairam": 0,
+   "fonte": "snapshot",
+   "saldo": 0,
+   "meta_dia": {
+    "meta": null,
+    "meta_semana": 55,
+    "acumulada": 335,
+    "foco": "4 Reels/semana + 1ª live",
+    "dias_uteis": 5,
+    "fim_de_semana": true,
+    "semana": "03/11–09/11"
+   },
+   "batida": null,
+   "status": "fim de semana (sem meta)"
+  },
+  {
+   "data": "2026-11-09",
+   "total": 252,
+   "entraram": 0,
+   "sairam": 0,
+   "fonte": "snapshot",
+   "saldo": 0,
+   "meta_dia": {
+    "meta": 11.0,
+    "meta_semana": 55,
+    "acumulada": 335,
+    "foco": "4 Reels/semana + 1ª live",
+    "dias_uteis": 5,
+    "fim_de_semana": false,
+    "semana": "03/11–09/11"
+   },
+   "batida": false,
+   "status": "não batida"
+  },
+  {
+   "data": "2026-11-10",
+   "total": 252,
+   "entraram": 0,
+   "sairam": 0,
+   "fonte": "snapshot",
+   "saldo": 0,
+   "meta_dia": {
+    "meta": 13.0,
+    "meta_semana": 65,
+    "acumulada": 400,
+    "foco": "Collabs com igrejas",
+    "dias_uteis": 5,
+    "fim_de_semana": false,
+    "semana": "10/11–16/11"
+   },
+   "batida": false,
+   "status": "não batida"
+  },
+  {
+   "data": "2026-11-11",
+   "total": 252,
+   "entraram": 0,
+   "sairam": 0,
+   "fonte": "snapshot",
+   "saldo": 0,
+   "meta_dia": {
+    "meta": 13.0,
+    "meta_semana": 65,
+    "acumulada": 400,
+    "foco": "Collabs com igrejas",
+    "dias_uteis": 5,
+    "fim_de_semana": false,
+    "semana": "10/11–16/11"
+   },
+   "batida": null,
+   "status": "em andamento",
+   "obs": "dia em andamento"
+  }
+ ],
+ "entraram": [
+  {
+   "data": "2026-11-05",
+   "arroba": "joisyeloh",
+   "nome": "Joisy Ferreira"
+  },
+  {
+   "data": "2026-10-31",
+   "arroba": "raquel.moreiradasilva.5",
+   "nome": "Raquel Moreira Da Silva"
+  },
+  {
+   "data": "2026-10-30",
+   "arroba": "lucasberg93",
+   "nome": "Lucas Silva Diol"
+  },
+  {
+   "data": "2026-10-30",
+   "arroba": "miriamzerbone.von",
+   "nome": "Miriam Zerbone_Musicoterapeuta"
+  },
+  {
+   "data": "2026-10-30",
+   "arroba": "patyoliveiraestetica",
+   "nome": "Paty Vandinho"
+  },
+  {
+   "data": "2026-10-30",
+   "arroba": "showdamizade",
+   "nome": "Show da Amizade"
+  },
+  {
+   "data": "2026-10-30",
+   "arroba": "vickthoriasantana",
+   "nome": "Vitória Almeida"
+  },
+  {
+   "data": "2026-10-30",
+   "arroba": "annalizzie_m",
+   "nome": "Anna Lizzie"
+  },
+  {
+   "data": "2026-10-29",
+   "arroba": "vicentefernandesangelica",
+   "nome": "Angélica Vicente Fernandes"
+  },
+  {
+   "data": "2026-10-29",
+   "arroba": "jessica_j.oliveira",
+   "nome": "Jéssica Oliveira"
+  },
+  {
+   "data": "2026-10-29",
+   "arroba": "julianna_fernandes84",
+   "nome": "Juliana Fernandes"
+  },
+  {
+   "data": "2026-10-28",
+   "arroba": "danilo_pinheiiro",
+   "nome": "Danilo Rocha"
+  },
+  {
+   "data": "2026-10-28",
+   "arroba": "missaojosuequandu",
+   "nome": "A.D Missão Josué/Quandú"
+  },
+  {
+   "data": "2026-10-28",
+   "arroba": "joisyeloh",
+   "nome": "Joisy Ferreira"
+  },
+  {
+   "data": "2026-10-27",
+   "arroba": "txana_gaviao__encantador",
+   "nome": "kawã Souza de Jesus"
+  },
+  {
+   "data": "2026-10-27",
+   "arroba": "silvanaloyoladosreis",
+   "nome": "Silvana Loyola Dos Reis"
+  },
+  {
+   "data": "2026-10-26",
+   "arroba": "missao.josue",
+   "nome": "A.D Missão Josué | SÃO JOSE DA TAPERA"
+  },
+  {
+   "data": "2026-10-26",
+   "arroba": "loorendias",
+   "nome": "loren"
+  },
+  {
+   "data": "2026-10-24",
+   "arroba": "aparecidaanadia",
+   "nome": "Aparecida Anadia"
+  },
+  {
+   "data": "2026-10-23",
+   "arroba": "daniel.nogueira_ce.oficial",
+   "nome": "Daniel Nogueira"
+  },
+  {
+   "data": "2026-10-23",
+   "arroba": "josuefernandesaqts",
+   "nome": "Josué Fernandes | Missões & Impacto Social AQTS"
+  },
+  {
+   "data": "2026-10-23",
+   "arroba": "oliveira_juliana19",
+   "nome": "Juliana Oliveira"
+  },
+  {
+   "data": "2026-10-23",
+   "arroba": "osias_jesus",
+   "nome": "Osias Juniorlprof de teologia."
+  },
+  {
+   "data": "2026-10-23",
+   "arroba": "profetadimas.ltda",
+   "nome": "Jose Dimas"
+  },
+  {
+   "data": "2026-10-23",
+   "arroba": "semadefsecretariademissoes",
+   "nome": "Semadef Secretaria de Missões"
+  },
+  {
+   "data": "2026-10-23",
+   "arroba": "weniocaldeira",
+   "nome": "Wênio Caldeira"
+  },
+  {
+   "data": "2026-10-23",
+   "arroba": "carmelino.roque",
+   "nome": "Carmelino Roque"
+  },
+  {
+   "data": "2026-10-23",
+   "arroba": "barretowendersonluiz",
+   "nome": "Wenderson Luiz Barreto"
+  },
+  {
+   "data": "2026-10-23",
+   "arroba": "eliezer.loyola",
+   "nome": "Eliezer Loyola"
+  },
+  {
+   "data": "2026-10-23",
+   "arroba": "romildaquirinodealcan",
+   "nome": "Romilda Quirino de Alcântara"
+  },
+  {
+   "data": "2026-10-22",
+   "arroba": "guedesdell",
+   "nome": "Hildebrando Guedes"
+  },
+  {
+   "data": "2026-10-22",
+   "arroba": "missaoide8",
+   "nome": "Sillas"
+  },
+  {
+   "data": "2026-10-21",
+   "arroba": "__ozeiass.z",
+   "nome": "Ozeias"
+  },
+  {
+   "data": "2026-10-21",
+   "arroba": "glaucia.lopespereira.7",
+   "nome": "Glaucia Lopes"
+  },
+  {
+   "data": "2026-10-21",
+   "arroba": "jocely_lorenzoni",
+   "nome": "Jocely Silva Lorenzoni"
+  },
+  {
+   "data": "2026-10-21",
+   "arroba": "gabrielateodorooficial",
+   "nome": "Gabriela Teodoro - Doutora Honoris Causa em Educação"
+  },
+  {
+   "data": "2026-10-21",
+   "arroba": "suelen.ana1984",
+   "nome": "Suelen Silva"
+  },
+  {
+   "data": "2026-10-21",
+   "arroba": "almonfreypignaton",
+   "nome": "Herminia"
+  },
+  {
+   "data": "2026-10-21",
+   "arroba": "bettedutra",
+   "nome": "Elizabette Eliza Dutra de Souza"
+  },
+  {
+   "data": "2026-10-21",
+   "arroba": "sayonarasheila",
+   "nome": "Sayonara"
+  },
+  {
+   "data": "2026-10-21",
+   "arroba": "pereiranormasuely",
+   "nome": "Norma Suely Pereira Gomes"
+  },
+  {
+   "data": "2026-10-21",
+   "arroba": "vilmavicentte",
+   "nome": "Vilma Santos Vicente Souza"
+  },
+  {
+   "data": "2026-10-21",
+   "arroba": "andersonvieiraannechini",
+   "nome": "Anderson Vieira Annechini"
+  },
+  {
+   "data": "2026-10-21",
+   "arroba": "nycholaspereira",
+   "nome": "Nycholas Pereira"
+  },
+  {
+   "data": "2026-10-21",
+   "arroba": "weveson.r",
+   "nome": "Antonio Weverson"
+  },
+  {
+   "data": "2026-10-21",
+   "arroba": "claudiodasilvaoliveirac",
+   "nome": "Claudio Silva"
+  },
+  {
+   "data": "2026-10-20",
+   "arroba": "ana_rodrigues936",
+   "nome": "Ana Clara Rodrigues Pereira",
+   "nome_citado": "Ana Rodrigues",
+   "incerto": false
+  },
+  {
+   "data": "2026-10-20",
+   "arroba": "franciscodeassis.barbosa.92",
+   "nome": "Francisco De Assis Barbosa",
+   "nome_citado": "Francisco de Assis",
+   "incerto": false
+  },
+  {
+   "data": "2026-10-20",
+   "arroba": "ildet_edetinha",
+   "nome": "Detinha Moreira",
+   "nome_citado": "Iudete Fátima",
+   "incerto": false
+  },
+  {
+   "data": "2026-10-20",
+   "arroba": "fantinflavia925",
+   "nome": "Flavia Silva",
+   "nome_citado": "Flávia",
+   "incerto": false
+  },
+  {
+   "data": "2026-10-20",
+   "arroba": "sp.raquel76",
+   "nome": "Raquel Silva",
+   "nome_citado": "sp.raquel",
+   "incerto": false
+  },
+  {
+   "data": "2026-10-20",
+   "arroba": "vanderson.ricardodossantos",
+   "nome": "Vanderson Ricardo",
+   "nome_citado": "vanderson.ricardo",
+   "incerto": false
+  },
+  {
+   "data": "2026-10-20",
+   "arroba": "missnildanascimento",
+   "nome": "Nilda Nascimento Nilda",
+   "nome_citado": "nilda nascimento",
+   "incerto": false
+  },
+  {
+   "data": "2026-10-20",
+   "arroba": "veraluciamaria318",
+   "nome": "Vera Lucia",
+   "nome_citado": "Vera Lúcia",
+   "incerto": false
+  },
+  {
+   "data": "2026-10-20",
+   "arroba": "ednethlyra",
+   "nome": "Edneth Lyra",
+   "nome_citado": "Edinete",
+   "incerto": false
+  },
+  {
+   "data": "2026-10-20",
+   "arroba": "dezinaldodacruz",
+   "nome": "Dezinaldo Silva",
+   "nome_citado": "Desinaldo",
+   "incerto": false
+  }
+ ],
+ "sairam": [
+  {
+   "data": "2026-11-04",
+   "arroba": "joisyeloh",
+   "nome": "Joisy Ferreira"
+  },
+  {
+   "data": "2026-11-02",
+   "arroba": "roberta__barros_",
+   "nome": "RobertaBarros"
+  },
+  {
+   "data": "2026-10-27",
+   "arroba": "joisyeloh",
+   "nome": "Joisy Ferreira"
+  },
+  {
+   "data": "2026-10-20",
+   "arroba": null,
+   "nome": "Desconhecido",
+   "obs": "1 pessoa deixou de seguir em 20/10, mas não dá para saber quem: não havia lista salva em 19/10."
+  }
+ ],
+ "seguidores": [
+  {
+   "arroba": "raquel.moreiradasilva.5",
+   "nome": "Raquel Moreira Da Silva"
+  },
+  {
+   "arroba": "lucasberg93",
+   "nome": "Lucas Silva Diol"
+  },
+  {
+   "arroba": "miriamzerbone.von",
+   "nome": "Miriam Zerbone_Musicoterapeuta"
+  },
+  {
+   "arroba": "patyoliveiraestetica",
+   "nome": "Paty Vandinho"
+  },
+  {
+   "arroba": "showdamizade",
+   "nome": "Show da Amizade"
+  },
+  {
+   "arroba": "vickthoriasantana",
+   "nome": "Vitória Almeida"
+  },
+  {
+   "arroba": "annalizzie_m",
+   "nome": "Anna Lizzie"
+  },
+  {
+   "arroba": "vicentefernandesangelica",
+   "nome": "Angélica Vicente Fernandes"
+  },
+  {
+   "arroba": "jessica_j.oliveira",
+   "nome": "Jéssica Oliveira"
+  },
+  {
+   "arroba": "julianna_fernandes84",
+   "nome": "Juliana Fernandes"
+  },
+  {
+   "arroba": "danilo_pinheiiro",
+   "nome": "Danilo Rocha"
+  },
+  {
+   "arroba": "missaojosuequandu",
+   "nome": "A.D Missão Josué/Quandú"
+  },
+  {
+   "arroba": "joisyeloh",
+   "nome": "Joisy Ferreira"
+  },
+  {
+   "arroba": "brenoalvesbarbosa",
+   "nome": "Breno Alves"
+  },
+  {
+   "arroba": "txana_gaviao__encantador",
+   "nome": "kawã Souza de Jesus"
+  },
+  {
+   "arroba": "silvanaloyoladosreis",
+   "nome": "Silvana Loyola Dos Reis"
+  },
+  {
+   "arroba": "missao.josue",
+   "nome": "A.D Missão Josué | SÃO JOSE DA TAPERA"
+  },
+  {
+   "arroba": "loorendias",
+   "nome": "loren"
+  },
+  {
+   "arroba": "aparecidaanadia",
+   "nome": "Aparecida Anadia"
+  },
+  {
+   "arroba": "daniel.nogueira_ce.oficial",
+   "nome": "Daniel Nogueira"
+  },
+  {
+   "arroba": "josuefernandesaqts",
+   "nome": "Josué Fernandes | Missões & Impacto Social AQTS"
+  },
+  {
+   "arroba": "oliveira_juliana19",
+   "nome": "Juliana Oliveira"
+  },
+  {
+   "arroba": "osias_jesus",
+   "nome": "Osias Juniorlprof de teologia."
+  },
+  {
+   "arroba": "profetadimas.ltda",
+   "nome": "Jose Dimas"
+  },
+  {
+   "arroba": "semadefsecretariademissoes",
+   "nome": "Semadef Secretaria de Missões"
+  },
+  {
+   "arroba": "weniocaldeira",
+   "nome": "Wênio Caldeira"
+  },
+  {
+   "arroba": "carmelino.roque",
+   "nome": "Carmelino Roque"
+  },
+  {
+   "arroba": "barretowendersonluiz",
+   "nome": "Wenderson Luiz Barreto"
+  },
+  {
+   "arroba": "eliezer.loyola",
+   "nome": "Eliezer Loyola"
+  },
+  {
+   "arroba": "romildaquirinodealcan",
+   "nome": "Romilda Quirino de Alcântara"
+  },
+  {
+   "arroba": "guedesdell",
+   "nome": "Hildebrando Guedes"
+  },
+  {
+   "arroba": "missaoide8",
+   "nome": "Sillas"
+  },
+  {
+   "arroba": "__ozeiass.z",
+   "nome": "Ozeias"
+  },
+  {
+   "arroba": "glaucia.lopespereira.7",
+   "nome": "Glaucia Lopes"
+  },
+  {
+   "arroba": "jocely_lorenzoni",
+   "nome": "Jocely Silva Lorenzoni"
+  },
+  {
+   "arroba": "gabrielateodorooficial",
+   "nome": "Gabriela Teodoro - Doutora Honoris Causa em Educação"
+  },
+  {
+   "arroba": "suelen.ana1984",
+   "nome": "Suelen Silva"
+  },
+  {
+   "arroba": "almonfreypignaton",
+   "nome": "Herminia"
+  },
+  {
+   "arroba": "bettedutra",
+   "nome": "Elizabette Eliza Dutra de Souza"
+  },
+  {
+   "arroba": "sayonarasheila",
+   "nome": "Sayonara"
+  },
+  {
+   "arroba": "pereiranormasuely",
+   "nome": "Norma Suely Pereira Gomes"
+  },
+  {
+   "arroba": "vilmavicentte",
+   "nome": "Vilma Santos Vicente Souza"
+  },
+  {
+   "arroba": "andersonvieiraannechini",
+   "nome": "Anderson Vieira Annechini"
+  },
+  {
+   "arroba": "nycholaspereira",
+   "nome": "Nycholas Pereira"
+  },
+  {
+   "arroba": "weveson.r",
+   "nome": "Antonio Weverson"
+  },
+  {
+   "arroba": "claudiodasilvaoliveirac",
+   "nome": "Claudio Silva"
+  },
+  {
+   "arroba": "dezinaldodacruz",
+   "nome": "Dezinaldo Silva"
+  },
+  {
+   "arroba": "ednethlyra",
+   "nome": "Edneth Lyra"
+  },
+  {
+   "arroba": "veraluciamaria318",
+   "nome": "Vera Lucia"
+  },
+  {
+   "arroba": "missnildanascimento",
+   "nome": "Nilda Nascimento Nilda"
+  },
+  {
+   "arroba": "vanderson.ricardodossantos",
+   "nome": "Vanderson Ricardo"
+  },
+  {
+   "arroba": "sp.raquel76",
+   "nome": "Raquel Silva"
+  },
+  {
+   "arroba": "fantinflavia925",
+   "nome": "Flavia Silva"
+  },
+  {
+   "arroba": "ildet_edetinha",
+   "nome": "Detinha Moreira"
+  },
+  {
+   "arroba": "franciscodeassis.barbosa.92",
+   "nome": "Francisco De Assis Barbosa"
+  },
+  {
+   "arroba": "ana_rodrigues936",
+   "nome": "Ana Clara Rodrigues Pereira"
+  },
+  {
+   "arroba": "pereirajuniasantiago",
+   "nome": "Junia Santiago"
+  },
+  {
+   "arroba": "nanuza_gabriela",
+   "nome": "Nanuza Gabriela Ferreira"
+  },
+  {
+   "arroba": "analuizasilva_22",
+   "nome": "Ana luiza"
+  },
+  {
+   "arroba": "jose_oscarpereira",
+   "nome": "Pr José Oscar Pereira"
+  },
+  {
+   "arroba": "scheila_lopes",
+   "nome": "Scheila"
+  },
+  {
+   "arroba": "nelton.marques.prof",
+   "nome": "Nelton Marques"
+  },
+  {
+   "arroba": "lucasethaismissao",
+   "nome": "Lucas & Thais"
+  },
+  {
+   "arroba": "elainess.84",
+   "nome": "Elaine"
+  },
+  {
+   "arroba": "delkeroliveiraofc",
+   "nome": "Delker Oliveira"
+  },
+  {
+   "arroba": "natanael_valim",
+   "nome": "Natanael Valim"
+  },
+  {
+   "arroba": "mouramariajesusde",
+   "nome": "Maria Jesus de Moura"
+  },
+  {
+   "arroba": "robertochavesaffonso",
+   "nome": "Roberto Affonso"
+  },
+  {
+   "arroba": "milkaalvarenga",
+   "nome": "Milka Guimarães"
+  },
+  {
+   "arroba": "adelon_campos",
+   "nome": "Adelon_campos"
+  },
+  {
+   "arroba": "damily_2014",
+   "nome": "damily"
+  },
+  {
+   "arroba": "aurora.tk_07",
+   "nome": "𝑨𝒖𝒓𝒐𝒓𝒂.𝑪𝒂𝒓𝒗𝒂𝒍𝒉𝒐🦁💯"
+  },
+  {
+   "arroba": "jeanmello01",
+   "nome": "Jeanderson Santos Mello"
+  },
+  {
+   "arroba": "kariottoo",
+   "nome": "Karine Anjos"
+  },
+  {
+   "arroba": "aksa_patax",
+   "nome": "Ketter Vitória"
+  },
+  {
+   "arroba": "santoss.fabi",
+   "nome": "Fabiana Santos"
+  },
+  {
+   "arroba": "simoniramos4",
+   "nome": "Simoni Ramos"
+  },
+  {
+   "arroba": "lab_guajajara",
+   "nome": "landara indígena"
+  },
+  {
+   "arroba": "abnesantana",
+   "nome": "Abne"
+  },
+  {
+   "arroba": "silvioscv",
+   "nome": "najyss"
+  },
+  {
+   "arroba": "trswets",
+   "nome": "isa☆"
+  },
+  {
+   "arroba": "liviamarins2026",
+   "nome": "Livia Marins"
+  },
+  {
+   "arroba": "richardstewsrt",
+   "nome": "richardstewsrt"
+  },
+  {
+   "arroba": "elanedsp",
+   "nome": "Elane Pereira"
+  },
+  {
+   "arroba": "vtsantoosss_",
+   "nome": "Vitor"
+  },
+  {
+   "arroba": "gessifurtadozeferino",
+   "nome": "Gessi Furtado Zeferino"
+  },
+  {
+   "arroba": "ilza_gp",
+   "nome": "Ilza Maria Guedes"
+  },
+  {
+   "arroba": "kauaa_2008",
+   "nome": "Kauã"
+  },
+  {
+   "arroba": "myrely_257",
+   "nome": "Mirely souza"
+  },
+  {
+   "arroba": "spolypereira",
+   "nome": "poly’"
+  },
+  {
+   "arroba": "deysianecuneonitz",
+   "nome": "Deysiane Cuneo Nitz"
+  },
+  {
+   "arroba": "rayahconcepet",
+   "nome": "𝚁𝚊𝚢𝚊𝚑"
+  },
+  {
+   "arroba": "ribeirojadilsa",
+   "nome": "Jadilsa Ribeiro"
+  },
+  {
+   "arroba": "sara_oliveira2010",
+   "nome": "Sarah Oliver's Cleisy Oliveira"
+  },
+  {
+   "arroba": "acroliveira0",
+   "nome": "Ariane Carla"
+  },
+  {
+   "arroba": "isaquenendianta",
+   "nome": "Isaque.nendianta"
+  },
+  {
+   "arroba": "pedro._lpz7",
+   "nome": "Pedro Henrique"
+  },
+  {
+   "arroba": "mimosdataty1",
+   "nome": "Taty 👑🎀"
+  },
+  {
+   "arroba": "nadiavpm",
+   "nome": "Nádia Maia"
+  },
+  {
+   "arroba": "pr.paulosilva",
+   "nome": "Paulo F Silva"
+  },
+  {
+   "arroba": "mariennymello",
+   "nome": "Marienny mello"
+  },
+  {
+   "arroba": "eliseusantanapinheir",
+   "nome": "eliseu"
+  },
+  {
+   "arroba": "gerson_servodedeus",
+   "nome": "Gerson Magalhães"
+  },
+  {
+   "arroba": "colodettirosangela",
+   "nome": "Rosangela Colodetti"
+  },
+  {
+   "arroba": "gelson_querino",
+   "nome": "Gelson"
+  },
+  {
+   "arroba": "raphael_cordeiro_cordeiro",
+   "nome": "Raphael Cordeiro"
+  },
+  {
+   "arroba": "simoneoliveirasantos1106",
+   "nome": "Simone Oliveira"
+  },
+  {
+   "arroba": "rutemartins3940",
+   "nome": "Rute Martins 🌹"
+  },
+  {
+   "arroba": "monildooliveira",
+   "nome": "Monildo Oliveira"
+  },
+  {
+   "arroba": "freitasdanilojunior",
+   "nome": "Danilo junior freitas"
+  },
+  {
+   "arroba": "elapriscilaoliveira",
+   "nome": "Priscila Oliveira"
+  },
+  {
+   "arroba": "juliocesarferreiralaurindo",
+   "nome": "Julio Cesar Ferreira Laurindo"
+  },
+  {
+   "arroba": "guislane6",
+   "nome": "Guislane Freitas"
+  },
+  {
+   "arroba": "girnalves",
+   "nome": "Cicera Alves Cavalcannte"
+  },
+  {
+   "arroba": "sthefanipimentel19",
+   "nome": "Sthefani Pimentel"
+  },
+  {
+   "arroba": "mirianfrancacaldeira",
+   "nome": "Mirian França"
+  },
+  {
+   "arroba": "jarlene880",
+   "nome": "Jarlene Faller"
+  },
+  {
+   "arroba": "klecia.ferreira.5",
+   "nome": "Klécia Ferreira"
+  },
+  {
+   "arroba": "lucasbsouza96",
+   "nome": "Lucas Souza"
+  },
+  {
+   "arroba": "fabao_chaves",
+   "nome": "FABÃO CHAVES CHAVEIRO 24H"
+  },
+  {
+   "arroba": "jonasjunior_jjtx",
+   "nome": "Jonas Junior JJ Ev"
+  },
+  {
+   "arroba": "wemersonsaintss",
+   "nome": "Wemerson Santos"
+  },
+  {
+   "arroba": "leidianealmeidaadv",
+   "nome": "Leidiane de Almeida"
+  },
+  {
+   "arroba": "gabidepaulo_",
+   "nome": "Gabi ✨️"
+  },
+  {
+   "arroba": "modestocorrea068",
+   "nome": "Modesto Correa"
+  },
+  {
+   "arroba": "evamaria.desouza.180",
+   "nome": "Eva Maria de Souza"
+  },
+  {
+   "arroba": "osvaldodeaquinomaia",
+   "nome": "Osvaldo de Aquino Maia Junior"
+  },
+  {
+   "arroba": "clemirlegendario",
+   "nome": "Clemir Rodrigues"
+  },
+  {
+   "arroba": "leonardojesussantosleonardo",
+   "nome": "Leonardo Jesus Santos Leonardo"
+  },
+  {
+   "arroba": "januth.027",
+   "nome": "DANIEL JANUTH. BJJ"
+  },
+  {
+   "arroba": "milagresrestauranteelanchonete",
+   "nome": "restaurante e lanchonetes milagres"
+  },
+  {
+   "arroba": "restaurante_promessas",
+   "nome": "Restaurante Promessas"
+  },
+  {
+   "arroba": "celiodasilvafarias",
+   "nome": "Célio da Silva Farias"
+  },
+  {
+   "arroba": "eugeniarezende73",
+   "nome": "Magê Rezende"
+  },
+  {
+   "arroba": "kaliroch4",
+   "nome": "Káli Rocha"
+  },
+  {
+   "arroba": "darcyanaoliveira",
+   "nome": "Darcyana Oliveira"
+  },
+  {
+   "arroba": "venancioaline6",
+   "nome": "Aline Oliveira"
+  },
+  {
+   "arroba": "sr_moraes5",
+   "nome": "SR_Moraes5@"
+  },
+  {
+   "arroba": "rodriguesestherbarros",
+   "nome": "Esther Barros Rodrigues"
+  },
+  {
+   "arroba": "music.obpcjaguariaiva",
+   "nome": "OBPC MUSIC _ JAGUARIAÍVA"
+  },
+  {
+   "arroba": "romario867047",
+   "nome": "Romário Mariano"
+  },
+  {
+   "arroba": "marciaalves0708",
+   "nome": "Márcia Alves"
+  },
+  {
+   "arroba": "vita.alves.h",
+   "nome": "Vita Alves"
+  },
+  {
+   "arroba": "edisangela_rodriguess",
+   "nome": "Edisangela Rodrigues"
+  },
+  {
+   "arroba": "cerjocumaguias",
+   "nome": "Seminário Crianças em Risco"
+  },
+  {
+   "arroba": "elecirgomes",
+   "nome": "Elecir Gomes"
+  },
+  {
+   "arroba": "missoes.liderar",
+   "nome": "Missão Liderar 21 | Ev. Macson Pontes"
+  },
+  {
+   "arroba": "elvesemary",
+   "nome": "Mary Loopes"
+  },
+  {
+   "arroba": "alinemoraes160",
+   "nome": "𝔸𝕝𝕚𝕟𝕖 𝕄𝕠𝕣𝕒𝕖𝕤"
+  },
+  {
+   "arroba": "isaacdacostamota",
+   "nome": "Isaac da Costa Mota"
+  },
+  {
+   "arroba": "elaineboone1810",
+   "nome": "Elaine Boone"
+  },
+  {
+   "arroba": "gilmar_ierc",
+   "nome": "Gilmar Matias"
+  },
+  {
+   "arroba": "pedro339796",
+   "nome": "Pedro Bango"
+  },
+  {
+   "arroba": "miriaconfeitariaa",
+   "nome": "Miria Araújo"
+  },
+  {
+   "arroba": "027_esliel",
+   "nome": "ekballo."
+  },
+  {
+   "arroba": "oliver_luzeni",
+   "nome": "Luzeni Souza"
+  },
+  {
+   "arroba": "admissaojosuesdg",
+   "nome": "A.D Missão Josué - Santana dos Garrotes"
+  },
+  {
+   "arroba": "jocienecruz",
+   "nome": "Jociene Silva da Cruz"
+  },
+  {
+   "arroba": "missaojosue_barravelha",
+   "nome": "AD Missão Josué| aldeia barra velha"
+  },
+  {
+   "arroba": "marta_freitas45",
+   "nome": "Marta Freitas"
+  },
+  {
+   "arroba": "diantedeadonai",
+   "nome": ""
+  },
+  {
+   "arroba": "rosangeladapenhaquirino",
+   "nome": "Rosangela Da Penha Quirino"
+  },
+  {
+   "arroba": "danilojufreitasde",
+   "nome": "Danilo Ju Freitas de Oliveira"
+  },
+  {
+   "arroba": "sheilagoulart04",
+   "nome": ""
+  },
+  {
+   "arroba": "pr.gesielamorim",
+   "nome": "Gesiel Garcia Amorim"
+  },
+  {
+   "arroba": "lelepadua_",
+   "nome": "Leticia Pádua"
+  },
+  {
+   "arroba": "raiane_temoteo_",
+   "nome": "Rayanne Gomes"
+  },
+  {
+   "arroba": "lindeteearaujo",
+   "nome": "Lindete Araújo"
+  },
+  {
+   "arroba": "damaris.santilva",
+   "nome": "Damáris Santos"
+  },
+  {
+   "arroba": "genilsonalves3000",
+   "nome": "Genilson Lima"
+  },
+  {
+   "arroba": "admj_castelo.branco",
+   "nome": "Assembleia de Deus Missão Josué"
+  },
+  {
+   "arroba": "saracoutooficial",
+   "nome": "Sara Couto"
+  },
+  {
+   "arroba": "tezinha151601",
+   "nome": "Esther De Oliveira Loyola"
+  },
+  {
+   "arroba": "madrugadasemfome",
+   "nome": "Madrugada sem Fome | ES"
+  },
+  {
+   "arroba": "weslanirodrigues",
+   "nome": "Weslane Rodrigues"
+  },
+  {
+   "arroba": "gad_viana",
+   "nome": "Ministério Grande Aliança com Deus em VIANA"
+  },
+  {
+   "arroba": "fabriciobatistaaraujo",
+   "nome": "Fabricio Batista Araujo"
+  },
+  {
+   "arroba": "lariice",
+   "nome": "Larice Araujo"
+  },
+  {
+   "arroba": "lomah_tonon",
+   "nome": "Paloma Batista Tonon Mello"
+  },
+  {
+   "arroba": "missaojosuecarneiros",
+   "nome": "A.D Missão Josué Carneiros-AL"
+  },
+  {
+   "arroba": "silvaneidepsilva2107",
+   "nome": "Silvaneide Pereira"
+  },
+  {
+   "arroba": "rodrguessx_matias",
+   "nome": "Adrian Matias"
+  },
+  {
+   "arroba": "vitoriaawx_01",
+   "nome": "Vitória"
+  },
+  {
+   "arroba": "hlutmission",
+   "nome": "HLUT Mission"
+  },
+  {
+   "arroba": "bruzzimarcos",
+   "nome": "Marcos Bruzzi"
+  },
+  {
+   "arroba": "gerlanynacsimentodasilva",
+   "nome": "gerlany nascimento da silva"
+  },
+  {
+   "arroba": "j.carlos144",
+   "nome": "J.Carlos144🙏"
+  },
+  {
+   "arroba": "kalianafernandescarvalho",
+   "nome": "kaliana Fernandes Carvalho"
+  },
+  {
+   "arroba": "josefa.dasilvarodriguis",
+   "nome": "Josefa Da Silva Rodrigues"
+  },
+  {
+   "arroba": "adtemponovo.vilamerlo",
+   "nome": "Assembléia de Deus Tempo Novo"
+  },
+  {
+   "arroba": "glauci07072007",
+   "nome": "Glauci Rodrigues de Andrade"
+  },
+  {
+   "arroba": "admjjuazeirodonorte",
+   "nome": "igreja evangélica assembleia de Deus missão Josué"
+  },
+  {
+   "arroba": "etemi.1",
+   "nome": "Escola de Teologia e Missões"
+  },
+  {
+   "arroba": "eusoujakceli",
+   "nome": "Jak Oliveira"
+  },
+  {
+   "arroba": "missaojosuemanicoba",
+   "nome": "Missão Josué povoado Maniçoba em Divina Pastora-SE"
+  },
+  {
+   "arroba": "vidaldrone",
+   "nome": "Adriano vidal"
+  },
+  {
+   "arroba": "eliasrosadias1301",
+   "nome": "Elias Rosa Dias"
+  },
+  {
+   "arroba": "valmirferreiraviana",
+   "nome": "Valmir Ferreira Viana"
+  },
+  {
+   "arroba": "_leninha_37",
+   "nome": "Leninha"
+  },
+  {
+   "arroba": "rocha.jean10",
+   "nome": "Jean Carvalho"
+  },
+  {
+   "arroba": "andersonblank82",
+   "nome": "Anderson João Blank"
+  },
+  {
+   "arroba": "wandersonpereirasantos2026",
+   "nome": "Wanderson Pereira"
+  },
+  {
+   "arroba": "leonardo_carrizo_33",
+   "nome": "Leonardo Carrizo"
+  },
+  {
+   "arroba": "charlesfabiano007",
+   "nome": "𝕮𝖍𝖆𝖗𝖑𝖊𝖘 𝕱𝖆𝖇𝖎𝖆𝖓𝖔"
+  },
+  {
+   "arroba": "gildadesouzapinhe",
+   "nome": "Gilda Pinheiro"
+  },
+  {
+   "arroba": "_missaojosuequandu_",
+   "nome": "Missão Josué Quandú"
+  },
+  {
+   "arroba": "ezequiashrosa",
+   "nome": "Ezequias Honorato Rosa"
+  },
+  {
+   "arroba": "jefkm",
+   "nome": "Jeferson Kretli Mendes"
+  },
+  {
+   "arroba": "missaojosue.poco",
+   "nome": "MissãoJosué.Poço"
+  },
+  {
+   "arroba": "pralexteixeira",
+   "nome": "Alex Rodrigues Teixeira"
+  },
+  {
+   "arroba": "marcelosiqueirados.santos",
+   "nome": "Marcelo Siqueira dos Santos"
+  },
+  {
+   "arroba": "edilenegsilva1",
+   "nome": "Edilene Gonçalves - Edi ✨"
+  },
+  {
+   "arroba": "missaojosue.pe",
+   "nome": "IGREJA ADMJPE"
+  },
+  {
+   "arroba": "mary.santos.123",
+   "nome": "Maria das Neves"
+  },
+  {
+   "arroba": "eronildo8braz",
+   "nome": "Eronildo Braz"
+  },
+  {
+   "arroba": "izaiasdacruzpa",
+   "nome": "Izaias da Cruz Paiva"
+  },
+  {
+   "arroba": "pastor_robsoncouto",
+   "nome": "Pr. Robson Couto"
+  },
+  {
+   "arroba": "luccanighini",
+   "nome": "Lucca Enrique Nighini Silva"
+  },
+  {
+   "arroba": "andrecosta0310",
+   "nome": "Andre Pereira"
+  },
+  {
+   "arroba": "pastor_carloshenrique127",
+   "nome": "Carlos Henrique"
+  },
+  {
+   "arroba": "romildo.araujo.106",
+   "nome": "Romildo Araujo"
+  },
+  {
+   "arroba": "nicilene_oficial",
+   "nome": "Nicilene/motivação/Beleza em transição capilar/ cachos 4C✨/ES🇧🇷"
+  },
+  {
+   "arroba": "cezaroliveira5366",
+   "nome": "Cezar Oliveira"
+  },
+  {
+   "arroba": "sonia.magalhaes.50951",
+   "nome": "Sônia Magalhães"
+  },
+  {
+   "arroba": "marcosdiasde36",
+   "nome": "Marcos Dias de Souza"
+  },
+  {
+   "arroba": "racaojulia",
+   "nome": "Rações Julia"
+  },
+  {
+   "arroba": "sandrarocon",
+   "nome": "Sandra Rocon"
+  },
+  {
+   "arroba": "josenilton2347",
+   "nome": "josenilton"
+  },
+  {
+   "arroba": "celioricardo_cr",
+   "nome": "Celio Ricardo"
+  },
+  {
+   "arroba": "maristersilvaoliveira",
+   "nome": "Marister Silva"
+  },
+  {
+   "arroba": "janetesantosdasilvagomes",
+   "nome": "Janete Santos da Silva Gomes"
+  },
+  {
+   "arroba": "luciano_kako10",
+   "nome": "Luciano Arruda"
+  },
+  {
+   "arroba": "ieadge",
+   "nome": "Igreja Evangėlica Assemblėia de Deus Ministério Geração Eleita"
+  },
+  {
+   "arroba": "prvandalucena",
+   "nome": "Wanda Lucena"
+  },
+  {
+   "arroba": "admovidospelapalavra",
+   "nome": "ADMP Assembleia de Deus Movidos pela Palavra"
+  },
+  {
+   "arroba": "admxsede",
+   "nome": "Ministério Xuri ( Sede) PR Presidente: Valmyr Ferreira Viana"
+  },
+  {
+   "arroba": "reajamulheresofc",
+   "nome": "Reaja Mulher Oficial♀️🧠🌻"
+  },
+  {
+   "arroba": "kalinepaivaaf",
+   "nome": "Kaline paiva"
+  },
+  {
+   "arroba": "capelania_es",
+   "nome": "Capelania do Estado do Espírito Santo"
+  },
+  {
+   "arroba": "neildes_nascimento",
+   "nome": "Neildes nascimento"
+  },
+  {
+   "arroba": "missaoatequeelevenha",
+   "nome": "Projeto Social Missionário Até Que Ele Venha"
+  },
+  {
+   "arroba": "manoela_marcelino",
+   "nome": "Manoela Santos"
+  },
+  {
+   "arroba": "suilanpaivaalves",
+   "nome": "Suilan Paiva Alves"
+  },
+  {
+   "arroba": "danielnovaes2023",
+   "nome": "Daniel Novaes"
+  },
+  {
+   "arroba": "agraciada_",
+   "nome": "Mariana Ohnesorge Roberto"
+  },
+  {
+   "arroba": "ad_missaojosue.boaventura",
+   "nome": "𝐀𝐬𝐬𝐞𝐦𝐛𝐥𝐞𝐢𝐚 𝐝𝐞 𝐃𝐞𝐮𝐬 𝐌𝐢𝐬𝐬ã𝐨 𝐉𝐨𝐬𝐮é 𝐝𝐞 𝐁𝐨𝐚 𝐕𝐞𝐧𝐭𝐮𝐫𝐚"
+  },
+  {
+   "arroba": "simoneoliveiradosantos",
+   "nome": "Simone Oliveira Do Santos"
+  },
+  {
+   "arroba": "jhullysilva_07",
+   "nome": "Jhully Silva"
+  },
+  {
+   "arroba": "elizabethssvieira",
+   "nome": "Elizabeth S. da S. Vieira"
+  },
+  {
+   "arroba": "missaojosueofc",
+   "nome": "Missão Josué"
+  },
+  {
+   "arroba": "adrianomds.garcia",
+   "nome": "Adriano Santos"
+  },
+  {
+   "arroba": "pr.wesleyfranca",
+   "nome": "Wesley França"
+  }
+ ],
+ "semana": {
+  "inicio": "2026-11-10",
+  "fim": "2026-11-16",
+  "meta": 65,
+  "foco": "Collabs com igrejas",
+  "ganho": 0,
+  "faltam": 65,
+  "dias_restantes": 5,
+  "meta_dia": 13.0,
+  "dias_uteis": 5
+ },
+ "posts_metricas": [
+  {
+   "data": "2026-10-21",
+   "tipo": "Reel",
+   "titulo": "Curta 21/10",
+   "url": "https://www.instagram.com/reel/DewsVE0gbmI/",
+   "tema": null,
+   "curtidas": 141,
+   "comentarios": 44,
+   "visto_em": "2026-10-24 06:10",
+   "engajamento": 185
+  },
+  {
+   "data": "2026-10-20",
+   "tipo": "Reel",
+   "titulo": "Reel 20/10",
+   "url": "https://www.instagram.com/missaojosue.educacao/reel/DeuZ3cQNr4F/",
+   "tema": null,
+   "curtidas": 57,
+   "comentarios": 13,
+   "visto_em": "2026-10-24 06:10",
+   "engajamento": 70
+  },
+  {
+   "data": "2026-10-16",
+   "tipo": "Reel",
+   "titulo": "Reel 16/10",
+   "url": "https://www.instagram.com/missaojosue.educacao/reel/Dekb6cjgUJy/",
+   "tema": null,
+   "curtidas": 36,
+   "comentarios": 4,
+   "visto_em": "2026-10-22 06:05",
+   "engajamento": 40
+  },
+  {
+   "data": "2026-10-05",
+   "tipo": "Reel",
+   "titulo": "Reel anterior",
+   "url": "https://www.instagram.com/reel/DeH-fkgPQ8F/",
+   "tema": null,
+   "curtidas": 31,
+   "comentarios": 8,
+   "visto_em": "2026-10-22 06:05",
+   "engajamento": 39
+  },
+  {
+   "data": "2026-10-23",
+   "tipo": "Reel",
+   "titulo": "Corte vertical do curta 23/10",
+   "url": "https://www.instagram.com/reel/De2JrKjAXb_/",
+   "tema": null,
+   "curtidas": 29,
+   "comentarios": 8,
+   "visto_em": "2026-10-24 06:10",
+   "engajamento": 37
+  },
+  {
+   "data": "2026-10-19",
+   "tipo": "Carrossel",
+   "titulo": "Como destruir seu chamado",
+   "url": "https://www.instagram.com/p/DerpCsQHDM8/",
+   "tema": null,
+   "curtidas": 17,
+   "comentarios": 1,
+   "visto_em": "2026-10-23 06:01",
+   "engajamento": 18
+  }
+ ],
+ "meta_hoje": {
+  "data": "2026-11-11",
+  "meta": 13.0,
+  "meta_semana": 65,
+  "acumulada": 400,
+  "foco": "Collabs com igrejas",
+  "dias_uteis": 5,
+  "fim_de_semana": false,
+  "semana": "10/11–16/11"
+ },
+ "funil": [
+  {
+   "data": "2026-10-22",
+   "toques_link": 3,
+   "whatsapp": null,
+   "matriculas": null,
+   "obs": "Insights IG · últimos 30 dias (seed)",
+   "periodo": "últimos 30 dias",
+   "seguidores": 223
+  },
+  {
+   "data": "2026-10-23",
+   "toques_link": null,
+   "whatsapp": null,
+   "matriculas": null,
+   "obs": "sem leitura Insights neste dia (is.gd legado removido do KPI)",
+   "seguidores": 225
+  },
+  {
+   "data": "2026-10-24",
+   "toques_link": null,
+   "whatsapp": null,
+   "matriculas": null,
+   "obs": "sem leitura Insights neste dia (is.gd legado removido do KPI)",
+   "seguidores": 236
+  },
+  {
+   "data": "2026-10-25",
+   "toques_link": null,
+   "whatsapp": null,
+   "matriculas": null,
+   "obs": "sem leitura Insights neste dia (is.gd legado removido do KPI)",
+   "seguidores": 237
+  },
+  {
+   "data": "2026-10-26",
+   "toques_link": 4,
+   "whatsapp": null,
+   "matriculas": null,
+   "obs": "Insights IG · últimos 7 dias (PDF 26/10) · KPI oficial",
+   "periodo": "últimos 7 dias",
+   "seguidores": 237
+  },
+  {
+   "data": "2026-10-27",
+   "toques_link": null,
+   "whatsapp": null,
+   "matriculas": null,
+   "obs": "",
+   "seguidores": 239
+  },
+  {
+   "data": "2026-10-28",
+   "toques_link": null,
+   "whatsapp": null,
+   "matriculas": null,
+   "obs": "",
+   "seguidores": 240
+  },
+  {
+   "data": "2026-10-29",
+   "toques_link": null,
+   "whatsapp": null,
+   "matriculas": null,
+   "obs": "",
+   "seguidores": 243
+  },
+  {
+   "data": "2026-10-30",
+   "toques_link": null,
+   "whatsapp": null,
+   "matriculas": null,
+   "obs": "",
+   "seguidores": 246
+  },
+  {
+   "data": "2026-10-31",
+   "toques_link": null,
+   "whatsapp": null,
+   "matriculas": null,
+   "obs": "",
+   "seguidores": 252
+  },
+  {
+   "data": "2026-11-01",
+   "toques_link": null,
+   "whatsapp": null,
+   "matriculas": null,
+   "obs": "",
+   "seguidores": 253
+  },
+  {
+   "data": "2026-11-02",
+   "toques_link": null,
+   "whatsapp": null,
+   "matriculas": null,
+   "obs": "",
+   "seguidores": 253
+  },
+  {
+   "data": "2026-11-03",
+   "toques_link": null,
+   "whatsapp": null,
+   "matriculas": null,
+   "obs": "",
+   "seguidores": 252
+  },
+  {
+   "data": "2026-11-04",
+   "toques_link": null,
+   "whatsapp": null,
+   "matriculas": null,
+   "obs": "",
+   "seguidores": 252
+  },
+  {
+   "data": "2026-11-05",
+   "toques_link": null,
+   "whatsapp": null,
+   "matriculas": null,
+   "obs": "",
+   "seguidores": 251
+  },
+  {
+   "data": "2026-11-06",
+   "toques_link": null,
+   "whatsapp": null,
+   "matriculas": null,
+   "obs": "",
+   "seguidores": 252
+  },
+  {
+   "data": "2026-11-09",
+   "toques_link": null,
+   "whatsapp": null,
+   "matriculas": null,
+   "obs": "",
+   "seguidores": 252
+  },
+  {
+   "data": "2026-11-10",
+   "toques_link": null,
+   "whatsapp": null,
+   "matriculas": null,
+   "obs": "",
+   "seguidores": 252
+  },
+  {
+   "data": "2026-11-11",
+   "toques_link": null,
+   "whatsapp": null,
+   "matriculas": null,
+   "obs": "",
+   "seguidores": 252
+  }
+ ],
+ "engajamento": [],
+ "cliques_link": {
+  "_info": "is.gd OPCIONAL — hits brutos (NÃO-KPI, fora do funil). ativo=false → update.py não relê. KPI oficial = toques_link_insights.",
+  "url": "https://is.gd/mjeducacao2027",
+  "stats_url": "https://is.gd/stats.php?url=mjeducacao2027",
+  "destino": "WhatsApp MJ Educação (mensagem pronta)",
+  "desconto_teste": 1,
+  "teste_semana_ate": "2026-10-25",
+  "leitura": {
+   "lido_em": "2026-10-26 06:13",
+   "total": 147,
+   "semana": 148,
+   "hoje": 0,
+   "bruto": {
+    "total": 148,
+    "semana": 148,
+    "hoje": 0
+   },
+   "ok": true,
+   "_legado": true,
+   "_nota": "hits brutos is.gd — não usar como KPI"
+  },
+  "insights": {
+   "toques": 4,
+   "periodo": "últimos 7 dias",
+   "visitas_perfil_7d": 120,
+   "lido_em": "2026-10-26 10:45",
+   "fonte": "Instagram Insights (toques no link da bio) — KPI oficial"
+  },
+  "ativo": false
+ },
+ "toques_link_insights": {
+  "_info": "Fonte oficial KPI: Instagram Insights — Toques no link. Preencher manualmente (Isabelle). NÃO misturar com is.gd.",
+  "registros": [
+   {
+    "data": "2026-10-22",
+    "toques": 3,
+    "periodo": "últimos 30 dias",
+    "visitas_perfil": null,
+    "lido_em": "2026-10-22 09:00",
+    "fonte": "Isabelle / Insights app"
+   },
+   {
+    "data": "2026-10-26",
+    "toques": 4,
+    "periodo": "últimos 7 dias",
+    "visitas_perfil": 120,
+    "lido_em": "2026-10-26 10:45",
+    "fonte": "PDF Insights 26/10 / Isabelle"
+   },
+   {
+    "data": "2026-10-26",
+    "toques": 5,
+    "periodo": "últimos 30 dias",
+    "visitas_perfil": 301,
+    "lido_em": "2026-10-26 11:50",
+    "fonte": "Insights app (bot) External link taps"
+   }
+  ]
+ },
+ "funil_atual": {
+  "atualizado_em": "2026-11-11 06:19",
+  "etapas": [
+   {
+    "k": "views",
+    "l": "Visualizações do curta",
+    "v": 2233,
+    "fonte": "Instagram (curta)",
+    "lido_em": "2026-10-22 09:00"
+   },
+   {
+    "k": "alcance",
+    "l": "Contas alcançadas (curta)",
+    "v": 1422,
+    "fonte": "Instagram (curta)",
+    "lido_em": "2026-10-22 09:00"
+   },
+   {
+    "k": "seguidores",
+    "l": "Seguidores",
+    "v": 252,
+    "fonte": "snapshot 6h (perfil todo, não só o curta)",
+    "lido_em": "2026-11-11 06:19",
+    "sem_conv": true
+   },
+   {
+    "k": "cliques",
+    "l": "Toques no link (Insights)",
+    "v": 5,
+    "fonte": "Instagram Insights (manual) · últimos 30 dias",
+    "lido_em": "2026-10-26 11:50"
+   },
+   {
+    "k": "whatsapp",
+    "l": "Conversas WhatsApp",
+    "v": null,
+    "fonte": "manual (Isabelle)",
+    "lido_em": null
+   },
+   {
+    "k": "matriculas",
+    "l": "Matrículas 2027",
+    "v": null,
+    "fonte": "manual (Isabelle)",
+    "lido_em": null
+   }
+  ],
+  "kpi": "insights",
+  "nota": "KPI toques = Insights IG; is.gd só hits brutos opcionais"
+ }
+}

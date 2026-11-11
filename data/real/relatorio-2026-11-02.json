@@ -1,0 +1,515 @@
+{
+ "titulo": "Relatório semanal Instagram @missaojosue.educacao",
+ "periodo": "Semana 26/10 a 01/11/2026 (últimos 7 dias, coletado em 02/11/2026)",
+ "gerado_em": "02/11/2026",
+ "saida": "/workspace/relatorios/2026-11-02/relatorio-2026-11-02.pdf",
+ "conta": {
+  "visualizacoes": 4370,
+  "vis_seguidores_pct": 45.3,
+  "vis_nao_seguidores_pct": 54.7,
+  "contas_visualizaram": 1573,
+  "vis_por_tipo_pct": {
+   "Reels": 73.1,
+   "Stories": 26.8,
+   "Posts": 0.2
+  },
+  "interacoes": 407,
+  "int_seguidores_pct": 78.6,
+  "int_nao_seguidores_pct": 21.4,
+  "contas_engajamento": 92,
+  "int_por_tipo_pct": {
+   "Reels": 84.0,
+   "Stories": 13.0,
+   "Posts": 2.9
+  },
+  "atividade_perfil": 40,
+  "visitas_perfil": 38,
+  "toques_links": 2,
+  "seguidores": 253,
+  "horarios_semana": {
+   "faixas": [
+    "0h",
+    "3h",
+    "6h",
+    "9h",
+    "12h",
+    "15h",
+    "18h",
+    "21h"
+   ],
+   "dias": {
+    "Segunda": [
+     26,
+     67,
+     76,
+     78,
+     82,
+     78,
+     57,
+     8
+    ],
+    "Terça": [
+     25,
+     67,
+     80,
+     76,
+     83,
+     83,
+     61,
+     6
+    ],
+    "Quarta": [
+     26,
+     67,
+     81,
+     84,
+     85,
+     82,
+     62,
+     8
+    ],
+    "Quinta": [
+     25,
+     71,
+     82,
+     80,
+     85,
+     81,
+     63,
+     10
+    ],
+    "Sexta": [
+     26,
+     72,
+     83,
+     86,
+     91,
+     85,
+     68,
+     12
+    ]
+   },
+   "leitura": "<b>[Dado]</b> O pico é às 12h em todos os dias úteis (82 a 91 seguidores ativos); na terça, 12h e 15h empatam (83). De 9h a 15h a atividade fica sempre entre 76 e 91. Cai às 18h (57 a 68) e despenca às 21h (6 a 12). Sexta-feira tem o maior número da semana (91 às 12h). Os 3 posts saíram às 12h46, 12h18 e 14h15, dentro do pico. <b>[Opinião]</b> Manter os carrosséis às 12h07, Reels entre 12h e 14h, e usar 9h para o story de aquecimento."
+  }
+ },
+ "seguidores_semana": {
+  "inicio": 237,
+  "fim": 253,
+  "ganho": 16,
+  "meta": 45,
+  "ganho_semana_meta": 14,
+  "dias": [
+   [
+    "Ter 27/10",
+    1,
+    ""
+   ],
+   [
+    "Qua 28/10",
+    3,
+    ""
+   ],
+   [
+    "Qui 29/10",
+    3,
+    "carrossel FIMC"
+   ],
+   [
+    "Sex 30/10",
+    6,
+    "Reel"
+   ],
+   [
+    "Sáb 31/10",
+    1,
+    ""
+   ],
+   [
+    "Dom 01/11",
+    0,
+    ""
+   ]
+  ],
+  "nota": "Contagem pelos registros diários de seguidores (às 6h). Os +2 que faltam para chegar a +16 entraram na segunda, 26/10, depois da coleta do relatório passado. Meta da semana 27/10 a 02/11: 45 (9 por dia útil)."
+ },
+ "funil": {
+  "toques_link_bio": 2,
+  "visitas_perfil": 38,
+  "cliques_link_stories": 0,
+  "respostas_stories": 3,
+  "quero": 2
+ },
+ "posts": [
+  {
+   "nome": "Reel",
+   "data": "27/10 · 12h46",
+   "titulo": "O chamado pede mais do que informação — pede formação.",
+   "visualizacoes": 559,
+   "nao_seg_pct": 57.2,
+   "contas": 381,
+   "interacoes": 42,
+   "curtidas": 28,
+   "comentarios": 5,
+   "salvamentos": 1,
+   "compartilhamentos": 3,
+   "seguidores_ganhos": 1,
+   "engajadas": 30
+  },
+  {
+   "nome": "Carrossel FIMC",
+   "data": "29/10 · 12h18",
+   "titulo": "Cinco minutos de aula e metade da turma já está olhando para o lado.",
+   "visualizacoes": 356,
+   "nao_seg_pct": 59.6,
+   "contas": 132,
+   "interacoes": 13,
+   "curtidas": 7,
+   "comentarios": 3,
+   "salvamentos": 0,
+   "compartilhamentos": 1,
+   "seguidores_ganhos": 1,
+   "engajadas": 8
+  },
+  {
+   "nome": "Reel “Era pra convidar”",
+   "data": "30/10 · 14h15",
+   "titulo": "Era pra convidar… não pra sequestrar",
+   "visualizacoes": 1725,
+   "nao_seg_pct": 51.2,
+   "contas": 1154,
+   "interacoes": 167,
+   "curtidas": 54,
+   "comentarios": 19,
+   "salvamentos": 0,
+   "compartilhamentos": 89,
+   "seguidores_ganhos": 3,
+   "engajadas": 63
+  }
+ ],
+ "stories": {
+  "quantidade": 12,
+  "visualizacoes": 950,
+  "lista_vis": [
+   149,
+   124,
+   104,
+   89,
+   83,
+   81,
+   78,
+   78,
+   52,
+   47,
+   41,
+   24
+  ],
+  "interacoes": 36,
+  "curtidas": 21,
+  "compartilhamentos": 12,
+  "respostas": 3,
+  "visitas_perfil": 2,
+  "seguidores": 0,
+  "cliques_link": 0,
+  "tipos": [
+   [
+    "Artes próprias\n(6 stories)",
+    93.0
+   ],
+   [
+    "Vídeos próprios\n(3 stories)",
+    89.7
+   ],
+   [
+    "Reposts\n(3 stories)",
+    41.0
+   ]
+  ],
+  "top": [
+   {
+    "img": "/workspace/relatorios/2026-11-02/thumbs-jpg/top1.jpg",
+    "vis": 149,
+    "desc": "<b>Arte “Post novo no feed”</b> chamando para o carrossel FIMC · 69,8% não seguidores"
+   },
+   {
+    "img": "/workspace/relatorios/2026-11-02/thumbs-jpg/top2.jpg",
+    "vis": 124,
+    "desc": "<b>Vídeo próprio</b>: pessoa falando para a câmera"
+   },
+   {
+    "img": "/workspace/relatorios/2026-11-02/thumbs-jpg/top3.jpg",
+    "vis": 104,
+    "desc": "<b>Nosso Reel</b> “Era pra convidar” no story · 7 interações (a maior)"
+   },
+   {
+    "img": "/workspace/relatorios/2026-11-02/thumbs-jpg/top4.jpg",
+    "vis": 89,
+    "desc": "<b>Arte de ensino</b>: “Fora do contexto” (Teologia)"
+   },
+   {
+    "img": "/workspace/relatorios/2026-11-02/thumbs-jpg/top5.jpg",
+    "vis": 83,
+    "desc": "<b>Arte de matrícula</b>: duas Bíblias de estudo + QUERO no direct"
+   }
+  ],
+  "piores": [
+   {
+    "img": "/workspace/relatorios/2026-11-02/thumbs-jpg/bottom1.jpg",
+    "vis": 24,
+    "desc": "<b>Repost de vídeo</b> “Toque no Reels” · 100% seguidores"
+   },
+   {
+    "img": "/workspace/relatorios/2026-11-02/thumbs-jpg/bottom2.jpg",
+    "vis": 41,
+    "desc": "<b>Vídeo “Bastidores”</b> em sala · 100% seguidores"
+   },
+   {
+    "img": "/workspace/relatorios/2026-11-02/thumbs-jpg/bottom3.jpg",
+    "vis": 47,
+    "desc": "<b>Repost de foto</b> de outro perfil (caminhada) · 100% seguidores"
+   },
+   {
+    "img": "/workspace/relatorios/2026-11-02/thumbs-jpg/bottom4.jpg",
+    "vis": 52,
+    "desc": "<b>Repost de arte</b> “A água já tirou o chão”"
+   },
+   {
+    "img": "/workspace/relatorios/2026-11-02/thumbs-jpg/bottom5.jpg",
+    "vis": 78,
+    "desc": "<b>Arte de curso</b> “Quer ler a Bíblia com mais fidelidade?”"
+   }
+  ],
+  "leitura": "<b>[Dado]</b> Média por tipo: artes próprias 93, vídeos próprios 89,7, reposts 41. Os 3 stories vistos só por seguidores foram 2 reposts e o vídeo “Bastidores”. A arte “Post novo no feed” foi a mais vista (149; 69,8% não seguidores) e o nosso Reel no story gerou mais conversa (7 interações, 2 respostas). <b>[Opinião]</b> Funciona <b>story que aponta para algo novo nosso</b> (post novo, Reel, curso com benefício claro). Repost de outros perfis: só como exceção. Bastidor precisa de gancho escrito forte."
+ },
+ "analise_posts": [
+  {
+   "nome": "Reel “Era pra convidar… não pra sequestrar” (destaque)",
+   "data": "30/10 · 14h15 (repostagem)",
+   "titulo": "",
+   "kpis": [
+    [
+     "1.725",
+     "visualizações"
+    ],
+    [
+     "1.154",
+     "contas alcançadas"
+    ],
+    [
+     "89",
+     "compartilhamentos"
+    ],
+    [
+     "3",
+     "novos seguidores"
+    ]
+   ],
+   "dados": [
+    "167 interações: 54 curtidas, 19 comentários, 0 salvamentos, 89 compartilhamentos. 63 contas com engajamento.",
+    "7,7% das pessoas alcançadas enviaram o vídeo; 53,3% das interações foram compartilhamentos.",
+    "Sozinho: 39,5% das visualizações e 41,0% das interações da conta na semana.",
+    "51,2% das visualizações de não seguidores; 72% das interações vieram de seguidores.",
+    "Engajamento por alcance: 14,5%. Novos seguidores a cada 100 pessoas alcançadas: 0,26.",
+    "1 QUERO conhecido (kaylamorais__), respondido com comentário + direct com o link do WhatsApp.",
+    "A 1ª versão (30/10, 12h20) saiu cortada no feed e foi apagada; na repostagem o 1º comentário saiu só “QUERO”."
+   ],
+   "como": "O melhor post da semana. Humor com situação que todo crente reconhece fez a nossa base enviar o vídeo: 89 compartilhamentos. Mas o compartilhamento não virou seguidor (3 em 1.154 pessoas) nem conversa (1 QUERO). O erro de corte custou a publicação do horário de pico e o primeiro comentário não explicou o QUERO.",
+   "melhorar": [
+    "Checklist antes de publicar: escolher 9:16 na tela de corte, conferir por print e checar se ficou vertical depois.",
+    "1º comentário sempre completo: “Comenta QUERO que a gente te chama no direct”.",
+    "Fechar o vídeo com um motivo para seguir (“parte 2 amanhã, segue pra não perder”) e o QUERO falado.",
+    "Transformar em série: “Era pra…” parte 2, mesmo tom de humor."
+   ]
+  },
+  {
+   "nome": "Carrossel FIMC",
+   "data": "29/10 · 12h18",
+   "titulo": "Cinco minutos de aula e metade da turma já está olhando para o lado.",
+   "kpis": [
+    [
+     "356",
+     "visualizações"
+    ],
+    [
+     "132",
+     "contas alcançadas"
+    ],
+    [
+     "59,6%",
+     "não seguidores"
+    ],
+    [
+     "1",
+     "novo seguidor"
+    ]
+   ],
+   "dados": [
+    "13 interações: 7 curtidas, 3 comentários, 0 salvamentos, 1 compartilhamento. 8 contas com engajamento.",
+    "2,7 visualizações por pessoa alcançada: quem abriu passou os slides.",
+    "Origem das visualizações: 64,3% Início, 34,0% Outros, 1,7% Perfil. De 277 (30/10) para 356 visualizações (+28,5%).",
+    "Engajamento por alcance: 9,8%. Novos seguidores a cada 100 pessoas alcançadas: <b>0,76</b>, a melhor taxa da semana.",
+    "1 QUERO (jessica_j.oliveira). 1 visita ao perfil e 0 toques no link."
+   ],
+   "como": "Poucas pessoas viram (132), mas quem viu leu até o fim e seguiu na melhor proporção da semana. O story “Post novo no feed” que divulgou o carrossel foi o story mais visto (149). Ponto fraco: conteúdo prático (“4 passos”) e 0 salvamentos, porque não houve pedido para salvar.",
+   "melhorar": [
+    "Capa com pergunta-dor + faixa “MATRÍCULAS ABERTAS | MJ EDUCAÇÃO”.",
+    "Um slide prático com “SALVA PRA REVER DEPOIS”.",
+    "CTA final: “Detalhes e inscrição no link do perfil” + QUERO no 1º comentário.",
+    "Repetir o story “Post novo no feed” logo após publicar, como nesta semana."
+   ]
+  },
+  {
+   "nome": "Reel “O chamado pede formação”",
+   "data": "27/10 · 12h46",
+   "titulo": "O chamado pede mais do que informação — pede formação.",
+   "kpis": [
+    [
+     "559",
+     "visualizações"
+    ],
+    [
+     "381",
+     "contas alcançadas"
+    ],
+    [
+     "57,2%",
+     "não seguidores"
+    ],
+    [
+     "1",
+     "novo seguidor"
+    ]
+   ],
+   "dados": [
+    "42 interações: 28 curtidas, 5 comentários, 1 salvamento, 3 compartilhamentos. 30 contas com engajamento.",
+    "41,5% das interações vieram de não seguidores, a maior parcela da semana.",
+    "Engajamento por alcance: 11,0%. Novos seguidores a cada 100 pessoas alcançadas: 0,26."
+   ],
+   "como": "Alcance médio e boa conversa com quem ainda não segue, mas pouco compartilhamento (3) e só 1 seguidor. A mensagem é institucional (“formação”): agrada a quem já conhece, mas não dá vontade de enviar para um amigo.",
+   "melhorar": [
+    "Abrir com uma cena ou frase de conflito nos 2 primeiros segundos, em vez da tese.",
+    "Terminar com QUERO falado e escrito na tela, e motivo para seguir.",
+    "Pedir o envio de forma direta (“manda pra quem sente esse chamado”)."
+   ]
+  }
+ ],
+ "estrategia": {
+  "continuar": [
+   "<b>[Dado]</b> Reel de humor com situação da igreja: 89 compartilhamentos e 41,0% das interações da conta. <b>[Opinião]</b> Manter 1 Reel por semana nesse tom, sempre com motivo para seguir no final.",
+   "<b>[Dado]</b> Os 3 posts saíram entre 12h18 e 14h15, dentro do pico (82 a 91 seguidores ativos às 12h). <b>[Opinião]</b> Manter.",
+   "<b>[Dado]</b> O story “Post novo no feed” foi o mais visto (149), com 69,8% de não seguidores. <b>[Opinião]</b> Fazer esse story em todo post.",
+   "<b>[Dado]</b> QUERO da kaylamorais__ respondido no comentário e no direct com link do WhatsApp. <b>[Opinião]</b> Manter a resposta rápida em todo QUERO."
+  ],
+  "parar": [
+   "<b>[Dado]</b> Reposts de outros perfis: média de 41 visualizações e, em 2 de 3, só seguidores viram. <b>[Opinião]</b> No máximo 1 por semana.",
+   "<b>[Dado]</b> Reel saiu cortado e foi apagado; na repostagem o 1º comentário saiu incompleto. <b>[Opinião]</b> Parar de publicar sem checklist.",
+   "<b>[Dado]</b> 89 compartilhamentos geraram 3 seguidores. <b>[Opinião]</b> Parar de terminar vídeo sem pedido claro (seguir ou QUERO)."
+  ],
+  "testar": [
+   "<b>[Opinião]</b> Série “Era pra…” parte 2, com gancho “segue pra ver a parte 3”, para medir se a série converte compartilhamento em seguidor.",
+   "<b>[Opinião]</b> Story com link direto para o WhatsApp logo depois do story “Post novo no feed” (0 cliques em link nos stories nesta semana).",
+   "<b>[Opinião]</b> Caixinha de pergunta ou enquete nos stories (“Qual curso combina com você?”): só 3 respostas aos stories na semana.",
+   "<b>[Opinião]</b> Reel em collab com professor ou pastor: o nosso Reel no story foi o story com mais interações (7)."
+  ],
+  "estrategico": [
+   "<b>Teologia (qui 05/11, 12h07):</b> carrossel com os slides originais aprovados; story-arte no estilo “Fora do contexto” (89 visualizações) para chamar.",
+   "<b>Missiologia (qui 12/11, 12h07):</b> carrossel realista aprovado, já com as melhorias: capa pergunta-dor, faixa de matrículas, slide “SALVA PRA REVER DEPOIS” e CTA no link do perfil.",
+   "<b>FIMC:</b> o carrossel teve a melhor taxa de seguidores (0,76 a cada 100); próximo FIMC em Reel curto mostrando uma técnica de sala na prática.",
+   "<b>Portal MJ Educação:</b> Reel com telas do app (podcast, revisão, ranking), sem foto de aluno, fechando com QUERO."
+  ],
+  "previsao": "<b>[Opinião]</b> Sem um vídeo fora da curva, o ritmo realista é de 10 a 20 novos seguidores por semana (foram +37 na semana passada, com o curta, e +16 nesta). A meta de 45 por semana não será batida só com 1 carrossel e 1 Reel; precisaria de 2 Reels por semana e de séries que façam a pessoa seguir. Na métrica que importa, hoje temos cerca de 2 QUERO por semana. Meta honesta para a próxima semana: 3 a 5 QUERO e saber quantos chegaram ao WhatsApp. Alcance e compartilhamento sem conversa não viram aluno."
+ },
+ "aprendizados": [
+  "<b>Humor com identificação se espalha.</b> O Reel “Era pra convidar” teve 89 compartilhamentos (7,7% de quem viu) e fez 39,5% das visualizações da conta.",
+  "<b>Compartilhar não é seguir.</b> O mesmo Reel trouxe só 3 seguidores (0,26 a cada 100 alcançadas). Sem pedido no final, a pessoa envia e não segue.",
+  "<b>Carrossel converte melhor em proporção.</b> O FIMC teve 2,7 visualizações por pessoa e 0,76 seguidor a cada 100 alcançadas, e o story que o divulgou foi o mais visto.",
+  "<b>Erro de publicação custa caro.</b> O Reel cortado foi apagado e o 1º comentário saiu incompleto: perdemos o horário e a explicação do QUERO.",
+  "<b>Nos stories, conteúdo próprio vence repost.</b> Artes próprias: média de 93 visualizações; reposts: 41."
+ ],
+ "aplicar": [
+  [
+   "<font color='#F28C28'><b>Alta</b></font>",
+   "<b>Qui 05/11, 12h07:</b> carrossel Teologia (slides originais aprovados). 1º comentário completo do QUERO e story “Post novo no feed” logo após publicar."
+  ],
+  [
+   "<font color='#F28C28'><b>Alta</b></font>",
+   "<b>Contar a métrica principal:</b> planilha simples (data, @, post de origem, curso, chegou ao WhatsApp sim/não), conferida com quem atende o WhatsApp toda sexta."
+  ],
+  [
+   "<font color='#F28C28'><b>Alta</b></font>",
+   "<b>Checklist de publicação:</b> 9:16 na tela de corte, print antes de publicar, conferir vertical depois e 1º comentário com a frase completa do QUERO."
+  ],
+  [
+   "Média",
+   "<b>1 Reel na semana</b> (ter ou qua, 12h–14h): parte 2 do “Era pra…” ou Reel do portal MJ Educação, terminando com motivo para seguir e QUERO."
+  ],
+  [
+   "Média",
+   "<b>Stories:</b> por dia útil, 1 arte própria + 1 vídeo próprio; 1 story com link do WhatsApp e 1 caixinha na semana; reposts de outros perfis no máximo 1."
+  ],
+  [
+   "Média",
+   "<b>Preparar Missiologia (qui 12/11, 12h07)</b> com as melhorias combinadas; depois seguir a alternância FIMC e portal."
+  ],
+  [
+   "Baixa",
+   "Responder todo QUERO em até 1 hora (comentário + direct com link do WhatsApp) e retomar quem pediu informação e não respondeu."
+  ]
+ ],
+ "conclusoes": [
+  "Semana de alcance menor (4.370 visualizações), mas o Reel de humor provou que a nossa base compartilha: 89 envios e 41,0% das interações da conta.",
+  "Crescemos +16 seguidores (237 → 253), 1,02 a cada 100 pessoas alcançadas; a meta da semana ficou longe (+14 de 45, 31,1%).",
+  "A métrica que importa ainda não tem número: 2 QUERO conhecidos, 2 toques no link e 0 cliques nos stories. Contar quem chega ao WhatsApp é a prioridade."
+ ],
+ "comparativo_semana_anterior": {
+  "periodo_anterior": "20–26/10",
+  "periodo_atual": "26/10–01/11",
+  "indicadores": [
+   {
+    "nome": "Visualizações",
+    "anterior": 7285,
+    "atual": 4370
+   },
+   {
+    "nome": "Contas alcançadas",
+    "anterior": 2318,
+    "atual": 1573
+   },
+   {
+    "nome": "Interações",
+    "anterior": 928,
+    "atual": 407
+   },
+   {
+    "nome": "Contas com engajamento",
+    "anterior": 210,
+    "atual": 92
+   },
+   {
+    "nome": "Visitas ao perfil",
+    "anterior": 120,
+    "atual": 38
+   },
+   {
+    "nome": "Toques no link da bio",
+    "anterior": 4,
+    "atual": 2,
+    "tipo": "absoluto"
+   },
+   {
+    "nome": "Novos seguidores",
+    "anterior": "+37",
+    "atual": "+16",
+    "tipo": "texto",
+    "delta": "−21"
+   },
+   {
+    "nome": "Novos seguidores a cada 100 alcançadas",
+    "anterior": "1,60",
+    "atual": "1,02",
+    "tipo": "texto",
+    "delta": "−0,58"
+   }
+  ],
+  "leitura": "<b>[Opinião]</b> A semana passada teve o curta (2.800 visualizações e 205 compartilhamentos). Sem ele, o alcance caiu, mas o Reel “Era pra convidar” mostrou que dá para chegar perto com humor."
+ }
+}
