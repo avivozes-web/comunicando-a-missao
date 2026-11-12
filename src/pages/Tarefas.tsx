@@ -29,7 +29,7 @@ export function Tarefas() {
           <h1>Tarefas</h1>
           <div className="sub">O que se repete toda semana, o que aparece no dia e o que cada post gera até a data de sair.</div>
         </div>
-        <div style={{ display: 'flex', gap: 10 }}>
+        <div className="top-actions">
           <button type="button" className="btn" onClick={() => ui.setAudio(true)}><Icon name="mic" /> Ditar o dia por áudio</button>
           <button type="button" className="btn pri" onClick={() => ui.openTask(null, today)}><Icon name="plus" /> Tarefa</button>
         </div>

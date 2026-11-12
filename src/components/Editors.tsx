@@ -21,6 +21,7 @@ import {
   type TaskStep,
 } from '@/lib/types'
 import { mediaUrl, uid } from '@/lib/utils'
+import { DayDictation } from './DayDictation'
 
 const STEPS = ['Conta', 'Formato', 'Tema', 'Data', 'Quem faz', 'Confirmar'] as const
 
@@ -31,24 +32,7 @@ export function Editors() {
       <PostEditor />
       <IdeaEditor />
       <TaskEditor />
-      <Dialog open={ui.audio} onOpenChange={ui.setAudio}>
-        <DialogContent>
-          <div className="mh5">
-            <div>
-              <div className="eb">Tarefas</div>
-              <DialogTitle className="dlg-title">Ditar o dia por áudio</DialogTitle>
-              <DialogDescription className="dlg-desc">O microfone ainda não está ligado. Por enquanto, escreva a tarefa.</DialogDescription>
-            </div>
-            <button type="button" className="xb" onClick={() => ui.setAudio(false)} aria-label="Fechar"><Icon name="x" /></button>
-          </div>
-          <div className="mf">
-            <span />
-            <button type="button" className="nx" onClick={() => { ui.setAudio(false); ui.openTask(null, todayISO()) }}>
-              <Icon name="plus" /> Tarefa
-            </button>
-          </div>
-        </DialogContent>
-      </Dialog>
+      <DayDictation />
     </>
   )
 }

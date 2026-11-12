@@ -223,3 +223,41 @@ button.bx { width: 14px; height: 14px; border-radius: 4px; border: 1.5px solid #
 }
 .days, .wk, .board, .yr, .col .list { height: auto; overflow: visible; }
 .lab { display: block; font-size: 12.5px; font-weight: 600; color: var(--navy); margin: 0 0 6px; }
+.top-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+.dictate { display: flex; flex-direction: column; gap: 12px; }
+.dictate-days { display: flex; flex-wrap: wrap; gap: 8px; align-items: flex-end; }
+.dictate-days > button { border: 1px solid var(--line); background: #fff; border-radius: 12px; padding: 10px 14px; min-height: 44px; font-weight: 700; color: var(--navy); }
+.dictate-days > button.on { border-color: var(--orange); background: var(--orangeSoft); box-shadow: 0 0 0 3px rgba(241,102,35,.15); }
+.dictate-date { display: flex; flex-direction: column; gap: 4px; font-size: 12px; font-weight: 700; color: var(--navy); min-width: 150px; }
+.dictate-date input { margin: 0; min-height: 44px; width: 100%; font-size: 16px; }
+.dictate-when { margin: 0; font-size: 13px; font-weight: 600; color: var(--muted); }
+.dictate-mic { width: 100%; min-height: 52px; border: 0; border-radius: 16px; background: var(--navy); color: #fff; font-weight: 700; font-size: 15px; display: inline-flex; align-items: center; justify-content: center; gap: 8px; }
+.dictate-mic svg { width: 18px; height: 18px; }
+.dictate-mic.on { background: var(--orange); box-shadow: 0 0 0 4px rgba(241,102,35,.2); }
+.dictate-live { margin: 0; font-size: 14px; font-weight: 600; color: var(--orange); min-height: 1.3em; }
+.dictate-note { margin: 0; font-size: 13.5px; line-height: 1.4; color: var(--navy); background: var(--orangeSoft); border-radius: 12px; padding: 10px 12px; }
+.dictate-box { margin: 0; font-size: 16px; min-height: 112px; }
+.dictate-list { display: flex; flex-direction: column; gap: 10px; }
+.dictate-row { display: grid; grid-template-columns: 108px minmax(0, 1fr) 40px; gap: 8px; align-items: start; }
+.dictate-row .inp { margin: 0; min-height: 44px; font-size: 16px; }
+.dictate-time { display: flex; flex-direction: column; gap: 2px; }
+.dictate-time input { margin: 0; min-height: 44px; width: 100%; font-size: 16px; }
+.dictate-time em { font-style: normal; font-size: 10.5px; font-weight: 700; color: var(--orange); }
+.dictate-foot { gap: 10px; flex-wrap: wrap; }
+.dictate-foot .btn, .dictate-foot .nx { min-height: 44px; }
+.dictate-foot .nx:disabled { opacity: .45; }
+.dictate-dlg .mh5, .dictate-dlg .mf { position: sticky; background: #fff; z-index: 2; }
+.dictate-dlg .mh5 { top: 0; }
+.dictate-dlg .mf { bottom: 0; }
+.sr { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+@media (max-width: 860px) {
+  .top-actions { width: 100%; }
+  .top-actions .btn { flex: 1; justify-content: center; min-height: 44px; }
+  .dlg.dictate-dlg { top: 8px; transform: translate(-50%, 0); width: calc(100vw - 16px); max-height: calc(100dvh - 16px); }
+  .dictate-dlg .mh5, .dictate-dlg .mb, .dictate-dlg .mf { padding-left: 16px; padding-right: 16px; }
+}
+@media (max-width: 420px) {
+  .dictate-row { grid-template-columns: minmax(0, 1fr) 40px; }
+  .dictate-time { grid-column: 1 / -1; flex-direction: row; align-items: center; gap: 8px; }
+  .dictate-time input { max-width: 140px; }
+}
