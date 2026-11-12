@@ -18,6 +18,7 @@ type DataValue = {
   setIdeaStatus: (id: string, status: Idea['status']) => Promise<void>
   toggleHeart: (id: string) => Promise<void>
   saveTask: (task: Task) => Promise<void>
+  saveTasks: (tasks: Task[]) => Promise<void>
   toggleTask: (id: string) => Promise<void>
   removeTask: (id: string) => Promise<void>
   saveMonth: (row: YearMonth) => Promise<void>
@@ -227,6 +228,16 @@ export function DataProvider({ children }: { children: ReactNode }) {
         return current
       }
       await api.saveTask(task)
+    }),
+    saveTasks: (tasks) => run(async (current) => {
+      if (PREVIEW) {
+        for (const task of tasks) {
+          const exists = current.tasks.some((item) => item.id === task.id)
+          current.tasks = exists ? current.tasks.map((item) => (item.id === task.id ? task : item)) : [...current.tasks, task]
+        }
+        return current
+      }
+      for (const task of tasks) await api.saveTask(task)
     }),
     toggleTask: (id) => run(async (current) => {
       const task = current.tasks.find((item) => item.id === id)
