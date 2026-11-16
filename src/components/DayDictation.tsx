@@ -205,6 +205,7 @@ export function DayDictation() {
         fixed_task_id: null,
         step: null,
         badge: null,
+        note: null,
         sort: timeSort(item.time, 0),
       })))
       ui.setAudio(false)

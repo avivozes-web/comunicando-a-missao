@@ -1,12 +1,20 @@
 export type Account = 'escola' | 'missao'
 export type Filter = 'todas' | Account
-export type PostStatus = 'ideia' | 'roteiro' | 'gravado' | 'editado' | 'arte_pronta' | 'aprovado' | 'postado'
+export type PostStatus = 'ideia' | 'roteiro' | 'gravado' | 'editado' | 'arte_pronta' | 'aprovado' | 'pronto' | 'postado'
 export type PostFormat = 'reel' | 'carrossel' | 'stories' | 'post_leve' | 'video'
 export type IdeaStatus = 'ideia' | 'aprovada' | 'rejeitada' | 'publicada'
 export type TaskKind = 'fixed' | 'adhoc' | 'generated'
 export type TaskStep = 'gravar' | 'editar' | 'aprovar' | 'postar'
 
 export type CheckItem = { label: string; done: boolean }
+export type ReadyChecks = {
+  tamanho?: boolean
+  legenda?: boolean
+  conta?: boolean
+  sem_hashtag?: boolean
+  pix?: boolean
+}
+export type CommentKind = 'ajuste' | 'resposta' | 'nota'
 
 export type Post = {
   id: string
@@ -18,6 +26,8 @@ export type Post = {
   scheduled_time: string | null
   aspect: string | null
   legenda: string | null
+  legenda_whatsapp: string | null
+  ready_checks: ReadyChecks
   cover_url: string | null
   drive_url: string | null
   checklist: CheckItem[]
@@ -64,7 +74,29 @@ export type Task = {
   fixed_task_id: string | null
   step: TaskStep | null
   badge: string | null
+  note: string | null
   sort: number
+}
+
+export type PostComment = {
+  id: string
+  post_id: string | null
+  idea_id: string | null
+  body: string
+  author: string
+  kind: CommentKind
+  created_at?: string | null
+}
+
+export type ReportAction = {
+  id: string
+  account: Account
+  report_id: string | null
+  body: string
+  basis: string | null
+  action_date: string
+  sort: number
+  task_id: string | null
 }
 
 export type YearMonth = {
@@ -201,6 +233,8 @@ export type Bundle = {
   goal_days: GoalDay[]
   goal_config: GoalConfig | null
   link_taps: LinkTap[]
+  comments: PostComment[]
+  report_actions: ReportAction[]
 }
 
 export type Assignees = Record<TaskStep, string>
@@ -220,6 +254,8 @@ export const EMPTY_BUNDLE: Bundle = {
   goal_days: [],
   goal_config: null,
   link_taps: [],
+  comments: [],
+  report_actions: [],
 }
 
 export const ACCOUNTS: { id: Account; name: string; handle: string }[] = [
@@ -234,6 +270,7 @@ export const STATUSES: { id: PostStatus; label: string; cls: string }[] = [
   { id: 'editado', label: 'Editado', cls: 's-editado' },
   { id: 'arte_pronta', label: 'Arte pronta', cls: 's-arte' },
   { id: 'aprovado', label: 'Aprovado', cls: 's-aprovado' },
+  { id: 'pronto', label: 'Pronto para postar', cls: 's-pronto' },
   { id: 'postado', label: 'Postado', cls: 's-postado' },
 ]
 

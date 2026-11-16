@@ -70,6 +70,7 @@ h1{font-size:30px;font-weight:800;color:var(--navy);letter-spacing:-.035em}
 .s-editado{background:#E3F6F5;color:#0E8A82}
 .s-arte{background:#FDEBF3;color:#C02674}
 .s-aprovado{background:#E7F7EC;color:#15803D}
+.s-pronto{background:#E7F7EC;color:#15803D}
 .s-aprovada{background:#E7F7EC;color:#15803D}
 .s-postado{background:var(--deep);color:#fff}
 .s-publicada{background:var(--deep);color:#fff}

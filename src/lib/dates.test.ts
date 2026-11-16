@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
-import { addDays, asDate, startOfWeek, todayISO } from './dates.ts'
+import { addDays, asDate, startOfWeek, todayISO, weekTitle } from './dates.ts'
 
 test('a data escolhida não vira o dia anterior em São Paulo', () => {
   assert.equal(asDate('2026-11-18'), '2026-11-18')
@@ -10,6 +10,11 @@ test('a data escolhida não vira o dia anterior em São Paulo', () => {
   const days = [0, 1, 2, 3, 4, 5, 6].map((index) => addDays(monday, index))
   assert.equal(days[2], '2026-11-18')
   assert.equal(days.includes(asDate('2026-11-18T00:00:00.000Z')), true)
+})
+
+test('título da semana atual e da que cruza o mês', () => {
+  assert.equal(weekTitle('2026-11-16'), 'Semana 16–22/11')
+  assert.equal(weekTitle('2026-11-30'), 'Semana 30/11–6/12')
 })
 
 test('hoje segue o calendário de São Paulo, não o de UTC', () => {

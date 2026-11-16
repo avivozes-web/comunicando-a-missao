@@ -84,6 +84,16 @@ export function dm(iso: string): string {
   return `${date.getUTCDate()}/${date.getUTCMonth() + 1}`
 }
 
+export function weekTitle(monday: string): string {
+  const sunday = addDays(monday, 6)
+  const a = dayNumber(monday)
+  const b = dayNumber(sunday)
+  const ma = Number(monday.slice(5, 7))
+  const mb = Number(sunday.slice(5, 7))
+  if (ma === mb) return `Semana ${a}–${b}/${mb}`
+  return `Semana ${a}/${ma}–${b}/${mb}`
+}
+
 export function weekLabel(monday: string): string {
   const sunday = addDays(monday, 6)
   const a = parseISO(monday).getUTCDate()

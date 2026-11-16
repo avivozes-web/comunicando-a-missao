@@ -50,6 +50,8 @@ function PostEditor() {
   const [time, setTime] = useState('')
   const [aspect, setAspect] = useState('')
   const [legenda, setLegenda] = useState('')
+  const [whatsapp, setWhatsapp] = useState('')
+  const [readyChecks, setReadyChecks] = useState<Post['ready_checks']>({})
   const [drive, setDrive] = useState('')
   const [note, setNote] = useState('')
   const [dateTag, setDateTag] = useState('')
@@ -72,6 +74,8 @@ function PostEditor() {
       setTime(editing.scheduled_time?.slice(0, 5) || '')
       setAspect(editing.aspect || '')
       setLegenda(editing.legenda || '')
+      setWhatsapp(editing.legenda_whatsapp || '')
+      setReadyChecks(editing.ready_checks || {})
       setDrive(editing.drive_url || '')
       setNote(editing.note || '')
       setDateTag(editing.date_tag || '')
@@ -87,6 +91,8 @@ function PostEditor() {
       setTime('')
       setAspect('')
       setLegenda('')
+      setWhatsapp('')
+      setReadyChecks({})
       setDrive('')
       setNote('')
       setDateTag('')
@@ -109,6 +115,8 @@ function PostEditor() {
       scheduled_time: time || null,
       aspect: aspect.trim() || null,
       legenda: legenda.trim() || null,
+      legenda_whatsapp: whatsapp.trim() || null,
+      ready_checks: readyChecks,
       cover_url: coverUrl,
       drive_url: drive.trim() || null,
       checklist: checks,
@@ -226,8 +234,12 @@ function PostEditor() {
           )}
           {(editing || step === 5) && (
             <div className="stack">
-              <label className="field">Legenda
+              <label className="field">Legenda do Instagram
                 <textarea className="inp" value={legenda} onChange={(event) => setLegenda(event.target.value)} placeholder="Texto que vai no Instagram" />
+              </label>
+              <p className="src">{legenda.length} caracteres</p>
+              <label className="field">Legenda do WhatsApp
+                <textarea className="inp" value={whatsapp} onChange={(event) => setWhatsapp(event.target.value)} placeholder="Texto para copiar e colar no WhatsApp" />
               </label>
               <label className="field">Link do Drive
                 <input className="inp" value={drive} onChange={(event) => setDrive(event.target.value)} placeholder="https://drive.google.com/..." />
@@ -409,6 +421,7 @@ function TaskEditor() {
       fixed_task_id: null,
       step: null,
       badge: null,
+      note: null,
       sort: 60,
     })
   }, [open, editing, ui.taskDate])

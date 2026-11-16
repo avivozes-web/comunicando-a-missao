@@ -13,11 +13,13 @@ create table public.posts (
   account text not null check (account in ('escola', 'missao')),
   title text not null,
   format text not null check (format in ('reel', 'carrossel', 'stories', 'post_leve', 'video')),
-  status text not null default 'ideia' check (status in ('ideia', 'roteiro', 'gravado', 'editado', 'arte_pronta', 'aprovado', 'postado')),
+  status text not null default 'ideia' check (status in ('ideia', 'roteiro', 'gravado', 'editado', 'arte_pronta', 'aprovado', 'pronto', 'postado')),
   scheduled_date date not null,
   scheduled_time time,
   aspect text,
   legenda text,
+  legenda_whatsapp text,
+  ready_checks jsonb not null default '{}'::jsonb,
   cover_url text,
   drive_url text,
   checklist jsonb not null default '[]'::jsonb,
@@ -68,6 +70,7 @@ create table public.tasks (
   fixed_task_id uuid references public.fixed_tasks (id) on delete cascade,
   step text check (step in ('gravar', 'editar', 'aprovar', 'postar')),
   badge text,
+  note text,
   sort int not null default 0,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
@@ -236,8 +239,8 @@ returns boolean
 language sql
 immutable
 as $$
-  select coalesce(array_position(array['ideia','roteiro','gravado','editado','arte_pronta','aprovado','postado'], st), 0)
-       >= coalesce(array_position(array['ideia','roteiro','gravado','editado','arte_pronta','aprovado','postado'], need), 99);
+  select coalesce(array_position(array['ideia','roteiro','gravado','editado','arte_pronta','aprovado','pronto','postado'], st), 0)
+       >= coalesce(array_position(array['ideia','roteiro','gravado','editado','arte_pronta','aprovado','pronto','postado'], need), 99);
 $$;
 
 create or replace function public.post_is_placeholder(title text)
@@ -332,6 +335,81 @@ $$;
 grant execute on function public.materialize_fixed_tasks(date, date) to authenticated;
 grant execute on function public.rollover_tasks(date) to authenticated;
 
+create table public.post_comments (
+  id uuid primary key default gen_random_uuid(),
+  post_id uuid references public.posts (id) on delete cascade,
+  idea_id uuid references public.ideas (id) on delete cascade,
+  body text not null,
+  author text not null default '',
+  kind text not null default 'ajuste' check (kind in ('ajuste', 'resposta', 'nota')),
+  created_at timestamptz not null default now(),
+  constraint post_comments_target_chk check (post_id is not null or idea_id is not null)
+);
+
+create index post_comments_post_idx on public.post_comments (post_id, created_at);
+create index post_comments_idea_idx on public.post_comments (idea_id, created_at);
+
+create table public.report_actions (
+  id uuid primary key default gen_random_uuid(),
+  account text not null check (account in ('escola', 'missao')),
+  report_id uuid references public.reports (id) on delete set null,
+  body text not null,
+  basis text,
+  action_date date not null,
+  sort int not null default 0,
+  task_id uuid references public.tasks (id) on delete set null,
+  created_at timestamptz not null default now()
+);
+
+create index report_actions_account_idx on public.report_actions (account, action_date);
+
+create unique index tasks_stories_from_post_uidx
+  on public.tasks (post_id)
+  where post_id is not null and title like 'Stories: %';
+
+create or replace function public.ensure_stories_task()
+returns trigger
+language plpgsql
+as $$
+begin
+  if new.format not in ('reel', 'carrossel', 'video') or public.post_is_placeholder(new.title) then
+    return new;
+  end if;
+  if new.status <> 'aprovado' then
+    return new;
+  end if;
+
+  update public.tasks
+  set title = 'Stories: ' || new.title,
+      due_date = case when rolled_from is null then new.scheduled_date else due_date end,
+      origin_date = coalesce(origin_date, new.scheduled_date)
+  where post_id = new.id
+    and title like 'Stories: %';
+
+  if not found then
+    insert into public.tasks (title, assignee, account, due_date, done, kind, post_id, origin_date, note, sort)
+    values (
+      'Stories: ' || new.title,
+      'Lídia + Isabelle',
+      'escola',
+      new.scheduled_date,
+      false,
+      'adhoc',
+      new.id,
+      new.scheduled_date,
+      'puxar para a matrícula 2027',
+      55
+    );
+  end if;
+  return new;
+end;
+$$;
+
+create trigger posts_stories_task
+  after insert or update of status, title, scheduled_date, format
+  on public.posts
+  for each row execute function public.ensure_stories_task();
+
 -- ---------------------------------------------------------------------------
 -- RLS: only signed-in users. The service role bypasses these policies.
 -- ---------------------------------------------------------------------------
@@ -346,7 +424,7 @@ begin
   foreach t in array array[
     'posts', 'ideas', 'tasks', 'fixed_tasks', 'year_months', 'year_dates',
     'narrative', 'reports', 'follower_snapshots', 'followers', 'follower_events',
-    'goal_days', 'goal_config', 'link_taps'
+    'goal_days', 'goal_config', 'link_taps', 'post_comments', 'report_actions'
   ]
   loop
     execute format('alter table public.%I enable row level security', t);

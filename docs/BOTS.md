@@ -136,18 +136,113 @@ python scripts/upsert_metrics.py report \
   --start 2026-11-03 --end 2026-11-09
 ```
 
-## O que a equipe edita no app (o bot pode ler, não precisa escrever)
+## O que o bot grava na central
 
-`posts`, `ideas`, `tasks`, `fixed_tasks`, `year_months`, `year_dates`, `narrative`.
+Datas são `YYYY-MM-DD` no calendário de São Paulo. Não mande horário: `2026-11-18T00:00:00Z` não deve ser usado no lugar de `2026-11-18`.
 
-Se o bot criar um post, o gatilho `sync_post_tasks` gera quatro tarefas (`gravar` −3 dias, `editar` −2, `aprovar` −1, `postar` no dia), com responsáveis Isabelle, Bezalel, Lídia + Isabelle e Lídia. Título com "a definir", "tema a definir", "nenhum marcado" ou "sem tema" não gera tarefa.
+Upsert: `POST /rest/v1/<tabela>?on_conflict=id` com `Prefer: resolution=merge-duplicates,return=minimal`. Mande o `id` (uuid) quando for atualizar a mesma linha. Sem `id`, o banco cria um.
 
-Colunas de `posts` que a tela usa: `account`, `title`, `format` (`reel`, `carrossel`, `stories`, `post_leve`, `video`), `status` (`ideia`, `roteiro`, `gravado`, `editado`, `arte_pronta`, `aprovado`, `postado`), `scheduled_date`, `scheduled_time`, `aspect`, `legenda`, `cover_url`, `drive_url`, `checklist` (lista de `{label, done}`), `note`, `date_tag`, `updated_by`.
+### `ideas`
+
+| coluna | valores |
+| --- | --- |
+| `id` | uuid. Obrigatório no upsert para não duplicar |
+| `account` | `escola` ou `missao` |
+| `title` | texto |
+| `body` | texto. Pode ser vazio |
+| `format` | texto livre. A tela conhece `reel`, `carrossel`, `stories`, `post_leve`, `video` |
+| `tags` | lista de textos, por exemplo `{FIMC}` |
+| `status` | `ideia`, `aprovada`, `rejeitada` ou `publicada`. `ideia` entra na fila "Esperando você" |
+| `suggested_date` | `YYYY-MM-DD` ou null |
+| `heart` | true ou false |
+| `updated_by` | nome de quem gravou, ou null |
+
+`created_at` e `updated_at` o banco preenche.
+
+### `posts`
+
+| coluna | valores |
+| --- | --- |
+| `id` | uuid |
+| `account` | `escola` ou `missao` |
+| `title` | texto. Com "a definir", "tema a definir", "nenhum marcado" ou "sem tema" não gera tarefa |
+| `format` | `reel`, `carrossel`, `stories`, `post_leve` ou `video` |
+| `status` | `ideia`, `roteiro`, `gravado`, `editado`, `arte_pronta`, `aprovado`, `pronto` ou `postado` |
+| `scheduled_date` | `YYYY-MM-DD`. É o dia em que o post aparece na grade |
+| `scheduled_time` | `HH:MM` ou null |
+| `aspect` | texto ou null, por exemplo `4:5` |
+| `legenda` | legenda do Instagram, ou null |
+| `legenda_whatsapp` | legenda do WhatsApp, ou null |
+| `cover_url` | URL pública da capa, ou null |
+| `drive_url` | link do Drive para baixar a arte ou o vídeo, ou null |
+| `checklist` | lista de `{ "label", "done" }` |
+| `ready_checks` | objeto `{ "tamanho", "legenda", "conta", "sem_hashtag", "pix" }` com true/false. A tela marca. O bot não precisa preencher |
+| `note`, `date_tag`, `updated_by` | texto ou null |
+
+`arte_pronta` entra na fila "Esperando você". `aprovado`, `pronto` e `postado` entram na Biblioteca. `postado` é "já usei"; os outros dois são "ainda não usei".
+
+Quando `status` passa a `aprovado` e o formato é `reel`, `carrossel` ou `video`, o gatilho `ensure_stories_task` cria a tarefa `Stories: <título>` na conta `escola`, com a nota `puxar para a matrícula 2027`, no mesmo dia do post. Não crie essa tarefa de novo.
+
+O gatilho `sync_post_tasks` cria `gravar` (−3 dias), `editar` (−2), `aprovar` (−1) e `postar` (no dia). Responsáveis: Isabelle, Bezalel, Lídia + Isabelle e Lídia.
 
 Capa: bucket `capas`, caminho livre, leitura pública. `cover_url` guarda a URL pública.
+
+### `tasks`
+
+Tarefa avulsa do bot usa `kind = adhoc`. Não use `generated`: isso é das quatro tarefas do post.
+
+| coluna | valores |
+| --- | --- |
+| `id` | uuid |
+| `title` | texto |
+| `assignee` | texto. Pode ser vazio |
+| `account` | `escola`, `missao` ou null (as duas) |
+| `due_date` | `YYYY-MM-DD`. Dia em que a tarefa aparece |
+| `done` | true ou false. Feita continua na lista, riscada |
+| `kind` | `adhoc` para o bot. `fixed` é a rotina. `generated` é do post |
+| `origin_date` | na tarefa nova, igual a `due_date` |
+| `rolled_from` | null, a menos que a tarefa tenha passado de outro dia |
+| `post_id`, `fixed_task_id`, `step` | null na tarefa avulsa. `step` só pode ser `gravar`, `editar`, `aprovar` ou `postar` |
+| `badge` | `eventual` ou null |
+| `note` | texto curto ou null |
+| `sort` | inteiro. Menor número fica primeiro na ordem por prioridade |
+
+### `report_actions`
+
+Ações da aba Análises. Não invente linha se a coleta não trouxe a ação. A tela mostra no máximo 3 da conta, do relatório ou do período.
+
+| coluna | valores |
+| --- | --- |
+| `id` | uuid |
+| `account` | `escola` ou `missao` |
+| `report_id` | uuid de `reports`, ou null |
+| `body` | o texto da ação |
+| `basis` | em que dado do relatório a ação se baseia, ou null |
+| `action_date` | `YYYY-MM-DD`. Vira a data da tarefa |
+| `sort` | 0, 1, 2 para a ordem |
+| `task_id` | null até alguém apertar "Virar tarefa" |
+
+Conflito: `id`.
+
+### `post_comments`
+
+Recados no cartão. A Isabelle grava `ajuste`. O bot grava a resposta com `kind = resposta`.
+
+| coluna | valores |
+| --- | --- |
+| `id` | uuid |
+| `post_id` | uuid do post, ou null se o recado for de uma ideia |
+| `idea_id` | uuid da ideia, ou null se o recado for de um post |
+| `body` | texto |
+| `author` | nome de quem escreveu |
+| `kind` | `ajuste`, `resposta` ou `nota` |
+
+Um dos dois, `post_id` ou `idea_id`, tem de vir preenchido. Não apague o histórico: cada resposta é uma linha nova.
 
 ## Rotina
 
 `select rollover_tasks('YYYY-MM-DD')` empurra tarefa avulsa ou gerada que ficou aberta para essa data.
 
 `select materialize_fixed_tasks('YYYY-MM-DD', 'YYYY-MM-DD')` cria a rotina da semana a partir de `fixed_tasks`. O app chama as duas ao abrir.
+
+`fixed_tasks`, `year_months`, `year_dates` e `narrative` continuam da equipe. O bot pode ler.

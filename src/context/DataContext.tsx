@@ -2,7 +2,7 @@ import { createContext, useContext, useEffect, useState, type ReactNode } from '
 import * as api from '@/lib/api'
 import { addDays, isoWeekday, todayISO } from '@/lib/dates'
 import { syncGeneratedTasks } from '@/lib/logic'
-import type { Assignees, Bundle, GoalConfig, Idea, Post, Task, YearDate, YearMonth } from '@/lib/types'
+import type { Assignees, Bundle, GoalConfig, Idea, Post, PostComment, Task, YearDate, YearMonth } from '@/lib/types'
 import { PREVIEW, uid } from '@/lib/utils'
 
 type DataValue = {
@@ -18,6 +18,8 @@ type DataValue = {
   setIdeaStatus: (id: string, status: Idea['status']) => Promise<void>
   toggleHeart: (id: string) => Promise<void>
   saveTask: (task: Task) => Promise<void>
+  saveComment: (comment: PostComment) => Promise<void>
+  linkReportAction: (id: string, taskId: string) => Promise<void>
   saveTasks: (tasks: Task[]) => Promise<void>
   toggleTask: (id: string) => Promise<void>
   removeTask: (id: string) => Promise<void>
@@ -57,6 +59,7 @@ function maintain(bundle: Bundle, today: string) {
         fixed_task_id: fixed.id,
         step: null,
         badge: null,
+        note: null,
         sort: fixed.sort,
       })
     }
@@ -229,6 +232,20 @@ export function DataProvider({ children }: { children: ReactNode }) {
       }
       await api.saveTask(task)
     }),
+    saveComment: (comment) => run(async (current) => {
+      if (PREVIEW) {
+        current.comments = [...(current.comments || []), comment]
+        return current
+      }
+      await api.saveComment(comment)
+    }),
+    linkReportAction: (id, taskId) => run(async (current) => {
+      if (PREVIEW) {
+        current.report_actions = (current.report_actions || []).map((row) => row.id === id ? { ...row, task_id: taskId } : row)
+        return current
+      }
+      await api.linkReportAction(id, taskId)
+    }),
     saveTasks: (tasks) => run(async (current) => {
       if (PREVIEW) {
         for (const task of tasks) {
@@ -309,6 +326,8 @@ async function loadPreview(): Promise<Bundle> {
   const response = await fetch(`${import.meta.env.BASE_URL}preview-data.json`)
   if (!response.ok) throw new Error('Pré-visualização sem dados.')
   const bundle = (await response.json()) as Bundle
+  bundle.comments = bundle.comments || []
+  bundle.report_actions = bundle.report_actions || []
   maintain(bundle, todayISO())
   return bundle
 }

@@ -3,10 +3,11 @@ import { Cell, Pie, PieChart, PolarAngleAxis, PolarGrid, Radar, RadarChart } fro
 import { Icon } from '@/components/Icon'
 import { useData } from '@/context/DataContext'
 import { useUi } from '@/context/UiContext'
-import { dm } from '@/lib/dates'
+import { asDate, dm, todayISO } from '@/lib/dates'
 import { fmt, pct, signed } from '@/lib/format'
 import { stripHtml } from '@/lib/utils'
-import type { Account, FollowerEvent, Report } from '@/lib/types'
+import type { Account, FollowerEvent, Report, ReportAction, Task } from '@/lib/types'
+import { uid } from '@/lib/utils'
 
 type Obj = Record<string, unknown>
 
@@ -50,6 +51,7 @@ export function Analises() {
           <label>Até <input type="date" value={to} onChange={(event) => { setTo(event.target.value); setPicked(null) }} /></label>
         </div>
       )}
+      <WeekActions account={account} report={selected} />
       <p className="src" style={{ margin: '-8px 0 14px' }}>
         {selected?.payload
           ? `Fonte: ${selected.subtitle || selected.title}${previous ? `, comparado com ${previous.title}` : ''}.`
@@ -79,6 +81,62 @@ export function Analises() {
       </div>
     </>
   )
+}
+
+function WeekActions({ account, report }: { account: Account; report: Report | null }) {
+  const data = useData()
+  const ui = useUi()
+  const rows = (data.bundle.report_actions || []).filter((row) => row.account === account)
+  const pool = report
+    ? rows.filter((row) => row.report_id === report.id || (asDate(row.action_date) >= report.period_start && asDate(row.action_date) <= report.period_end))
+    : []
+  const shown = unique(pool).sort((a, b) => a.sort - b.sort || a.action_date.localeCompare(b.action_date)).slice(0, 3)
+
+  async function turn(action: ReportAction) {
+    const due = asDate(action.action_date) || todayISO()
+    const task: Task = {
+      id: uid(),
+      title: action.body,
+      assignee: 'Isabelle',
+      account: action.account,
+      due_date: due,
+      done: false,
+      kind: 'adhoc',
+      rolled_from: null,
+      origin_date: due,
+      post_id: null,
+      fixed_task_id: null,
+      step: null,
+      badge: 'eventual',
+      note: action.basis,
+      sort: 60,
+    }
+    await data.saveTask(task)
+    await data.linkReportAction(action.id, task.id)
+    ui.toast('Tarefa criada.')
+  }
+
+  return (
+    <section className="card secbox">
+      <h3>Ações da semana</h3>
+      <p className="src">Até 3 ações gravadas pelo relatório. O botão cria a tarefa no dia indicado.</p>
+      {shown.length === 0 && <div className="empty">Nenhuma ação gravada para este relatório.</div>}
+      {shown.map((action) => (
+        <div className="queue-item" key={action.id}>
+          <div className="tx">
+            <h3>{action.body}</h3>
+            <p className="src">{action.basis || 'Sem base no relatório.'} · {dm(asDate(action.action_date) || action.action_date)}</p>
+          </div>
+          {action.task_id ? <span className="chip c-gray">Já é tarefa</span> : <button type="button" className="btn pri" onClick={() => void turn(action)}>Virar tarefa</button>}
+        </div>
+      ))}
+    </section>
+  )
+}
+
+function unique(rows: ReportAction[]): ReportAction[] {
+  const seen = new Set<string>()
+  return rows.filter((row) => seen.has(row.id) ? false : (seen.add(row.id), true))
 }
 
 function uiToast() {

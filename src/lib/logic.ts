@@ -2,7 +2,7 @@ import { addDays, daysBetween, dm, isoWeekday, weekdayShort } from './dates'
 import type { Account, Assignees, CheckItem, Filter, Post, PostStatus, Task, TaskStep } from './types'
 import { DEFAULT_ASSIGNEES } from './types'
 
-const RANK: PostStatus[] = ['ideia', 'roteiro', 'gravado', 'editado', 'arte_pronta', 'aprovado', 'postado']
+const RANK: PostStatus[] = ['ideia', 'roteiro', 'gravado', 'editado', 'arte_pronta', 'aprovado', 'pronto', 'postado']
 
 const STEP_NEED: Record<TaskStep, PostStatus> = {
   gravar: 'gravado',
@@ -110,6 +110,7 @@ export function syncGeneratedTasks(tasks: Task[], post: Post, assignees: Assigne
       fixed_task_id: null,
       step,
       badge: prev?.badge || null,
+      note: prev?.note || null,
       sort: 80 + ['gravar', 'editar', 'aprovar', 'postar'].indexOf(step),
     })
   })

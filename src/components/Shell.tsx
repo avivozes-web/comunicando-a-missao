@@ -13,7 +13,6 @@ import { Tarefas } from '@/pages/Tarefas'
 import { Semana } from '@/pages/Semana'
 import { Ano } from '@/pages/Ano'
 import { Ideias } from '@/pages/Ideias'
-import { Narrativa } from '@/pages/Narrativa'
 import { Biblioteca } from '@/pages/Biblioteca'
 import { Analises } from '@/pages/Analises'
 import { Seguidores } from '@/pages/Seguidores'
@@ -27,15 +26,12 @@ const NAV = [
       { to: '/semana', label: 'Semana', icon: 'calx' },
       { to: '/ano', label: 'Ano 2027', icon: 'grid' },
       { to: '/ideias', label: 'Banco de Ideias', icon: 'bulb' },
-      { to: '/narrativa', label: 'Nossa narrativa', icon: 'book' },
     ],
   },
   {
-    sec: 'Bibliotecas',
+    sec: 'Biblioteca',
     items: [
-      { to: '/reels', label: 'Reels', icon: 'reel' },
-      { to: '/carrosseis', label: 'Carrosséis', icon: 'carousel' },
-      { to: '/stories', label: 'Stories', icon: 'story' },
+      { to: '/biblioteca', label: 'Biblioteca', icon: 'reel' },
     ],
   },
   {
@@ -54,10 +50,7 @@ const TITLES: Record<string, string> = {
   '/semana': 'Semana',
   '/ano': 'Ano 2027',
   '/ideias': 'Ideias',
-  '/narrativa': 'Narrativa',
-  '/reels': 'Reels',
-  '/carrosseis': 'Carrosséis',
-  '/stories': 'Stories',
+  '/biblioteca': 'Biblioteca',
   '/analises': 'Análises',
   '/seguidores': 'Seguidores',
   '/mil': 'Rumo aos Mil',
@@ -147,10 +140,11 @@ export function Shell() {
             <Route path="/semana" element={<Semana />} />
             <Route path="/ano" element={<Ano />} />
             <Route path="/ideias" element={<Ideias />} />
-            <Route path="/narrativa" element={<Narrativa />} />
-            <Route path="/reels" element={<Biblioteca format="reel" title="Reels" />} />
-            <Route path="/carrosseis" element={<Biblioteca format="carrossel" title="Carrosséis" />} />
-            <Route path="/stories" element={<Biblioteca format="stories" title="Stories" />} />
+            <Route path="/narrativa" element={<Navigate to="/tarefas" replace />} />
+            <Route path="/biblioteca" element={<Biblioteca />} />
+            <Route path="/reels" element={<Navigate to="/biblioteca" replace />} />
+            <Route path="/carrosseis" element={<Navigate to="/biblioteca" replace />} />
+            <Route path="/stories" element={<Navigate to="/biblioteca" replace />} />
             <Route path="/analises" element={<Analises />} />
             <Route path="/seguidores" element={<Seguidores />} />
             <Route path="/mil" element={<Mil />} />

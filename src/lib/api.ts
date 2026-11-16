@@ -1,13 +1,13 @@
 import { addDays, asDate, todayISO } from './dates'
 import { supabase } from './supabase'
-import type { Assignees, Bundle, GoalConfig, Idea, Narrative, Post, Task, YearDate, YearMonth } from './types'
+import type { Assignees, Bundle, GoalConfig, Idea, Narrative, Post, PostComment, ReportAction, Task, YearDate, YearMonth } from './types'
 import { EMPTY_BUNDLE } from './types'
 
 function asBundle(rows: Record<string, unknown[]>): Bundle {
   const goal = (rows.goal_config?.[0] || null) as GoalConfig | null
   const narrative = (rows.narrative?.[0] || { body: '', updated_by: null }) as Narrative
   return {
-    posts: (rows.posts || []) as Post[],
+    posts: ((rows.posts || []) as Post[]).map(normalizePost),
     ideas: (rows.ideas || []) as Idea[],
     fixed_tasks: (rows.fixed_tasks || []) as Bundle['fixed_tasks'],
     tasks: ((rows.tasks || []) as Task[]).map(normalizeTask),
@@ -21,6 +21,11 @@ function asBundle(rows: Record<string, unknown[]>): Bundle {
     goal_days: (rows.goal_days || []) as Bundle['goal_days'],
     goal_config: goal,
     link_taps: (rows.link_taps || []) as Bundle['link_taps'],
+    comments: (rows.post_comments || []) as PostComment[],
+    report_actions: ((rows.report_actions || []) as ReportAction[]).map((row) => ({
+      ...row,
+      action_date: asDate(row.action_date),
+    })),
   }
 }
 
@@ -49,6 +54,7 @@ export async function loadBundle(): Promise<Bundle> {
   const [
     posts, ideas, fixed_tasks, tasks, year_months, year_dates, narrative,
     reports, snapshots, followers, events, goal_days, goal_config, link_taps,
+    post_comments, report_actions,
   ] = await Promise.all([
     table('posts', 'scheduled_date'),
     table('ideas', 'updated_at'),
@@ -64,10 +70,13 @@ export async function loadBundle(): Promise<Bundle> {
     table('goal_days', 'day'),
     table('goal_config'),
     table('link_taps', 'day'),
+    table('post_comments', 'created_at'),
+    table('report_actions', 'action_date'),
   ])
   return asBundle({
     posts, ideas, fixed_tasks, tasks, year_months, year_dates, narrative,
     reports, snapshots, followers, events, goal_days, goal_config, link_taps,
+    post_comments, report_actions,
   })
 }
 
@@ -113,12 +122,22 @@ export async function removeIdea(id: string): Promise<void> {
   if (error) throw new Error(error.message)
 }
 
+function normalizePost(post: Post): Post {
+  return {
+    ...post,
+    scheduled_date: asDate(post.scheduled_date),
+    legenda_whatsapp: post.legenda_whatsapp ?? null,
+    ready_checks: post.ready_checks || {},
+  }
+}
+
 function normalizeTask(task: Task): Task {
   return {
     ...task,
     due_date: asDate(task.due_date),
     origin_date: task.origin_date ? asDate(task.origin_date) : null,
     rolled_from: task.rolled_from ? asDate(task.rolled_from) : null,
+    note: task.note ?? null,
   }
 }
 
@@ -126,6 +145,23 @@ export async function saveTask(task: Task): Promise<void> {
   const row = normalizeTask(task)
   if (!row.due_date) throw new Error('A tarefa precisa de uma data.')
   const { error } = await supabase.from('tasks').upsert(row)
+  if (error) throw new Error(error.message)
+}
+
+export async function saveComment(comment: PostComment): Promise<void> {
+  const { error } = await supabase.from('post_comments').insert({
+    id: comment.id,
+    post_id: comment.post_id,
+    idea_id: comment.idea_id,
+    body: comment.body,
+    author: comment.author,
+    kind: comment.kind,
+  })
+  if (error) throw new Error(error.message)
+}
+
+export async function linkReportAction(id: string, taskId: string): Promise<void> {
+  const { error } = await supabase.from('report_actions').update({ task_id: taskId }).eq('id', id)
   if (error) throw new Error(error.message)
 }
 
