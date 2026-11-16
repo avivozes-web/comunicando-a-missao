@@ -1,4 +1,4 @@
-import { NavLink, Route, Routes, useLocation } from 'react-router-dom'
+import { NavLink, Navigate, Route, Routes, useLocation } from 'react-router-dom'
 import { useState } from 'react'
 import { Logos } from './Logos'
 import { Icon } from './Icon'
@@ -9,7 +9,6 @@ import { useUi } from '@/context/UiContext'
 import { todayISO } from '@/lib/dates'
 import { postAlert } from '@/lib/logic'
 import { ACCOUNTS, type Filter } from '@/lib/types'
-import { Hoje } from '@/pages/Hoje'
 import { Tarefas } from '@/pages/Tarefas'
 import { Semana } from '@/pages/Semana'
 import { Ano } from '@/pages/Ano'
@@ -24,7 +23,6 @@ const NAV = [
   {
     sec: 'Planejar',
     items: [
-      { to: '/hoje', label: 'Hoje', icon: 'sun' },
       { to: '/tarefas', label: 'Tarefas', icon: 'list' },
       { to: '/semana', label: 'Semana', icon: 'calx' },
       { to: '/ano', label: 'Ano 2027', icon: 'grid' },
@@ -51,7 +49,7 @@ const NAV = [
 ]
 
 const TITLES: Record<string, string> = {
-  '/hoje': 'Hoje',
+  '/': 'Tarefas',
   '/tarefas': 'Tarefas',
   '/semana': 'Semana',
   '/ano': 'Ano 2027',
@@ -71,7 +69,7 @@ export function Shell() {
   const ui = useUi()
   const location = useLocation()
   const [bell, setBell] = useState(false)
-  const title = TITLES[location.pathname] || 'Hoje'
+  const title = TITLES[location.pathname] || 'Tarefas'
   const today = todayISO()
   const alerts = data.bundle.posts.filter((post) => postAlert(post, today))
 
@@ -143,8 +141,8 @@ export function Shell() {
         {data.error && <p className="err">{data.error}</p>}
         {!data.loading && (
           <Routes>
-            <Route path="/" element={<Hoje />} />
-            <Route path="/hoje" element={<Hoje />} />
+            <Route path="/" element={<Navigate to="/tarefas" replace />} />
+            <Route path="/hoje" element={<Navigate to="/tarefas" replace />} />
             <Route path="/tarefas" element={<Tarefas />} />
             <Route path="/semana" element={<Semana />} />
             <Route path="/ano" element={<Ano />} />
@@ -160,7 +158,6 @@ export function Shell() {
         )}
       </main>
       <nav className="mobile-tab only-mobile">
-        <NavLink to="/hoje" className={({ isActive }) => (isActive ? 'on' : '')}><Icon name="sun" /><span>Hoje</span></NavLink>
         <NavLink to="/tarefas" className={({ isActive }) => (isActive ? 'on' : '')}><Icon name="list" /><span>Tarefas</span></NavLink>
         <button type="button" className="fab" onClick={() => ui.openPost(null)} aria-label="Novo conteúdo"><Icon name="plus" /></button>
         <NavLink to="/semana" className={({ isActive }) => (isActive ? 'on' : '')}><Icon name="calx" /><span>Semana</span></NavLink>

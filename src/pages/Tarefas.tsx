@@ -1,28 +1,71 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { AccountChip } from '@/components/Bits'
 import { Icon } from '@/components/Icon'
 import { useData } from '@/context/DataContext'
 import { useUi } from '@/context/UiContext'
-import { addDays, dayNumber, isoWeekday, startOfWeek, weekdayShort } from '@/lib/dates'
+import { addDays, asDate, dayNumber, isoWeekday, longDate, startOfWeek, weekdayShort, weekLabel } from '@/lib/dates'
 import { todayISO } from '@/lib/dates'
-import { matchesAccount, showTask, taskBadge } from '@/lib/logic'
-import type { Task } from '@/lib/types'
+import { matchesAccount, resumoDoDia, taskBadge } from '@/lib/logic'
+import type { Post, Task } from '@/lib/types'
 
 export function Tarefas() {
   const data = useData()
   const ui = useUi()
+  const navigate = useNavigate()
   const today = todayISO()
-  const [offset, setOffset] = useState(1)
+  const [offset, setOffset] = useState(0)
   const monday = addDays(startOfWeek(today), offset * 7)
   const days = [0, 1, 2, 3, 4, 5, 6].map((index) => addDays(monday, index))
-  const tasks = data.bundle.tasks.filter((task) => matchesAccount(task.account, ui.filter) && showTask(task))
-  const todayTasks = tasks.filter((task) => task.due_date === today).sort(bySort)
+  const posts = data.bundle.posts.filter((post) => matchesAccount(post.account, ui.filter))
+  const tasks = data.bundle.tasks.filter((task) => matchesAccount(task.account, ui.filter))
+  const summary = resumoDoDia(tasks, posts, today)
+  const todayTasks = tasks.filter((task) => asDate(task.due_date) === today).sort(bySort)
+  const weekName = offset === 0 ? 'Esta semana' : offset === 1 ? 'Semana que vem' : 'Semana'
   const ghost = todayTasks.length > 0 && todayTasks.length < 3 && isoWeekday(today) === 3
   const head = todayTasks.filter((task) => task.sort < 60)
   const tail = todayTasks.filter((task) => task.sort >= 60)
 
+  async function gravado(post?: Post) {
+    const target = post || posts
+      .filter((item) => (item.format === 'reel' || item.format === 'video') && (item.status === 'ideia' || item.status === 'roteiro'))
+      .sort((a, b) => a.scheduled_date.localeCompare(b.scheduled_date))[0]
+    if (!target) {
+      ui.toast('Não há vídeo esperando gravação.')
+      return
+    }
+    await data.savePost({ ...target, status: 'gravado' })
+    ui.toast('Marcado: gravado, falta editar.')
+  }
+
   return (
     <>
+      <div className="only-desktop">
+        <div className="hero">
+          <div style={{ position: 'relative', zIndex: 1 }}>
+            <div className="eyebrow">{longDate(today)}</div>
+            <h1>Olá, Isabelle</h1>
+            <div className="sub">O que precisa sair hoje e amanhã, nas duas contas.</div>
+            <div className="resumo-k">Resumo do dia</div>
+            <div className="resumo">{summary}</div>
+            <div className="ico-row">
+              <span className="ico-c navy"><Icon name="book" /></span>
+              <span className="ico-c navy"><Icon name="cap" /></span>
+              <span className="ico-c navy"><Icon name="globe" /></span>
+              <span className="ico-c navy"><Icon name="compass" /></span>
+            </div>
+          </div>
+          <div className="actions">
+            <button type="button" className="btn-rec" onClick={() => void gravado()}><Icon name="reel" /> Gravado, falta editar</button>
+            <button type="button" className="btn" onClick={() => navigate('/semana')}><Icon name="calx" /> Ver semana</button>
+            <button type="button" className="btn pri" onClick={() => ui.openPost(null)}><Icon name="plus" /> Novo conteúdo</button>
+          </div>
+        </div>
+      </div>
+      <div className="only-mobile">
+        <div className="resumo-k">Resumo do dia</div>
+        <div className="resumo mobile-resumo">{summary}</div>
+      </div>
       <div className="top">
         <div>
           <div className="eyebrow">Rotina da equipe</div>
@@ -46,20 +89,22 @@ export function Tarefas() {
           {todayTasks.length === 0 && <div className="tc ghost"><div className="tt">Nada em aberto hoje.</div></div>}
         </div>
       </div>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', margin: '0 0 8px' }}>
-        <div style={{ fontSize: 12.5, fontWeight: 600, color: 'var(--muted)' }}>
-          Semana {dayNumber(days[0])}–{dayNumber(days[6])} {['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'][Number(days[6].slice(5, 7)) - 1]}
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 8, margin: '0 0 8px', flexWrap: 'wrap' }}>
+        <div>
+          <div className="eyebrow" style={{ marginBottom: 2 }}>{weekName}</div>
+          <div style={{ fontSize: 12.5, fontWeight: 600, color: 'var(--muted)' }}>{weekLabel(days[0])}</div>
         </div>
-        <div style={{ display: 'flex', gap: 8 }}>
-          <button type="button" className="btn" onClick={() => setOffset(offset - 1)}><Icon name="chevronL" /></button>
+        <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+          <button type="button" className="btn" onClick={() => setOffset(offset - 1)} aria-label="Semana anterior"><Icon name="chevronL" /></button>
+          <button type="button" className="btn" onClick={() => setOffset(0)}>Esta semana</button>
           <button type="button" className="btn" onClick={() => setOffset(1)}>Semana que vem</button>
-          <button type="button" className="btn" onClick={() => setOffset(offset + 1)}><Icon name="chevron" /></button>
+          <button type="button" className="btn" onClick={() => setOffset(offset + 1)} aria-label="Semana seguinte"><Icon name="chevron" /></button>
         </div>
       </div>
       <div className="scrollx">
         <div className="days">
           {days.map((date) => {
-            const list = tasks.filter((task) => task.due_date === date).sort(bySort)
+            const list = tasks.filter((task) => asDate(task.due_date) === date).sort(bySort)
             const showGhost = (isoWeekday(date) === 3 || isoWeekday(date) === 4) && list.some((task) => task.sort < 60)
             const fixed = list.filter((task) => task.sort < 60)
             const rest = list.filter((task) => task.sort >= 60)

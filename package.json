@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview",
-    "test": "node --experimental-strip-types --test src/lib/dictate.test.ts"
+    "test": "node --experimental-strip-types --test src/lib/dictate.test.ts src/lib/dates.test.ts"
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.1.15",

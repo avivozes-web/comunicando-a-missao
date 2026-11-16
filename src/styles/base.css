@@ -127,9 +127,12 @@ h1{font-size:30px;font-weight:800;color:var(--navy);letter-spacing:-.035em}
 .card-dark .delta-dn{color:#FDA4A4}
 .card-dark .delta-eq{color:#C4C2DC}
 .hero .btn-rec{background:rgba(255,255,255,.16);color:#fff;border:1px solid rgba(255,255,255,.25);box-shadow:none}
+.charts3 .card, .kpis .kpi{color:var(--navy);background:#fff}
+.charts3 .card h3,.charts3 .card p,.dleg,.kpi .v{color:var(--navy)}
+.charts3 .card .src{color:var(--muted)}
 .charts3{display:grid;grid-template-columns:1fr 1fr 1.15fr;gap:12px;margin:0 0 16px}
 .charts3 .card{padding:16px 18px}
-.charts3 h3{font-size:14px;font-weight:700;margin-bottom:4px}
+.charts3 h3{font-size:14px;font-weight:700;margin-bottom:4px;color:var(--navy)}
 .donut-wrap{display:flex;align-items:center;gap:16px;margin-top:8px}
 .dleg{display:flex;flex-direction:column;gap:8px;font-size:12.5px;line-height:1.25}
 .dleg span{display:flex;align-items:center;gap:8px}

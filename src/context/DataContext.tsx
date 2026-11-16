@@ -247,7 +247,7 @@ export function DataProvider({ children }: { children: ReactNode }) {
         current.tasks = current.tasks.map((item) => (item.id === id ? next : item))
         return current
       }
-      await api.saveTask(next)
+      await api.setTaskDone(id, next.done)
     }),
     removeTask: (id) => run(async (current) => {
       if (PREVIEW) {

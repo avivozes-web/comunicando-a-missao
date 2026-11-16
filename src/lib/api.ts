@@ -1,4 +1,4 @@
-import { addDays, todayISO } from './dates'
+import { addDays, asDate, todayISO } from './dates'
 import { supabase } from './supabase'
 import type { Assignees, Bundle, GoalConfig, Idea, Narrative, Post, Task, YearDate, YearMonth } from './types'
 import { EMPTY_BUNDLE } from './types'
@@ -10,7 +10,7 @@ function asBundle(rows: Record<string, unknown[]>): Bundle {
     posts: (rows.posts || []) as Post[],
     ideas: (rows.ideas || []) as Idea[],
     fixed_tasks: (rows.fixed_tasks || []) as Bundle['fixed_tasks'],
-    tasks: (rows.tasks || []) as Task[],
+    tasks: ((rows.tasks || []) as Task[]).map(normalizeTask),
     year_months: (rows.year_months || []) as YearMonth[],
     year_dates: (rows.year_dates || []) as YearDate[],
     narrative,
@@ -32,13 +32,19 @@ async function table(name: string, order?: string) {
   return data || []
 }
 
+function missingRpc(message: string): boolean {
+  return /function|schema|does not exist|404/i.test(message)
+}
+
 export async function loadBundle(): Promise<Bundle> {
   const today = todayISO()
-  const { error: rollError } = await supabase.rpc('rollover_tasks', { p_today: today })
-  if (rollError && !/function|schema|does not exist|404/i.test(rollError.message)) {
-    // The routine still loads if the helper was not created yet.
-  } else if (!rollError) {
-    await supabase.rpc('materialize_fixed_tasks', { p_from: today, p_to: addDays(today, 21) })
+  const horizon = addDays(today, 21)
+  const [{ error: rollError }, { error: matError }] = await Promise.all([
+    supabase.rpc('rollover_tasks', { p_today: today }),
+    supabase.rpc('materialize_fixed_tasks', { p_from: today, p_to: horizon }),
+  ])
+  if ((rollError && !missingRpc(rollError.message)) || (matError && !missingRpc(matError.message))) {
+    // The list still loads if a helper was not created yet.
   }
   const [
     posts, ideas, fixed_tasks, tasks, year_months, year_dates, narrative,
@@ -107,8 +113,24 @@ export async function removeIdea(id: string): Promise<void> {
   if (error) throw new Error(error.message)
 }
 
+function normalizeTask(task: Task): Task {
+  return {
+    ...task,
+    due_date: asDate(task.due_date),
+    origin_date: task.origin_date ? asDate(task.origin_date) : null,
+    rolled_from: task.rolled_from ? asDate(task.rolled_from) : null,
+  }
+}
+
 export async function saveTask(task: Task): Promise<void> {
-  const { error } = await supabase.from('tasks').upsert(task)
+  const row = normalizeTask(task)
+  if (!row.due_date) throw new Error('A tarefa precisa de uma data.')
+  const { error } = await supabase.from('tasks').upsert(row)
+  if (error) throw new Error(error.message)
+}
+
+export async function setTaskDone(id: string, done: boolean): Promise<void> {
+  const { error } = await supabase.from('tasks').update({ done }).eq('id', id)
   if (error) throw new Error(error.message)
 }
 

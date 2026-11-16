@@ -29,7 +29,7 @@ export function isPlaceholder(title: string): boolean {
 }
 
 export function showTask(task: Task): boolean {
-  return !(task.kind === 'generated' && task.done)
+  return Boolean(task.id)
 }
 
 export function matchesAccount(account: Account | null | undefined, filter: Filter): boolean {

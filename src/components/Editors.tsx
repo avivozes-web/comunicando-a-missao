@@ -3,7 +3,7 @@ import { Dialog, DialogContent, DialogDescription, DialogTitle } from './ui/dial
 import { Icon } from './Icon'
 import { useData } from '@/context/DataContext'
 import { useUi } from '@/context/UiContext'
-import { todayISO } from '@/lib/dates'
+import { asDate, todayISO } from '@/lib/dates'
 import {
   ACCOUNTS,
   DEFAULT_ASSIGNEES,
@@ -434,7 +434,15 @@ function TaskEditor() {
               <input className="inp" value={draft.assignee} onChange={(event) => setDraft({ ...draft, assignee: event.target.value })} />
             </label>
             <label className="field">Data
-              <input className="inp" type="date" value={draft.due_date} onChange={(event) => setDraft({ ...draft, due_date: event.target.value, origin_date: draft.origin_date || event.target.value })} />
+              <input className="inp" type="date" value={asDate(draft.due_date)} onChange={(event) => {
+                const due = asDate(event.target.value)
+                if (!due) return
+                setDraft({
+                  ...draft,
+                  due_date: due,
+                  origin_date: draft.rolled_from || draft.fixed_task_id ? draft.origin_date : due,
+                })
+              }} />
             </label>
             <label className="field">Conta
               <select className="sel" value={draft.account || ''} onChange={(event) => setDraft({ ...draft, account: (event.target.value || null) as Account | null })}>

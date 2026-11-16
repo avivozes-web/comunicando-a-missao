@@ -5,13 +5,23 @@ export const MONTHS_FULL = [
   'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro',
 ]
 
-export function todayISO(): string {
+export const APP_TIME_ZONE = 'America/Sao_Paulo'
+
+export function todayISO(now: Date = new Date()): string {
   return new Intl.DateTimeFormat('en-CA', {
-    timeZone: 'America/Belem',
+    timeZone: APP_TIME_ZONE,
     year: 'numeric',
     month: '2-digit',
     day: '2-digit',
-  }).format(new Date())
+  }).format(now)
+}
+
+// Calendar date only. A value like 2026-11-18 or 2026-11-18T00:00:00.000Z
+// stays the 18th. Parsing it with Date would land on the 17th in São Paulo.
+export function asDate(value: string | null | undefined): string {
+  if (!value) return ''
+  const match = /^(\d{4}-\d{2}-\d{2})/.exec(value.trim())
+  return match?.[1] ?? ''
 }
 
 export function parseISO(iso: string): Date {

@@ -10,7 +10,7 @@ import type { Account, FollowerEvent, Report } from '@/lib/types'
 
 type Obj = Record<string, unknown>
 
-const COLORS = ['#F16623', '#C9A227', '#A5B4FC', '#86EFAC']
+const COLORS = ['#F16623', '#9A7A12', '#1D4ED8', '#15803D']
 
 export function Analises() {
   const data = useData()
@@ -105,7 +105,7 @@ function ReportBody({ report, previous, events }: { report: Report; previous: Re
   const slices = Object.entries(mix).map(([name, value], index) => ({ name, value, color: COLORS[index % COLORS.length] }))
   const who = [
     { name: 'Não seguidores', value: num(conta, 'vis_nao_seguidores_pct') || 0, color: '#F16623' },
-    { name: 'Seguidores', value: num(conta, 'vis_seguidores_pct') || 0, color: '#A5B4FC' },
+    { name: 'Seguidores', value: num(conta, 'vis_seguidores_pct') || 0, color: '#1D4ED8' },
   ].filter((item) => item.value > 0)
   const radar = radarRows(conta, prev)
   const conclusoes = strings(report.payload?.conclusoes)
@@ -132,7 +132,7 @@ function ReportBody({ report, previous, events }: { report: Report; previous: Re
         <Kpi label="Toques no link" value={fmt(num(conta, 'toques_links'))} delta={delta(num(conta, 'toques_links'), num(prev, 'toques_links'))} />
       </div>
       <div className="charts3">
-        <div className="card card-dark">
+        <div className="card">
           <h3>Visualizações por formato</h3>
           <p className="src">Mix do relatório selecionado.</p>
           {slices.length === 0 ? <p>—</p> : (
@@ -148,7 +148,7 @@ function ReportBody({ report, previous, events }: { report: Report; previous: Re
             </div>
           )}
         </div>
-        <div className="card card-dark">
+        <div className="card">
           <h3>Quem viu a conta</h3>
           <p className="src">{pct(num(conta, 'vis_seguidores_pct'))} seguidores · {pct(num(conta, 'vis_nao_seguidores_pct'))} não seguidores.</p>
           {who.length === 0 ? <p>—</p> : (
@@ -164,14 +164,14 @@ function ReportBody({ report, previous, events }: { report: Report; previous: Re
             </div>
           )}
         </div>
-        <div className="card card-dark">
+        <div className="card">
           <h3>Esta semana vs. a anterior</h3>
           <p className="src">Cada eixo é esta semana como % da anterior.</p>
           {radar.length === 0 ? <p className="src">Sem semana anterior para comparar.</p> : (
             <div className="radar-wrap">
               <RadarChart width={248} height={220} data={radar} outerRadius={72}>
-                <PolarGrid stroke="rgba(255,255,255,.2)" />
-                <PolarAngleAxis dataKey="k" tick={{ fill: '#E8E6F8', fontSize: 10 }} />
+                <PolarGrid stroke="rgba(10,31,61,.22)" />
+                <PolarAngleAxis dataKey="k" tick={{ fill: '#0A1F3D', fontSize: 11 }} />
                 <Radar dataKey="v" stroke="#F16623" fill="#F16623" fillOpacity={0.38} />
               </RadarChart>
             </div>
@@ -291,9 +291,9 @@ function ReportBody({ report, previous, events }: { report: Report; previous: Re
 
 function Kpi({ label, value, note, delta: change }: { label: string; value: string; note?: string; delta?: number | null }) {
   return (
-    <div className="card kpi card-dark">
+    <div className="card kpi">
       <div className="k">{label}</div>
-      <div className="v glow">{value}</div>
+      <div className="v">{value}</div>
       <div className="s">{note || (change === undefined ? '' : <Delta value={change ?? null} />)}{change !== undefined && change !== null ? ' vs semana anterior' : ''}</div>
     </div>
   )
