@@ -5,7 +5,7 @@ import { useUi } from '@/context/UiContext'
 import { daysBetween, dm } from '@/lib/dates'
 import { todayISO } from '@/lib/dates'
 import { fmt, pct, signed } from '@/lib/format'
-import type { GoalConfig, GoalDay } from '@/lib/types'
+import type { GoalConfig, GoalDay, GoalStrategy } from '@/lib/types'
 
 const TABS = ['Meta', 'Seguidores', 'Calendário', 'Ranking', 'Funil', 'Ideias', 'Traga 1', 'Plano']
 
@@ -51,7 +51,7 @@ export function Mil() {
               <button type="button" className="btn pri" onClick={() => void data.saveTraga(traga)}>Salvar</button>
             </div>
           )}
-          {tab === 'Plano' && <Ramp config={config} title="Plano até 31/12" />}
+          {tab === 'Plano' && <Plano config={config} />}
         </>
       )}
     </div>
@@ -191,15 +191,16 @@ function Daily({ days }: { days: GoalDay[] }) {
   )
 }
 
-function Ramp({ config, title }: { config: GoalConfig; title: string }) {
+function Ramp({ config, title, from, note }: { config: GoalConfig; title: string; from?: string; note?: string }) {
+  const weeks = from ? config.rampa.filter((week) => week[0] >= from) : config.rampa
   return (
     <div className="card secbox">
       <h3>{title}</h3>
-      <p className="src">Cada linha é uma semana do plano, de terça a segunda. Não é um calendário de datas soltas.</p>
-      <table className="tbl">
+      <p className="src">{note || 'Cada linha é uma semana do plano, de terça a segunda. Não é um calendário de datas soltas.'}</p>
+      <table className="tbl ramp">
         <thead><tr><th>Semana</th><th className="n">Novos</th><th className="n">Acumulado</th><th>Foco</th></tr></thead>
         <tbody>
-          {config.rampa.map((week) => (
+          {weeks.map((week) => (
             <tr key={week[0]}>
               <td>{dm(week[0])}–{dm(week[1])}</td>
               <td className="n">+{fmt(week[2])}</td>
@@ -209,6 +210,80 @@ function Ramp({ config, title }: { config: GoalConfig; title: string }) {
           ))}
         </tbody>
       </table>
+    </div>
+  )
+}
+
+function ddmm(iso: string): string {
+  return `${iso.slice(8, 10)}/${iso.slice(5, 7)}`
+}
+
+function Plano({ config }: { config: GoalConfig }) {
+  const plan: GoalStrategy | undefined = config.notes?.estrategia
+  const start = plan?.inicio
+  const marcos = start ? config.checkpoints.filter((point) => point.data >= start) : config.checkpoints
+  return (
+    <div className="plano">
+      <div className="card secbox phead">
+        <div>
+          <h3>Plano até {ddmm(config.data_alvo)}</h3>
+          <p className="src">
+            De {fmt(config.base)} a {fmt(config.alvo)} seguidores · meta só em dias úteis · fim de semana sem meta · 21–25/12 sem posts
+            {plan?.atualizado_em ? ` · estratégia de ${ddmm(plan.atualizado_em)}` : ''}
+          </p>
+        </div>
+        {plan?.page_url && <a className="btn pri" href={plan.page_url} target="_blank" rel="noreferrer">Ver estratégia completa</a>}
+      </div>
+
+      {plan?.diagnostico && (
+        <div className="card secbox">
+          <h3>Diagnóstico</h3>
+          {plan.diagnostico.numeros && plan.diagnostico.numeros.length > 0 && (
+            <div className="pnums">
+              {plan.diagnostico.numeros.map((item) => (
+                <div key={item.k}><div className="v">{item.v}</div><div className="k">{item.k}</div>{item.d && <div className="d">{item.d}</div>}</div>
+              ))}
+            </div>
+          )}
+          {plan.diagnostico.texto && <p className="ptx">{plan.diagnostico.texto}</p>}
+        </div>
+      )}
+
+      {plan?.taticas && plan.taticas.length > 0 && (
+        <div className="card secbox">
+          <h3>As 5 táticas principais</h3>
+          <div className="ptat">
+            {plan.taticas.map((item, index) => (
+              <div className="pt" key={item.titulo}>
+                <div className="num">{index + 1}</div>
+                <div className="body">
+                  <div className="tt">{item.titulo}{(item.esforco || item.impacto) && <span className="tg">esforço {item.esforco || '—'} · impacto {item.impacto || '—'}</span>}</div>
+                  <p><b>O que fazer:</b> {item.fazer}</p>
+                  <p><b>Quem faz:</b> {item.quem}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+          <p className="src" style={{ marginTop: 8 }}>Esforço e impacto são estimativas, não medição.</p>
+        </div>
+      )}
+
+      <div className="card secbox">
+        <h3>Marcos</h3>
+        <div className="checks pmarcos">
+          {marcos.map((point) => <span key={point.data}>{ddmm(point.data)} · ≈{fmt(point.valor)}</span>)}
+        </div>
+      </div>
+
+      <Ramp config={config} title="Calendário resumido" from={start} note="Semanas de terça a segunda: seguidores novos na semana, total esperado no fim e o foco." />
+
+      {(plan?.realismo || (plan?.regras && plan.regras.length > 0)) && (
+        <div className="card secbox">
+          <h3>Realismo e regras</h3>
+          {plan?.realismo && <p className="ptx">{plan.realismo}</p>}
+          {plan?.regras && <ul className="prg">{plan.regras.map((rule) => <li key={rule}>{rule}</li>)}</ul>}
+        </div>
+      )}
     </div>
   )
 }
