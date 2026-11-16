@@ -89,6 +89,19 @@ Uma linha por conta. O plano (rampa, checkpoints, funil, ranking) mora aqui. O b
 
 `notes.traga1` é texto da equipe. Não apague no upsert: leia a linha, misture e grave de volta.
 
+`notes.estrategia` alimenta a aba Rumo aos Mil / Plano. Grave com `notes = notes || jsonb_build_object('estrategia', ...)` para não apagar o resto:
+
+| chave | |
+| --- | --- |
+| `atualizado_em`, `inicio` | datas `YYYY-MM-DD`. `inicio` filtra marcos e semanas mostrados no Plano |
+| `page_url` | link da estratégia completa, ou ausente |
+| `diagnostico` | `{ numeros: [{ v, k, d }], texto }` |
+| `taticas` | lista de `{ titulo, fazer, quem, esforco, impacto }` |
+| `realismo` | texto |
+| `regras` | lista de textos |
+
+Os marcos vêm de `checkpoints` e o calendário vem de `rampa`. Não repita esses números em `notes.estrategia`.
+
 ### `link_taps`
 
 Toques no link da bio, do Instagram Insights.

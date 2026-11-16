@@ -155,6 +155,24 @@ button.bx { width: 14px; height: 14px; border-radius: 4px; border: 1.5px solid #
 .mil .r4 .v.or { color: var(--orange); }
 .mil .r4 .k { font-size: 12px; color: var(--muted); font-weight: 600; margin-top: 4px; }
 
+.mil .plano .phead { display: flex; gap: 12px; align-items: center; justify-content: space-between; }
+.mil .plano .phead .src { margin-bottom: 0; }
+.mil .plano .phead .btn { white-space: nowrap; text-decoration: none; }
+.mil .pnums { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin: 8px 0 10px; }
+.mil .pnums > div { background: #f6f7f9; border-radius: 12px; padding: 12px 14px; }
+.mil .pnums .v { font-size: 24px; font-weight: 800; color: var(--orange); letter-spacing: -.03em; }
+.mil .pnums .k { font-size: 12.5px; font-weight: 700; color: var(--navy); margin-top: 2px; }
+.mil .pnums .d { font-size: 11.5px; color: var(--muted); margin-top: 2px; }
+.mil .ptx { font-size: 13.5px; line-height: 1.55; color: #374151; }
+.mil .ptat { display: flex; flex-direction: column; gap: 10px; margin-top: 8px; }
+.mil .pt { display: flex; gap: 12px; padding: 12px; border: 1px solid var(--line); border-radius: 12px; }
+.mil .pt .num { flex: none; width: 30px; height: 30px; border-radius: 50%; background: var(--navy); color: #fff; font-weight: 800; display: flex; align-items: center; justify-content: center; }
+.mil .pt .body { min-width: 0; }
+.mil .pt .tt { font-size: 14.5px; font-weight: 800; color: var(--navy); margin-bottom: 4px; display: flex; flex-wrap: wrap; gap: 6px 10px; align-items: center; }
+.mil .pt .tg { font-size: 11px; font-weight: 700; color: var(--orange); background: #fff1e9; padding: 2px 8px; border-radius: 999px; }
+.mil .pt p { font-size: 13px; line-height: 1.5; color: #374151; margin-top: 3px; }
+.mil .prg { margin: 8px 0 0 18px; font-size: 13px; line-height: 1.6; color: #374151; }
+
 @media (max-width: 860px) {
   html, body, #root { height: 100%; overflow: hidden; }
   .only-desktop { display: none !important; }
@@ -179,6 +197,9 @@ button.bx { width: 14px; height: 14px; border-radius: 4px; border: 1.5px solid #
   .seg2 { margin: 0 0 12px; display: flex; background: #eceef1; border-radius: 11px; padding: 3px; }
   .seg2 button { flex: 1; text-align: center; font-size: 12px; font-weight: 600; color: var(--muted); padding: 7px 0; border-radius: 8px; border: 0; background: transparent; display: flex; align-items: center; justify-content: center; gap: 5px; }
   .seg2 button.on { background: #fff; color: var(--navy); box-shadow: 0 1px 3px rgba(0,0,0,.08); }
+  .mil .plano .phead { flex-direction: column; align-items: flex-start; }
+  .mil .pnums { grid-template-columns: 1fr 1fr; }
+  .mil .tbl.ramp td:first-child { white-space: nowrap; }
   .cols, .board, .charts3, .kpis, .pk, .col2, .cols2, .mil .r4, .lib, .pl, .form-grid { grid-template-columns: 1fr !important; }
   .yr { grid-template-columns: 1fr 1fr; height: auto; }
   .scrollx { overflow: visible; }

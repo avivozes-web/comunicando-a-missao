@@ -165,7 +165,17 @@ export type GoalConfig = {
     engajamento?: number | null
   }[]
   link_insights: { data?: string; toques?: number | null; periodo?: string; fonte?: string; lido_em?: string }[]
-  notes: { traga1?: string }
+  notes: { traga1?: string; estrategia?: GoalStrategy }
+}
+
+export type GoalStrategy = {
+  atualizado_em?: string
+  inicio?: string
+  page_url?: string
+  diagnostico?: { numeros?: { v: string; k: string; d?: string }[]; texto?: string }
+  taticas?: { titulo: string; fazer: string; quem: string; esforco?: string; impacto?: string }[]
+  realismo?: string
+  regras?: string[]
 }
 
 export type LinkTap = {
