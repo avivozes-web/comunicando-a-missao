@@ -112,7 +112,10 @@ button.bx { width: 14px; height: 14px; border-radius: 4px; border: 1.5px solid #
 .lib-filters { display: flex; gap: 10px; flex-wrap: wrap; margin: 0 0 14px; }
 .lib-card h3 { font-size: 18px; color: var(--navy); margin: 8px 0; }
 .lib-top { display: flex; gap: 14px; align-items: flex-start; }
-.lib-top .thw { width: 140px; height: 180px; }
+.lib-thumb { width: min(280px, 100%); flex: none; display: flex; align-items: center; justify-content: center; background: #E5E7EB; color: #6B7280; font-weight: 700; border-radius: 16px; overflow: hidden; text-decoration: none; }
+.lib-thumb.ratio-45 { aspect-ratio: 4 / 5; }
+.lib-thumb.ratio-916 { aspect-ratio: 9 / 16; }
+.lib-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .lib-main { flex: 1; min-width: 0; }
 .caption-box { background: #F7F8FC; border-radius: 12px; padding: 10px 12px; margin-top: 10px; }
 .caption-box p { margin: 8px 0 0; font-size: 13.5px; line-height: 1.45; color: #374151; white-space: pre-wrap; }
@@ -127,6 +130,10 @@ button.bx { width: 14px; height: 14px; border-radius: 4px; border: 1.5px solid #
 .queue-item .tx { min-width: 0; }
 .queue-item h3 { font-size: 15px; color: var(--navy); margin: 4px 0; }
 .week-block { margin-bottom: 14px; }
+.week-cal { display: flex; flex-direction: column; gap: 18px; }
+.week-cal .wk { height: auto; }
+.week-cal .lane { min-height: 96px; }
+.week-cal h2 { font-size: 16px; color: var(--navy); margin: 0 0 8px; }
 .week-block > h2 { font-size: 16px; color: var(--navy); margin: 0 0 10px; }
 .grip { width: 32px; height: 32px; border: 0; background: transparent; color: var(--muted2); touch-action: none; cursor: grab; flex: none; padding: 0; }
 .day-post { border-left: 3px solid var(--orange); }
@@ -235,7 +242,7 @@ button.bx { width: 14px; height: 14px; border-radius: 4px; border: 1.5px solid #
 .lab { display: block; font-size: 12.5px; font-weight: 600; color: var(--navy); margin: 0 0 6px; }
   .hgrid { grid-template-columns: 1fr; }
   .lib-top { flex-direction: column; }
-  .lib-top .thw { width: 100%; height: 200px; }
+  .lib-thumb { width: 100%; max-width: 320px; }
   .queue-item { flex-direction: column; }
   .fg { grid-template-columns: 1fr; }
   .hero { flex-direction: column; align-items: flex-start; }

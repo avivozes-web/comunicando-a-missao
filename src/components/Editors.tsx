@@ -118,6 +118,7 @@ function PostEditor() {
       legenda_whatsapp: whatsapp.trim() || null,
       ready_checks: readyChecks,
       cover_url: coverUrl,
+      cover_thumb_url: editing?.cover_thumb_url ?? null,
       drive_url: drive.trim() || null,
       checklist: checks,
       note: note.trim() || null,

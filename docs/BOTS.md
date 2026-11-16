@@ -173,8 +173,9 @@ Upsert: `POST /rest/v1/<tabela>?on_conflict=id` com `Prefer: resolution=merge-du
 | `aspect` | texto ou null, por exemplo `4:5` |
 | `legenda` | legenda do Instagram, ou null |
 | `legenda_whatsapp` | legenda do WhatsApp, ou null |
-| `cover_url` | URL pública da capa, ou null |
-| `drive_url` | link do Drive para baixar a arte ou o vídeo, ou null |
+| `cover_url` | URL pública de uma capa enviada pela equipe no app, ou null. A Biblioteca não usa esta coluna no cartão |
+| `cover_thumb_url` | URL pública da miniatura no bucket `capas`. É a imagem grande do cartão |
+| `drive_url` | link do Drive para baixar a arte ou o vídeo, ou null. O arquivo do Drive é privado; clicar na miniatura abre este link |
 | `checklist` | lista de `{ "label", "done" }` |
 | `ready_checks` | objeto `{ "tamanho", "legenda", "conta", "sem_hashtag", "pix" }` com true/false. A tela marca. O bot não precisa preencher |
 | `note`, `date_tag`, `updated_by` | texto ou null |
@@ -185,7 +186,54 @@ Quando `status` passa a `aprovado` e o formato é `reel`, `carrossel` ou `video`
 
 O gatilho `sync_post_tasks` cria `gravar` (−3 dias), `editar` (−2), `aprovar` (−1) e `postar` (no dia). Responsáveis: Isabelle, Bezalel, Lídia + Isabelle e Lídia.
 
-Capa: bucket `capas`, caminho livre, leitura pública. `cover_url` guarda a URL pública.
+### Miniatura da Biblioteca
+
+O arquivo do Drive fica privado. A imagem do cartão é uma miniatura pública.
+
+Bucket: `capas` (já existe, leitura pública).
+
+Caminho padrão: `{id-do-post}/thumb.jpg`  
+Exemplo: `c673e394-8e8a-4847-94a8-21483ff666e3/thumb.jpg`
+
+Arquivo: JPG, cerca de 800 px de largura. Carrossel: o 1º slide, proporção 4:5. Reel ou vídeo: a capa, proporção 9:16.
+
+URL pública, que vai em `cover_thumb_url`:
+
+`https://lmycoesvfulfrtrehayn.supabase.co/storage/v1/object/public/capas/{id-do-post}/thumb.jpg`
+
+Subir com a service role (substitui se já existir):
+
+```
+PUT /storage/v1/object/capas/{id-do-post}/thumb.jpg
+apikey: <SERVICE_ROLE>
+Authorization: Bearer <SERVICE_ROLE>
+Content-Type: image/jpeg
+x-upsert: true
+```
+
+O corpo é o arquivo JPG. Em Python, com o mesmo cliente do `scripts/upsert_metrics.py`:
+
+```
+POST {url}/storage/v1/object/capas/{id}/thumb.jpg
+headers: apikey, Authorization, Content-Type image/jpeg, x-upsert: true
+```
+
+Depois grave a coluna (não precisa se a URL seguir o caminho padrão e você já souber o id):
+
+```
+PATCH /rest/v1/posts?id=eq.{id}
+{ "cover_thumb_url": "https://lmycoesvfulfrtrehayn.supabase.co/storage/v1/object/public/capas/{id}/thumb.jpg" }
+```
+
+SQL equivalente, depois do upload:
+
+```sql
+update public.posts
+set cover_thumb_url = 'https://lmycoesvfulfrtrehayn.supabase.co/storage/v1/object/public/capas/' || id || '/thumb.jpg'
+where id = '{id}';
+```
+
+Sem `cover_thumb_url`, o cartão mostra o quadro cinza "sem capa ainda".
 
 ### `tasks`
 

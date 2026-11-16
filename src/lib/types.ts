@@ -29,6 +29,7 @@ export type Post = {
   legenda_whatsapp: string | null
   ready_checks: ReadyChecks
   cover_url: string | null
+  cover_thumb_url: string | null
   drive_url: string | null
   checklist: CheckItem[]
   note: string | null

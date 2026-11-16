@@ -1,6 +1,5 @@
-import { addDays, daysBetween, dm, isoWeekday, weekdayShort } from './dates'
-import type { Account, Assignees, CheckItem, Filter, Post, PostStatus, Task, TaskStep } from './types'
-import { DEFAULT_ASSIGNEES } from './types'
+import { addDays, asDate, daysBetween, dm, isoWeekday, weekdayShort } from './dates.ts'
+import { DEFAULT_ASSIGNEES, type Account, type Assignees, type CheckItem, type Filter, type Post, type PostStatus, type Task, type TaskStep } from './types.ts'
 
 const RANK: PostStatus[] = ['ideia', 'roteiro', 'gravado', 'editado', 'arte_pronta', 'aprovado', 'pronto', 'postado']
 
@@ -30,6 +29,11 @@ export function isPlaceholder(title: string): boolean {
 
 export function showTask(task: Task): boolean {
   return Boolean(task.id)
+}
+
+export function postsOnDay(posts: Post[], date: string, account?: Account | null): Post[] {
+  const day = asDate(date)
+  return posts.filter((post) => asDate(post.scheduled_date) === day && (account == null || post.account === account))
 }
 
 export function matchesAccount(account: Account | null | undefined, filter: Filter): boolean {

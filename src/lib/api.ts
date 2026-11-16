@@ -128,6 +128,7 @@ function normalizePost(post: Post): Post {
     scheduled_date: asDate(post.scheduled_date),
     legenda_whatsapp: post.legenda_whatsapp ?? null,
     ready_checks: post.ready_checks || {},
+    cover_thumb_url: post.cover_thumb_url ?? null,
   }
 }
 

@@ -8,7 +8,7 @@ import { useData } from '@/context/DataContext'
 import { useUi } from '@/context/UiContext'
 import { addDays, asDate, dayNumber, longDate, startOfWeek, weekdayShort, weekTitle } from '@/lib/dates'
 import { todayISO } from '@/lib/dates'
-import { matchesAccount, resumoDoDia, taskBadge } from '@/lib/logic'
+import { matchesAccount, postsOnDay, resumoDoDia, taskBadge } from '@/lib/logic'
 import type { Idea, Post, Task } from '@/lib/types'
 import { uid } from '@/lib/utils'
 
@@ -21,6 +21,7 @@ export function Tarefas() {
   const { email } = useAuth()
   const today = todayISO()
   const [order, setOrder] = useState<Order>('prioridade')
+  const [offset, setOffset] = useState(0)
   const [ajuste, setAjuste] = useState<{ postId?: string; ideaId?: string } | null>(null)
   const posts = data.bundle.posts.filter((post) => matchesAccount(post.account, ui.filter))
   const ideas = data.bundle.ideas.filter((idea) => matchesAccount(idea.account, ui.filter))
@@ -29,7 +30,8 @@ export function Tarefas() {
   const openToday = tasks.filter((task) => asDate(task.due_date) === today && !task.done).sort(bySort)
   const waitingPosts = posts.filter((post) => post.status === 'arte_pronta')
   const waitingIdeas = ideas.filter((idea) => idea.status === 'ideia')
-  const weeks = [0, 1, 2, 3, 4].map((index) => addDays(startOfWeek(today), index * 7))
+  const monday = addDays(startOfWeek(today), offset * 7)
+  const days = [0, 1, 2, 3, 4, 5, 6].map((index) => addDays(monday, index))
 
   async function gravado(post?: Post) {
     const target = post || posts
@@ -136,33 +138,34 @@ export function Tarefas() {
         </div>
       </div>
       <div className="order-row">
-        <div className="eyebrow" style={{ margin: 0 }}>Próximas semanas</div>
+        <div className="ih">
+          <button type="button" className="btn" onClick={() => setOffset(offset - 1)} aria-label="Semana anterior"><Icon name="chevronL" /></button>
+          <div>
+            <div className="eyebrow" style={{ margin: 0 }}>{offset === 0 ? 'Esta semana' : offset === 1 ? 'Semana que vem' : 'Semana'}</div>
+            <h2 style={{ fontSize: 16, color: 'var(--navy)', margin: 0 }}>{weekTitle(monday)}</h2>
+          </div>
+          <button type="button" className="btn" onClick={() => setOffset(offset + 1)} aria-label="Semana seguinte"><Icon name="chevron" /></button>
+        </div>
         <div className="filt" aria-label="Ordem dos dias">
           <button type="button" className={order === 'prioridade' ? 'on' : ''} onClick={() => setOrder('prioridade')}>Prioridade</button>
           <button type="button" className={order === 'az' ? 'on' : ''} onClick={() => setOrder('az')}>A–Z</button>
         </div>
       </div>
-      {weeks.map((monday) => {
-        const days = [0, 1, 2, 3, 4, 5, 6].map((index) => addDays(monday, index))
-        return (
-          <section className="card secbox week-block" key={monday}>
-            <h2>{weekTitle(monday)}</h2>
-            <div className="scrollx">
-              <div className="days">
-                {days.map((date) => (
-                  <DayColumn
-                    key={date}
-                    date={date}
-                    order={order}
-                    tasks={tasks.filter((task) => asDate(task.due_date) === date)}
-                    posts={posts.filter((post) => asDate(post.scheduled_date) === date)}
-                  />
-                ))}
-              </div>
-            </div>
-          </section>
-        )
-      })}
+      <section className="card secbox week-block">
+        <div className="scrollx">
+          <div className="days">
+            {days.map((date) => (
+              <DayColumn
+                key={date}
+                date={date}
+                order={order}
+                tasks={tasks.filter((task) => asDate(task.due_date) === date)}
+                posts={postsOnDay(posts, date)}
+              />
+            ))}
+          </div>
+        </div>
+      </section>
       <AjusteDialog
         open={ajuste !== null}
         onClose={() => setAjuste(null)}

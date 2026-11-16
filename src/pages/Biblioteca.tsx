@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { AccountChip, Byline, Cover, EditButton, FormatChip, StatusBadge } from '@/components/Bits'
+import { AccountChip, Byline, EditButton, FormatChip, StatusBadge } from '@/components/Bits'
 import { AjusteDialog, authorFromEmail } from '@/components/AjusteDialog'
 import { Icon } from '@/components/Icon'
 import { useAuth } from '@/context/AuthContext'
@@ -62,6 +62,23 @@ export function Biblioteca() {
   )
 }
 
+function thumbClass(post: Post): string {
+  return post.format === 'carrossel' || post.format === 'post_leve' ? 'ratio-45' : 'ratio-916'
+}
+
+function Thumb({ post }: { post: Post }) {
+  const src = post.cover_thumb_url
+  const body = src
+    ? <img src={src} alt="" />
+    : <span>sem capa ainda</span>
+  if (!src || !post.drive_url) return <div className={`lib-thumb ${thumbClass(post)}`}>{body}</div>
+  return (
+    <a className={`lib-thumb ${thumbClass(post)}`} href={post.drive_url} target="_blank" rel="noopener noreferrer">
+      {body}
+    </a>
+  )
+}
+
 function matchFormat(post: Post, format: FormatFilter): boolean {
   if (format === 'todos') return post.format === 'reel' || post.format === 'video' || post.format === 'carrossel' || post.format === 'stories'
   if (format === 'reel') return post.format === 'reel' || post.format === 'video'
@@ -111,7 +128,7 @@ function LibraryCard({ post }: { post: Post }) {
   return (
     <article className="card secbox lib-card">
       <div className="lib-top">
-        <Cover post={post} onFile={(file) => void data.setCover(post.id, file)} />
+        <Thumb post={post} />
         <div className="lib-main">
           <div className="ih">
             <AccountChip account={post.account} />

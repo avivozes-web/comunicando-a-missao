@@ -21,6 +21,7 @@ create table public.posts (
   legenda_whatsapp text,
   ready_checks jsonb not null default '{}'::jsonb,
   cover_url text,
+  cover_thumb_url text,
   drive_url text,
   checklist jsonb not null default '[]'::jsonb,
   note text,

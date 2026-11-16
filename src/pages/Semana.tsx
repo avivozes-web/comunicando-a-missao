@@ -1,60 +1,62 @@
-import { useState } from 'react'
 import { Byline, Cover, EditButton, StatusBadge } from '@/components/Bits'
 import { Icon } from '@/components/Icon'
 import { useData } from '@/context/DataContext'
 import { useUi } from '@/context/UiContext'
-import { addDays, dayNumber, startOfWeek, weekdayShort } from '@/lib/dates'
-import { todayISO } from '@/lib/dates'
-import { isPlaceholder, matchesAccount, postAlert, timeLabel } from '@/lib/logic'
+import { addDays, dayNumber, startOfWeek, todayISO, weekdayShort, weekTitle } from '@/lib/dates'
+import { isPlaceholder, matchesAccount, postAlert, postsOnDay, timeLabel } from '@/lib/logic'
 import { FORMATS, STATUSES, type Post } from '@/lib/types'
+
+const WEEK_COUNT = 5
 
 export function Semana() {
   const data = useData()
   const ui = useUi()
   const today = todayISO()
-  const [offset, setOffset] = useState(1)
-  const monday = addDays(startOfWeek(today), offset * 7)
-  const days = [0, 1, 2, 3, 4, 5, 6].map((index) => addDays(monday, index))
+  const firstMonday = startOfWeek(today)
+  const weeks = Array.from({ length: WEEK_COUNT }, (_, index) => addDays(firstMonday, index * 7))
   const posts = data.bundle.posts.filter((post) => matchesAccount(post.account, ui.filter))
-  const eyebrow = offset === 1 ? 'Semana que vem' : offset === 0 ? 'Esta semana' : 'Semana'
-  const sunday = days[6]
 
   return (
     <>
       <div className="top">
         <div>
-          <div className="eyebrow">{eyebrow}</div>
-          <h1>Semana {dayNumber(monday)}–{dayNumber(sunday)} {['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'][Number(sunday.slice(5, 7)) - 1]}</h1>
-          <div className="sub">Tudo pronto com uma semana de antecedência.</div>
+          <div className="eyebrow">Esta semana e as próximas</div>
+          <h1>Semana</h1>
+          <div className="sub">Os posts que saem, da semana de {weekTitle(firstMonday).replace('Semana ', '')} em diante. Inclui o que já foi postado.</div>
         </div>
-        <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
-          <button type="button" className="btn" onClick={() => setOffset(offset - 1)} aria-label="Semana anterior"><Icon name="chevronL" /></button>
-          <button type="button" className="btn" onClick={() => setOffset(0)}>Esta semana</button>
-          <button type="button" className="btn" onClick={() => setOffset(offset + 1)} aria-label="Próxima semana"><Icon name="chevron" /></button>
-          <button type="button" className="btn pri" onClick={() => ui.openPost(null, monday)}><Icon name="plus" /> Novo conteúdo</button>
-        </div>
+        <button type="button" className="btn pri" onClick={() => ui.openPost(null, firstMonday)}><Icon name="plus" /> Novo conteúdo</button>
       </div>
       <div className="legend">
         <span style={{ fontSize: 12, fontWeight: 600, color: 'var(--muted)', marginRight: 4 }}>Status:</span>
         {STATUSES.map((status) => <span key={status.id} className={`st ${status.cls}`}>{status.label}</span>)}
       </div>
-      <div className="scrollx">
-        <div className="wk">
-          <div className="lane-l">
-            <div><i className="dot d-mj" style={{ width: 10, height: 10 }} />Escola<small>@missaojosue.educacao</small></div>
-            <div><i className="dot d-mi" style={{ width: 10, height: 10 }} />Missão<small>@missaojosue.ofc</small></div>
-          </div>
-          {days.map((date) => {
-            const weekend = weekdayShort(date) === 'sáb' || weekdayShort(date) === 'dom'
-            return (
-              <div className="day" key={date}>
-                <div className={`dh ${weekend ? 'off' : ''}`}><b>{dayNumber(date)}</b><span>{weekdayShort(date)}</span></div>
-                <Lane account="escola" date={date} posts={posts} weekend={weekend} />
-                <Lane account="missao" date={date} posts={posts} weekend={weekend} />
+      <div className="week-cal">
+        {weeks.map((monday) => {
+          const days = [0, 1, 2, 3, 4, 5, 6].map((index) => addDays(monday, index))
+          return (
+            <section key={monday}>
+              <h2>{weekTitle(monday)}</h2>
+              <div className="scrollx">
+                <div className="wk">
+                  <div className="lane-l">
+                    <div><i className="dot d-mj" style={{ width: 10, height: 10 }} />Escola<small>@missaojosue.educacao</small></div>
+                    <div><i className="dot d-mi" style={{ width: 10, height: 10 }} />Missão<small>@missaojosue.ofc</small></div>
+                  </div>
+                  {days.map((date) => {
+                    const weekend = weekdayShort(date) === 'sáb' || weekdayShort(date) === 'dom'
+                    return (
+                      <div className="day" key={date}>
+                        <div className={`dh ${weekend ? 'off' : ''}`}><b>{dayNumber(date)}</b><span>{weekdayShort(date)}</span></div>
+                        <Lane account="escola" date={date} posts={posts} weekend={weekend} />
+                        <Lane account="missao" date={date} posts={posts} weekend={weekend} />
+                      </div>
+                    )
+                  })}
+                </div>
               </div>
-            )
-          })}
-        </div>
+            </section>
+          )
+        })}
       </div>
     </>
   )
@@ -71,7 +73,7 @@ function showAttach(post: Post): boolean {
 function Lane({ account, date, posts, weekend }: { account: 'escola' | 'missao'; date: string; posts: Post[]; weekend: boolean }) {
   const ui = useUi()
   const data = useData()
-  const list = posts.filter((post) => post.account === account && post.scheduled_date === date)
+  const list = postsOnDay(posts, date, account)
   if (weekend && list.length === 0) {
     return <div className="lane off"><div className="offl">Folga</div></div>
   }
