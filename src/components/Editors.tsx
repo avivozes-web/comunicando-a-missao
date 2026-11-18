@@ -4,6 +4,7 @@ import { Icon } from './Icon'
 import { useData } from '@/context/DataContext'
 import { useUi } from '@/context/UiContext'
 import { asDate, todayISO } from '@/lib/dates'
+import { aspectForFormat, defaultChecklist, needsCoverUpload } from '@/lib/logic'
 import {
   ACCOUNTS,
   DEFAULT_ASSIGNEES,
@@ -48,7 +49,6 @@ function PostEditor() {
   const [title, setTitle] = useState('')
   const [date, setDate] = useState(todayISO())
   const [time, setTime] = useState('')
-  const [aspect, setAspect] = useState('')
   const [legenda, setLegenda] = useState('')
   const [whatsapp, setWhatsapp] = useState('')
   const [readyChecks, setReadyChecks] = useState<Post['ready_checks']>({})
@@ -72,7 +72,6 @@ function PostEditor() {
       setTitle(editing.title)
       setDate(editing.scheduled_date)
       setTime(editing.scheduled_time?.slice(0, 5) || '')
-      setAspect(editing.aspect || '')
       setLegenda(editing.legenda || '')
       setWhatsapp(editing.legenda_whatsapp || '')
       setReadyChecks(editing.ready_checks || {})
@@ -89,7 +88,7 @@ function PostEditor() {
       setTitle('')
       setDate(ui.postDate || todayISO())
       setTime('')
-      setAspect('')
+      setChecks(defaultChecklist('reel'))
       setLegenda('')
       setWhatsapp('')
       setReadyChecks({})
@@ -98,7 +97,6 @@ function PostEditor() {
       setDateTag('')
       setStatus('ideia')
       setUpdatedBy('Isabelle')
-      setChecks([])
       setCoverUrl(null)
       setWho(DEFAULT_ASSIGNEES)
     }
@@ -113,14 +111,14 @@ function PostEditor() {
       status,
       scheduled_date: date,
       scheduled_time: time || null,
-      aspect: aspect.trim() || null,
+      aspect: aspectForFormat(format),
       legenda: legenda.trim() || null,
       legenda_whatsapp: whatsapp.trim() || null,
       ready_checks: readyChecks,
       cover_url: coverUrl,
       cover_thumb_url: editing?.cover_thumb_url ?? null,
       drive_url: drive.trim() || null,
-      checklist: checks,
+      checklist: checks.length ? checks : defaultChecklist(format, time || null),
       note: note.trim() || null,
       date_tag: dateTag.trim() || null,
       updated_by: updatedBy,
@@ -190,7 +188,10 @@ function PostEditor() {
           {(editing || step === 1) && (
             <div className="choice">
               {FORMATS.map((item) => (
-                <button type="button" key={item.id} className={`choice-btn ${format === item.id ? 'on' : ''}`} onClick={() => setFormat(item.id)}>
+                <button type="button" key={item.id} className={`choice-btn ${format === item.id ? 'on' : ''}`} onClick={() => {
+                  setFormat(item.id)
+                  if (!editing) setChecks(defaultChecklist(item.id, time || null))
+                }}>
                   {item.label}
                 </button>
               ))}
@@ -209,11 +210,9 @@ function PostEditor() {
               <label className="field">Hora
                 <input className="inp" type="time" value={time} onChange={(event) => setTime(event.target.value)} />
               </label>
-              {editing && (
-                <label className="field">Proporção
-                  <input className="inp" value={aspect} onChange={(event) => setAspect(event.target.value)} placeholder="4:5" />
-                </label>
-              )}
+              <label className="field">Proporção
+                <input className="inp" value={aspectForFormat(format)} readOnly aria-readonly="true" />
+              </label>
             </div>
           )}
           {!editing && step === 4 && (
@@ -283,30 +282,38 @@ function PostEditor() {
                       <button type="button" className="btn" onClick={() => { if (!checkText.trim()) return; setChecks([...checks, { label: checkText.trim(), done: false }]); setCheckText('') }}>Adicionar</button>
                     </div>
                   </div>
-                  <div className="field">Capa
-                    <div className="cover-preview-row">
-                      {coverUrl ? <img src={mediaUrl(coverUrl) || ''} alt="Capa atual" /> : <span className="src">Sem capa ainda.</span>}
-                      <label className="btn">
-                        Trocar capa
-                        <input type="file" accept="image/*" hidden onChange={(event) => {
-                          const file = event.target.files?.[0]
-                          if (!file || !editing) return
-                          setBusy(true)
-                          void data.setCover(editing.id, file).then((url) => {
-                            setCoverUrl(url)
-                            ui.toast('Capa atualizada.')
-                          }).catch(() => ui.toast('Não foi possível enviar a capa.')).finally(() => setBusy(false))
-                        }} />
-                      </label>
+                  {needsCoverUpload(format) ? (
+                    <div className="field">Capa
+                      <div className="cover-preview-row">
+                        {coverUrl || editing?.cover_thumb_url ? <img src={mediaUrl(coverUrl) || editing?.cover_thumb_url || ''} alt="Capa atual" /> : <span className="src">Sem capa ainda.</span>}
+                        <label className="btn">
+                          Trocar capa
+                          <input type="file" accept="image/*" hidden onChange={(event) => {
+                            const file = event.target.files?.[0]
+                            if (!file || !editing) return
+                            setBusy(true)
+                            void data.setCover(editing.id, file).then((url) => {
+                              setCoverUrl(url)
+                              ui.toast('Capa atualizada.')
+                            }).catch(() => ui.toast('Não foi possível enviar a capa.')).finally(() => setBusy(false))
+                          }} />
+                        </label>
+                      </div>
                     </div>
-                  </div>
+                  ) : (
+                    <div className="field">Capa
+                      <div className="cover-preview-row">
+                        {editing?.cover_thumb_url || coverUrl ? <img src={editing?.cover_thumb_url || mediaUrl(coverUrl) || ''} alt="Primeiro slide" /> : <span className="src">A capa é o primeiro slide da pasta do Drive. Não precisa anexar de novo.</span>}
+                      </div>
+                    </div>
+                  )}
                 </>
               )}
             </div>
           )}
         </div>
         <div className="mf">
-          <div className="hint">{editing ? 'A capa também pode ser trocada pelo celular.' : 'As tarefas gravar, editar, aprovar e postar nascem sozinhas.'}</div>
+          <div className="hint">{editing ? (needsCoverUpload(format) ? 'A capa também pode ser trocada pelo celular.' : 'A capa do carrossel é o primeiro slide do Drive.') : 'As tarefas gravar, editar, aprovar e postar nascem sozinhas.'}</div>
           <div style={{ display: 'flex', gap: 8 }}>
             {editing && <button type="button" className="btn" onClick={() => void remove()}>Apagar</button>}
             {!editing && step > 0 && <button type="button" className="btn" onClick={() => setStep(step - 1)}>Voltar</button>}

@@ -51,12 +51,12 @@ export function Cover({
   variant?: string
   onFile?: (file: File) => void
 }) {
-  const src = mediaUrl(post.cover_url)
+  const src = post.cover_thumb_url || mediaUrl(post.cover_url)
   function openDrive() {
     if (post.drive_url) window.open(post.drive_url, '_blank', 'noopener,noreferrer')
   }
   return (
-    <div className={`thw ${variant}`.trim()} onClick={src && post.drive_url ? openDrive : undefined} style={{ cursor: post.drive_url ? 'pointer' : undefined }}>
+    <div className={`thw ${variant}`.trim()} onClick={post.drive_url ? openDrive : undefined} style={{ cursor: post.drive_url ? 'pointer' : undefined }}>
       {src ? <img src={src} alt="" /> : null}
       {src && post.drive_url ? (
         <div className="drv">
@@ -78,6 +78,12 @@ export function Cover({
           <Icon name="clip" />
           Anexar capa
         </label>
+      ) : null}
+      {!src && !onFile && post.drive_url ? (
+        <div className="drv">
+          <Icon name="folder" />
+          Abrir no Drive
+        </div>
       ) : null}
     </div>
   )

@@ -3,7 +3,7 @@ import { Icon } from '@/components/Icon'
 import { useData } from '@/context/DataContext'
 import { useUi } from '@/context/UiContext'
 import { addDays, dayNumber, startOfWeek, todayISO, weekdayShort, weekTitle } from '@/lib/dates'
-import { isPlaceholder, matchesAccount, postAlert, postsOnDay, timeLabel } from '@/lib/logic'
+import { isPlaceholder, matchesAccount, needsCoverUpload, postAlert, postsOnDay, timeLabel } from '@/lib/logic'
 import { FORMATS, STATUSES, type Post } from '@/lib/types'
 
 const WEEK_COUNT = 5
@@ -64,10 +64,17 @@ export function Semana() {
 
 function showAttach(post: Post): boolean {
   const title = post.title.trim()
-  if (post.cover_url) return false
-  if (post.format === 'stories' || post.format === 'post_leve') return false
+  if (post.cover_url || post.cover_thumb_url) return false
+  if (!needsCoverUpload(post.format)) return false
   if (/^a definir$/i.test(title) || /^tema a definir$/i.test(title)) return false
   return true
+}
+
+function showCoverBox(post: Post): boolean {
+  if (post.cover_url || post.cover_thumb_url) return true
+  if (showAttach(post)) return true
+  if (post.drive_url && (post.format === 'carrossel' || post.format === 'post_leve')) return true
+  return false
 }
 
 function Lane({ account, date, posts, weekend }: { account: 'escola' | 'missao'; date: string; posts: Post[]; weekend: boolean }) {
@@ -85,7 +92,7 @@ function Lane({ account, date, posts, weekend }: { account: 'escola' | 'missao';
         const alert = postAlert(post, todayISO())
         const vague = isPlaceholder(post.title)
         const label = FORMATS.find((item) => item.id === post.format)?.label || post.format
-        const showBox = Boolean(post.cover_url) || showAttach(post)
+        const showBox = showCoverBox(post)
         return (
           <div key={post.id} className={`pc ${account === 'escola' ? 'mj' : 'mi'} ${alert ? 'warn' : ''}`}>
             <div className="ty">
@@ -94,7 +101,7 @@ function Lane({ account, date, posts, weekend }: { account: 'escola' | 'missao';
               <EditButton onClick={() => ui.openPost(post)} />
             </div>
             {showBox && (
-              <Cover post={post} onFile={(file) => void data.setCover(post.id, file)} />
+              <Cover post={post} onFile={showAttach(post) ? (file) => void data.setCover(post.id, file) : undefined} />
             )}
             <h4 className={vague ? 'tbd' : ''}>{post.title}</h4>
             <div className="ft">

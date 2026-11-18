@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
 import { addDays, startOfWeek, weekTitle } from './dates.ts'
-import { postsOnDay } from './logic.ts'
+import { aspectForFormat, defaultChecklist, postsOnDay } from './logic.ts'
 import type { Post } from './types.ts'
 
 function post(partial: Pick<Post, 'id' | 'scheduled_date' | 'status' | 'account'>): Post {
@@ -43,4 +43,25 @@ test('post com status postado aparece no dia, como o Haiti de 16/11', () => {
   const day = postsOnDay(rows, '2026-11-16', 'missao')
   assert.deepEqual(day.map((item) => item.id), ['haiti', 'agendado'])
   assert.equal(day[0].status, 'postado')
+})
+
+test('proporção e checklist seguem o formato', () => {
+  assert.equal(aspectForFormat('reel'), '9:16')
+  assert.equal(aspectForFormat('stories'), '9:16')
+  assert.equal(aspectForFormat('video'), '16:9')
+  assert.equal(aspectForFormat('carrossel'), '4:5')
+  assert.equal(aspectForFormat('post_leve'), '4:5')
+  const reel = defaultChecklist('reel', '12:05')
+  assert.deepEqual(reel.map((item) => item.label), [
+    'Vídeo aprovado',
+    'Capa',
+    'Legenda do Instagram aprovada',
+    'Legenda do WhatsApp',
+    'Programado 12h05',
+    '1º comentário QUERO',
+  ])
+  const carrossel = defaultChecklist('carrossel')
+  assert.ok(carrossel.every((item) => item.label !== 'Capa'))
+  assert.equal(carrossel[0].label, 'Arte aprovada')
+  assert.equal(carrossel.find((item) => item.label.startsWith('Programado'))?.label, 'Programado 12h07')
 })

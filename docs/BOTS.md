@@ -170,19 +170,19 @@ Upsert: `POST /rest/v1/<tabela>?on_conflict=id` com `Prefer: resolution=merge-du
 | `status` | `ideia`, `roteiro`, `gravado`, `editado`, `arte_pronta`, `aprovado`, `pronto` ou `postado` |
 | `scheduled_date` | `YYYY-MM-DD`. É o dia em que o post aparece na grade |
 | `scheduled_time` | `HH:MM` ou null |
-| `aspect` | texto ou null, por exemplo `4:5` |
+| `aspect` | preenchido sozinho pelo formato; não edite. Reels e Stories `9:16`, Vídeo `16:9`, Carrossel e Post leve `4:5` |
 | `legenda` | legenda do Instagram, ou null |
 | `legenda_whatsapp` | legenda do WhatsApp, ou null |
 | `cover_url` | URL pública de uma capa enviada pela equipe no app, ou null. A Biblioteca não usa esta coluna no cartão |
 | `cover_thumb_url` | URL pública da miniatura no bucket `capas`. É a imagem grande do cartão |
 | `drive_url` | link do Drive para baixar a arte ou o vídeo, ou null. O arquivo do Drive é privado; clicar na miniatura abre este link |
-| `checklist` | lista de `{ "label", "done" }` |
+| `checklist` | lista de `{ "label", "done" }`. Se vier vazio no insert ou no update, o gatilho `ensure_post_defaults` preenche. Reel e vídeo: `Vídeo aprovado`, `Capa`, `Legenda do Instagram aprovada`, `Legenda do WhatsApp`, `Programado` (12h05 se não houver hora) e `1º comentário QUERO`. Carrossel e post leve: `Arte aprovada` (sem item de capa), as duas legendas, `Programado` (12h07 se não houver hora) e `1º comentário QUERO`. Stories: `Arte aprovada`, `Legenda do WhatsApp`, `Programado`. Se a legenda do Instagram já existir, inclua a contagem no rótulo, por exemplo `Legenda do Instagram aprovada (399 caracteres)`. Não deixe post sem checklist |
 | `ready_checks` | objeto `{ "tamanho", "legenda", "conta", "sem_hashtag", "pix" }` com true/false. A tela marca. O bot não precisa preencher |
 | `note`, `date_tag`, `updated_by` | texto ou null |
 
 `arte_pronta` entra na fila "Esperando você". `aprovado`, `pronto` e `postado` entram na Biblioteca. `postado` é "já usei"; os outros dois são "ainda não usei".
 
-Quando `status` passa a `aprovado` e o formato é `reel`, `carrossel` ou `video`, o gatilho `ensure_stories_task` cria a tarefa `Stories: <título>` na conta `escola`, com a nota `puxar para a matrícula 2027`, no mesmo dia do post. Não crie essa tarefa de novo.
+Quando `status` passa a `aprovado` e o formato é `reel`, `carrossel` ou `video`, o gatilho `ensure_stories_task` cria a tarefa `Stories: <título>` na mesma conta do post (`escola` ou `missao`), no mesmo dia. A nota é `puxar para a matrícula 2027` na Escola e `puxar para a oferta / oração` na Missão. Não crie essa tarefa de novo.
 
 O gatilho `sync_post_tasks` cria `gravar` (−3 dias), `editar` (−2), `aprovar` (−1) e `postar` (no dia). Responsáveis: Isabelle, Bezalel, Lídia + Isabelle e Lídia.
 
@@ -195,7 +195,9 @@ Bucket: `capas` (já existe, leitura pública).
 Caminho padrão: `{id-do-post}/thumb.jpg`  
 Exemplo: `c673e394-8e8a-4847-94a8-21483ff666e3/thumb.jpg`
 
-Arquivo: JPG, cerca de 800 px de largura. Carrossel: o 1º slide, proporção 4:5. Reel ou vídeo: a capa, proporção 9:16.
+Arquivo: JPG, cerca de 800 px de largura. Carrossel e post leve: o 1º slide da pasta do Drive (nome `slide-01`, `1 de 7`, `01` e semelhantes; use a ordem natural do nome), proporção 4:5. Reel ou vídeo: a capa, proporção 9:16.
+
+Carrossel e post leve **não pedem capa à parte** no site. A capa do cartão é esse 1º slide. O site não consegue puxar o arquivo sozinho (a pasta do Drive é privada). Ao gravar o `drive_url`, o bot sobe o 1º slide como `{id-do-post}/thumb.jpg` e preenche `cover_thumb_url`. Clicar no cartão continua abrindo o Drive.
 
 URL pública, que vai em `cover_thumb_url`:
 

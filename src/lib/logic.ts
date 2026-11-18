@@ -53,7 +53,8 @@ export function postAlert(post: Post, today: string): AlertInfo | null {
   if (post.status === 'postado') return null
   const days = daysBetween(today, post.scheduled_date)
   if (days < 0 || days > 7) return null
-  const noCover = !post.cover_url
+  const needsCover = post.format === 'reel' || post.format === 'video'
+  const noCover = needsCover && !post.cover_url && !post.cover_thumb_url
   const noLeg = !post.legenda?.trim()
   if (!noCover && !noLeg) return null
   const when = days === 0 ? 'É hoje' : days === 1 ? 'Falta 1 dia' : `Faltam ${days} dias`
@@ -121,8 +122,53 @@ export function syncGeneratedTasks(tasks: Task[], post: Post, assignees: Assigne
   return [...others, ...next]
 }
 
+export function aspectForFormat(format: string): string {
+  if (format === 'reel' || format === 'stories') return '9:16'
+  if (format === 'video') return '16:9'
+  return '4:5'
+}
+
+export function programadoLabel(format: string, scheduledTime?: string | null): string {
+  if (scheduledTime) return `Programado ${timeLabel(scheduledTime)}`
+  if (format === 'carrossel' || format === 'post_leve') return 'Programado 12h07'
+  if (format === 'reel' || format === 'video') return 'Programado 12h05'
+  return 'Programado'
+}
+
+export function defaultChecklist(format: string, scheduledTime?: string | null): CheckItem[] {
+  const programado = { label: programadoLabel(format, scheduledTime), done: false }
+  if (format === 'reel' || format === 'video') {
+    return [
+      { label: 'Vídeo aprovado', done: false },
+      { label: 'Capa', done: false },
+      { label: 'Legenda do Instagram aprovada', done: false },
+      { label: 'Legenda do WhatsApp', done: false },
+      programado,
+      { label: '1º comentário QUERO', done: false },
+    ]
+  }
+  if (format === 'stories') {
+    return [
+      { label: 'Arte aprovada', done: false },
+      { label: 'Legenda do WhatsApp', done: false },
+      programado,
+    ]
+  }
+  return [
+    { label: 'Arte aprovada', done: false },
+    { label: 'Legenda do Instagram aprovada', done: false },
+    { label: 'Legenda do WhatsApp', done: false },
+    programado,
+    { label: '1º comentário QUERO', done: false },
+  ]
+}
+
 export function blankChecklist(): CheckItem[] {
-  return []
+  return defaultChecklist('reel')
+}
+
+export function needsCoverUpload(format: string): boolean {
+  return format === 'reel' || format === 'video'
 }
 
 export type Pendencia = {
