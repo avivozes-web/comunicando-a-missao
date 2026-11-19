@@ -412,13 +412,15 @@ function TaskEditor() {
   const editing = ui.task && ui.task !== 'new' ? ui.task : null
   const open = ui.task !== null
   const [draft, setDraft] = useState<Task | null>(null)
+  const [asking, setAsking] = useState(false)
 
   useEffect(() => {
     if (!open) return
+    setAsking(false)
     setDraft(editing || {
       id: uid(),
       title: '',
-      assignee: 'Isabelle',
+      assignee: ui.person,
       account: null,
       due_date: ui.taskDate || todayISO(),
       done: false,
@@ -432,7 +434,7 @@ function TaskEditor() {
       note: null,
       sort: 60,
     })
-  }, [open, editing, ui.taskDate])
+  }, [open, editing, ui.taskDate, ui.person])
 
   if (!draft) return null
   return (
@@ -451,8 +453,11 @@ function TaskEditor() {
             <input className="inp" value={draft.title} onChange={(event) => setDraft({ ...draft, title: event.target.value })} />
           </label>
           <div className="form-grid">
-            <label className="field">Quem
-              <input className="inp" value={draft.assignee} onChange={(event) => setDraft({ ...draft, assignee: event.target.value })} />
+            <label className="field">Quem (responsável)
+              <input className="inp" list="team-names" value={draft.assignee} onChange={(event) => setDraft({ ...draft, assignee: event.target.value })} />
+              <datalist id="team-names">
+                {[...TEAM, 'Isabelle + Richard', 'Lídia + Isabelle', 'Isabelle + Esdras'].map((name) => <option key={name} value={name} />)}
+              </datalist>
             </label>
             <label className="field">Data
               <input className="inp" type="date" value={asDate(draft.due_date)} onChange={(event) => {
@@ -480,7 +485,27 @@ function TaskEditor() {
           </div>
         </div>
         <div className="mf">
-          {editing ? <button type="button" className="btn" onClick={() => { void data.removeTask(editing.id); ui.closeTask() }}>Apagar</button> : <span />}
+          {editing && !asking && (
+            <button type="button" className="btn" onClick={() => {
+              if (editing.fixed_task_id) { setAsking(true); return }
+              void data.removeTask(editing.id)
+              ui.closeTask()
+            }}>Apagar</button>
+          )}
+          {editing && asking && (
+            <div className="del-choice">
+              <span>Tarefa que se repete:</span>
+              <button type="button" className="btn" onClick={() => { void data.removeTask(editing.id); ui.closeTask(); ui.toast('Apagada só deste dia.') }}>Só este dia</button>
+              <button type="button" className="btn" onClick={() => {
+                if (!editing.fixed_task_id) return
+                void data.stopFixedTask(editing.fixed_task_id, asDate(editing.origin_date || editing.due_date))
+                ui.closeTask()
+                ui.toast('Tarefa fixa apagada de vez.')
+              }}>De vez</button>
+              <button type="button" className="btn" onClick={() => setAsking(false)}>Cancelar</button>
+            </div>
+          )}
+          {!editing && <span />}
           <button type="button" className="nx" onClick={() => { void data.saveTask(draft); ui.closeTask() }}>Salvar</button>
         </div>
       </DialogContent>

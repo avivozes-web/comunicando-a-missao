@@ -176,6 +176,15 @@ export async function removeTask(id: string): Promise<void> {
   if (error) throw new Error(error.message)
 }
 
+// Apagar de vez: a tarefa fixa para de se repetir e some deste dia em diante (as feitas ficam).
+export async function stopFixedTask(fixedId: string, from: string): Promise<void> {
+  const { error } = await supabase.from('fixed_tasks').update({ active: false }).eq('id', fixedId)
+  if (error) throw new Error(error.message)
+  const { error: deleteError } = await supabase.from('tasks').delete()
+    .eq('fixed_task_id', fixedId).eq('done', false).gte('origin_date', from)
+  if (deleteError) throw new Error(deleteError.message)
+}
+
 export async function saveMonth(row: YearMonth): Promise<void> {
   const { error } = await supabase.from('year_months').upsert(row)
   if (error) throw new Error(error.message)

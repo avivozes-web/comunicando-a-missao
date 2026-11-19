@@ -245,7 +245,7 @@ Tarefa avulsa do bot usa `kind = adhoc`. Não use `generated`: isso é das quatr
 | --- | --- |
 | `id` | uuid |
 | `title` | texto |
-| `assignee` | texto. Pode ser vazio |
+| `assignee` | responsável, texto. Padrão `Isabelle`. Para o Richard ver a tarefa na visão dele, o nome `Richard` tem que estar aqui (ex.: `Richard` ou `Isabelle + Richard`) |
 | `account` | `escola`, `missao` ou null (as duas) |
 | `due_date` | `YYYY-MM-DD`. Dia em que a tarefa aparece |
 | `done` | true ou false. Feita continua na lista, riscada |
@@ -256,6 +256,15 @@ Tarefa avulsa do bot usa `kind = adhoc`. Não use `generated`: isso é das quatr
 | `badge` | `eventual` ou null |
 | `note` | texto curto ou null |
 | `sort` | inteiro. Menor número fica primeiro na ordem por prioridade |
+
+Regras de tarefa (19/11):
+
+- **Antes de criar, procure.** Se já existe tarefa com o mesmo nome ou o mesmo objetivo (no mesmo dia ou nos próximos), não crie outra. A Isabelle já coloca muitas tarefas sozinha.
+- **Nada automático no sábado e no domingo.** Data que o bot ou o sistema calcula e cai no fim de semana vai para a sexta antes (`public.workday_before(data)`). Só a Isabelle põe tarefa no fim de semana, ou o bot quando ela pedir com a data.
+- **Só "Postar" acompanha o post.** Mudou a data do post: a tarefa `postar` vai junto. `gravar`, `editar` e `aprovar` ficam no dia em que estavam. Mudar a data da tarefa `postar` também muda `posts.scheduled_date` (Tarefas e Semana usam a mesma data).
+- **Apagar tarefa fixa.** Apagar a linha de `tasks` de uma tarefa `fixed` apaga só aquele dia; o dia fica em `fixed_task_skips` e a rotina não recria. "De vez" = `fixed_tasks.active = false` e apagar as não feitas daquele dia em diante. Não apague `fixed_tasks` sem a Isabelle pedir.
+- Tarefa gerada pelo post que alguém apagou não volta quando o post é salvo de novo.
+- O "passou de ontem" não roda no sábado nem no domingo.
 
 ### `report_actions`
 

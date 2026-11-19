@@ -8,7 +8,7 @@ import { useData } from '@/context/DataContext'
 import { useUi } from '@/context/UiContext'
 import { addDays, asDate, dayNumber, longDate, startOfWeek, weekdayShort, weekTitle } from '@/lib/dates'
 import { todayISO } from '@/lib/dates'
-import { matchesAccount, postsOnDay, resumoDoDia, taskBadge } from '@/lib/logic'
+import { matchesAccount, postsOnDay, resumoDoDia, taskBadge, taskForPerson } from '@/lib/logic'
 import type { Idea, Post, Task } from '@/lib/types'
 import { uid } from '@/lib/utils'
 
@@ -25,7 +25,8 @@ export function Tarefas() {
   const [ajuste, setAjuste] = useState<{ postId?: string; ideaId?: string } | null>(null)
   const posts = data.bundle.posts.filter((post) => matchesAccount(post.account, ui.filter))
   const ideas = data.bundle.ideas.filter((idea) => matchesAccount(idea.account, ui.filter))
-  const tasks = data.bundle.tasks.filter((task) => matchesAccount(task.account, ui.filter))
+  const richard = ui.person === 'Richard'
+  const tasks = data.bundle.tasks.filter((task) => matchesAccount(task.account, ui.filter) && taskForPerson(task, ui.person))
   const summary = resumoDoDia(tasks, posts, today)
   const openToday = tasks.filter((task) => asDate(task.due_date) === today && !task.done).sort(bySort)
   const waitingPosts = posts.filter((post) => post.status === 'arte_pronta')
@@ -61,8 +62,8 @@ export function Tarefas() {
         <div className="hero">
           <div style={{ position: 'relative', zIndex: 1 }}>
             <div className="eyebrow">{longDate(today)}</div>
-            <h1>Olá, Isabelle</h1>
-            <div className="sub">O que precisa sair hoje e amanhã, nas duas contas.</div>
+            <h1>Olá, {ui.person}</h1>
+            <div className="sub">{richard ? 'Só as suas tarefas, nas duas contas.' : 'O que precisa sair hoje e amanhã, nas duas contas.'}</div>
             <div className="resumo-k">Resumo do dia</div>
             <div className="resumo">{summary}</div>
             <div className="ico-row">
@@ -80,10 +81,11 @@ export function Tarefas() {
         </div>
       </div>
       <div className="only-mobile">
+        <h2 className="mobile-hello">Olá, {ui.person}</h2>
         <div className="resumo-k">Resumo do dia</div>
         <div className="resumo mobile-resumo">{summary}</div>
       </div>
-      <section className="card secbox queue">
+      {!richard && <section className="card secbox queue">
         <div className="bh">
           <h2><Icon name="flag" /> Esperando você</h2>
           <span className="pill">{waitingPosts.length + waitingIdeas.length}</span>
@@ -115,7 +117,7 @@ export function Tarefas() {
             </div>
           </div>
         ))}
-      </section>
+      </section>}
       <div className="top">
         <div>
           <div className="eyebrow">Rotina da equipe</div>

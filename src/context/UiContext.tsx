@@ -1,9 +1,22 @@
 import { createContext, useContext, useState, type ReactNode } from 'react'
 import type { Filter, Idea, Post, Task } from '@/lib/types'
+import type { Person } from '@/lib/logic'
+
+const PERSON_KEY = 'cm-visao'
+
+function readPerson(): Person {
+  try {
+    return window.localStorage.getItem(PERSON_KEY) === 'Richard' ? 'Richard' : 'Isabelle'
+  } catch {
+    return 'Isabelle'
+  }
+}
 
 type UiValue = {
   filter: Filter
   setFilter: (filter: Filter) => void
+  person: Person
+  setPerson: (person: Person) => void
   post: Post | 'new' | null
   postDate: string | null
   openPost: (post?: Post | null, date?: string | null) => void
@@ -27,6 +40,7 @@ const UiContext = createContext<UiValue | null>(null)
 
 export function UiProvider({ children }: { children: ReactNode }) {
   const [filter, setFilter] = useState<Filter>('todas')
+  const [person, setPersonState] = useState<Person>(readPerson)
   const [post, setPost] = useState<Post | 'new' | null>(null)
   const [postDate, setPostDate] = useState<string | null>(null)
   const [idea, setIdea] = useState<Idea | 'new' | null>(null)
@@ -44,6 +58,15 @@ export function UiProvider({ children }: { children: ReactNode }) {
   const value: UiValue = {
     filter,
     setFilter,
+    person,
+    setPerson: (next) => {
+      setPersonState(next)
+      try {
+        window.localStorage.setItem(PERSON_KEY, next)
+      } catch {
+        // Sem localStorage, a escolha vale só nesta aba.
+      }
+    },
     post,
     postDate,
     openPost: (next = null, date = null) => {

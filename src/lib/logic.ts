@@ -93,23 +93,45 @@ export function resumoDoDia(tasks: Task[], posts: Post[], today: string): string
   return `Hoje: ${joinPt(bits)}.`
 }
 
+// Data calculada pelo sistema não cai em sábado nem domingo: vai para a sexta antes.
+export function workdayBefore(date: string): string {
+  const weekday = isoWeekday(date)
+  if (weekday === 6) return addDays(date, -1)
+  if (weekday === 7) return addDays(date, -2)
+  return date
+}
+
+// Quem faz: a visão Richard mostra só as tarefas com o nome dele.
+export type Person = 'Isabelle' | 'Richard'
+
+export function taskForPerson(task: Task, person: Person): boolean {
+  if (person === 'Isabelle') return true
+  return /richard/i.test(task.assignee || '')
+}
+
 export function syncGeneratedTasks(tasks: Task[], post: Post, assignees: Assignees = DEFAULT_ASSIGNEES): Task[] {
   const others = tasks.filter((task) => task.post_id !== post.id)
   if (isPlaceholder(post.title)) return tasks
   const existing = new Map(tasks.filter((task) => task.post_id === post.id && task.step).map((task) => [task.step, task]))
   const next: Task[] = []
   ;(Object.keys(STEP_NEED) as TaskStep[]).forEach((step) => {
-    const due = addDays(post.scheduled_date, STEP_OFFSET[step])
+    const due = step === 'postar' ? post.scheduled_date : workdayBefore(addDays(post.scheduled_date, STEP_OFFSET[step]))
     const prev = existing.get(step)
+    // Só "Postar" acompanha a data do post. As outras etapas ficam no dia em que estavam.
+    if (prev && step !== 'postar') {
+      next.push({ ...prev, title: STEP_PREFIX[step] + post.title, account: post.account, done: reaches(post.status, STEP_NEED[step]) })
+      return
+    }
+    if (!prev && existing.size > 0) return
     next.push({
       id: prev?.id || crypto.randomUUID(),
       title: STEP_PREFIX[step] + post.title,
       assignee: assignees[step] || prev?.assignee || DEFAULT_ASSIGNEES[step],
       account: post.account,
-      due_date: prev?.rolled_from ? prev.due_date : due,
+      due_date: due,
       done: reaches(post.status, STEP_NEED[step]),
       kind: 'generated',
-      rolled_from: prev?.rolled_from || null,
+      rolled_from: null,
       origin_date: due,
       post_id: post.id,
       fixed_task_id: null,

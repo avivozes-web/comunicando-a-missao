@@ -23,6 +23,7 @@ type DataValue = {
   saveTasks: (tasks: Task[]) => Promise<void>
   toggleTask: (id: string) => Promise<void>
   removeTask: (id: string) => Promise<void>
+  stopFixedTask: (fixedId: string, from: string) => Promise<void>
   saveMonth: (row: YearMonth) => Promise<void>
   saveYearDate: (row: YearDate) => Promise<void>
   removeYearDate: (id: string) => Promise<void>
@@ -272,6 +273,14 @@ export function DataProvider({ children }: { children: ReactNode }) {
         return current
       }
       await api.removeTask(id)
+    }),
+    stopFixedTask: (fixedId, from) => run(async (current) => {
+      if (PREVIEW) {
+        current.fixed_tasks = current.fixed_tasks.map((item) => (item.id === fixedId ? { ...item, active: false } : item))
+        current.tasks = current.tasks.filter((task) => !(task.fixed_task_id === fixedId && !task.done && (task.origin_date || task.due_date) >= from))
+        return current
+      }
+      await api.stopFixedTask(fixedId, from)
     }),
     saveMonth: (row) => run(async (current) => {
       if (PREVIEW) {

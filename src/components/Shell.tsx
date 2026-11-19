@@ -130,6 +130,7 @@ export function Shell() {
         </div>
       )}
       <main className="main">
+        <PersonSwitch />
         {data.loading && <p className="src">Carregando a central…</p>}
         {data.error && <p className="err">{data.error}</p>}
         {!data.loading && (
@@ -195,6 +196,17 @@ export function AccountSwitch({ filter, onChange }: { filter: Filter; onChange: 
           </button>
         ))}
       </div>
+    </div>
+  )
+}
+
+export function PersonSwitch() {
+  const ui = useUi()
+  return (
+    <div className="person-switch" role="group" aria-label="Ver tarefas de">
+      {(['Isabelle', 'Richard'] as const).map((name) => (
+        <button type="button" key={name} className={ui.person === name ? 'on' : ''} onClick={() => ui.setPerson(name)}>{name}</button>
+      ))}
     </div>
   )
 }

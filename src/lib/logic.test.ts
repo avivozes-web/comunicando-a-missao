@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
 import { addDays, startOfWeek, weekTitle } from './dates.ts'
-import { aspectForFormat, defaultChecklist, postsOnDay } from './logic.ts'
+import { aspectForFormat, defaultChecklist, postsOnDay, syncGeneratedTasks, taskForPerson, workdayBefore } from './logic.ts'
 import type { Post } from './types.ts'
 
 function post(partial: Pick<Post, 'id' | 'scheduled_date' | 'status' | 'account'>): Post {
@@ -64,4 +64,26 @@ test('proporção e checklist seguem o formato', () => {
   assert.ok(carrossel.every((item) => item.label !== 'Capa'))
   assert.equal(carrossel[0].label, 'Arte aprovada')
   assert.equal(carrossel.find((item) => item.label.startsWith('Programado'))?.label, 'Programado 12h07')
+})
+
+test('data automática no fim de semana vai para a sexta', () => {
+  assert.equal(workdayBefore('2026-11-21'), '2026-11-20')
+  assert.equal(workdayBefore('2026-11-22'), '2026-11-20')
+  assert.equal(workdayBefore('2026-11-23'), '2026-11-23')
+  const tasks = syncGeneratedTasks([], post({ id: 'p1', account: 'escola', scheduled_date: '2026-11-30', status: 'ideia' }))
+  assert.deepEqual(tasks.map((task) => task.due_date), ['2026-11-27', '2026-11-27', '2026-11-27', '2026-11-30'])
+})
+
+test('mudar a data do post só leva a tarefa Postar', () => {
+  const first = syncGeneratedTasks([], post({ id: 'p2', account: 'escola', scheduled_date: '2026-11-26', status: 'ideia' }))
+  const moved = syncGeneratedTasks(first, post({ id: 'p2', account: 'escola', scheduled_date: '2026-12-03', status: 'ideia' }))
+  const byStep = Object.fromEntries(moved.map((task) => [task.step, task.due_date]))
+  assert.deepEqual(byStep, { gravar: '2026-11-23', editar: '2026-11-24', aprovar: '2026-11-25', postar: '2026-12-03' })
+})
+
+test('visão Richard mostra só as tarefas dele', () => {
+  const base = syncGeneratedTasks([], post({ id: 'p3', account: 'escola', scheduled_date: '2026-11-26', status: 'ideia' }))[0]
+  assert.equal(taskForPerson({ ...base, assignee: 'Isabelle + Richard' }, 'Richard'), true)
+  assert.equal(taskForPerson({ ...base, assignee: 'Isabelle' }, 'Richard'), false)
+  assert.equal(taskForPerson({ ...base, assignee: 'Isabelle' }, 'Isabelle'), true)
 })
