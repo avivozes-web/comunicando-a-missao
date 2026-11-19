@@ -6,6 +6,17 @@ import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 const root = path.dirname(fileURLToPath(import.meta.url))
+const APP_VERSION = new Date().toISOString()
+
+// version.json fica fora do cache do app: o app compara com a própria versão e se atualiza.
+function versionFile(): Plugin {
+  return {
+    name: 'version-file',
+    generateBundle() {
+      this.emitFile({ type: 'asset', fileName: 'version.json', source: JSON.stringify({ version: APP_VERSION }) })
+    },
+  }
+}
 
 function previewData(): Plugin {
   const file = path.join(root, 'src/fixtures/preview.json')
@@ -24,9 +35,11 @@ function previewData(): Plugin {
 
 export default defineConfig({
   base: '/comunicando-a-missao/',
+  define: { __APP_VERSION__: JSON.stringify(APP_VERSION) },
   plugins: [
     react(),
     previewData(),
+    versionFile(),
     VitePWA({
       registerType: 'autoUpdate',
       injectRegister: false,
@@ -57,6 +70,10 @@ export default defineConfig({
         runtimeCaching: [
           {
             urlPattern: /^https:\/\/[a-z0-9-]+\.supabase\.co\/.*/i,
+            handler: 'NetworkOnly',
+          },
+          {
+            urlPattern: /\/version\.json/,
             handler: 'NetworkOnly',
           },
         ],

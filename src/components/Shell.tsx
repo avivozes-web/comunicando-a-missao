@@ -1,5 +1,6 @@
 import { NavLink, Navigate, Route, Routes, useLocation } from 'react-router-dom'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { hardRefresh, onNewVersion } from '@/lib/pwa'
 import { Logos } from './Logos'
 import { Icon } from './Icon'
 import { Editors } from './Editors'
@@ -62,6 +63,11 @@ export function Shell() {
   const ui = useUi()
   const location = useLocation()
   const [bell, setBell] = useState(false)
+  const [fresh, setFresh] = useState(false)
+  useEffect(() => {
+    const stop = onNewVersion(setFresh)
+    return () => { stop() }
+  }, [])
   const title = TITLES[location.pathname] || 'Tarefas'
   const today = todayISO()
   const alerts = data.bundle.posts.filter((post) => postAlert(post, today))
@@ -101,6 +107,7 @@ export function Shell() {
             <span className="av" style={{ background: '#F16623' }}>L</span>
           </div>
           <AccountSwitch filter={ui.filter} onChange={ui.setFilter} />
+          <button type="button" className="logout" onClick={() => void hardRefresh()}>Atualizar app</button>
           <button type="button" className="logout" onClick={() => void signOut()}>Sair</button>
         </div>
       </aside>
@@ -130,6 +137,12 @@ export function Shell() {
         </div>
       )}
       <main className="main">
+        {fresh && (
+          <div className="update-bar" role="status">
+            <span>Nova versão da Central.</span>
+            <button type="button" className="nx" onClick={() => void hardRefresh()}>Atualizar agora</button>
+          </div>
+        )}
         <PersonSwitch />
         {data.loading && <p className="src">Carregando a central…</p>}
         {data.error && <p className="err">{data.error}</p>}
@@ -168,6 +181,7 @@ export function Shell() {
               </NavLink>
             ))}
             <AccountSwitch filter={ui.filter} onChange={ui.setFilter} />
+            <button type="button" className="logout" onClick={() => void hardRefresh()}>Atualizar app</button>
             <button type="button" className="logout" onClick={() => void signOut()}>Sair</button>
           </div>
         </div>

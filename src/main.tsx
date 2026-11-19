@@ -1,10 +1,10 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { HashRouter } from 'react-router-dom'
-import { registerSW } from 'virtual:pwa-register'
+import { startPwa } from './lib/pwa'
 import App from './App'
 
-registerSW({ immediate: true })
+startPwa()
 import './index.css'
 import './styles/base.css'
 import './styles/pages.css'

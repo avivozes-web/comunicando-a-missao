@@ -4,7 +4,7 @@ import { Icon } from './Icon'
 import { useData } from '@/context/DataContext'
 import { useUi } from '@/context/UiContext'
 import { asDate, todayISO } from '@/lib/dates'
-import { aspectForFormat, defaultChecklist, needsCoverUpload } from '@/lib/logic'
+import { aspectForFormat, defaultAssignees, defaultChecklist, isVideoFormat, needsCoverUpload, stepLabel as stepName } from '@/lib/logic'
 import {
   ACCOUNTS,
   DEFAULT_ASSIGNEES,
@@ -190,7 +190,10 @@ function PostEditor() {
               {FORMATS.map((item) => (
                 <button type="button" key={item.id} className={`choice-btn ${format === item.id ? 'on' : ''}`} onClick={() => {
                   setFormat(item.id)
-                  if (!editing) setChecks(defaultChecklist(item.id, time || null))
+                  if (!editing) {
+                    setChecks(defaultChecklist(item.id, time || null))
+                    setWho(defaultAssignees(item.id))
+                  }
                 }}>
                   {item.label}
                 </button>
@@ -221,7 +224,7 @@ function PostEditor() {
                 <div className="fr" key={key}>
                   <div className="num">{index + 1}</div>
                   <div />
-                  <div className="who"><b>{{ gravar: 'Gravar', editar: 'Editar', aprovar: 'Aprovar', postar: 'Postar' }[key]}</b><span>antes de sair</span></div>
+                  <div className="who"><b>{stepName(key, format)}</b><span>antes de sair</span></div>
                   <select className="sel" value={who[key]} onChange={(event) => setWho({ ...who, [key]: event.target.value })}>
                     {TEAM.map((name) => <option key={name}>{name}</option>)}
                     <option>Lídia + Isabelle</option>
@@ -259,9 +262,11 @@ function PostEditor() {
                       {STATUSES.map((item) => (
                         <button type="button" key={item.id} className={`st ${item.cls} ${status === item.id ? 'on' : ''}`} onClick={() => setStatus(item.id)}>{item.label}</button>
                       ))}
-                      <button type="button" className="btn-rec" onClick={() => setStatus('gravado')}>
-                        <Icon name="reel" /> Gravado, falta editar
-                      </button>
+                      {isVideoFormat(format) && (
+                        <button type="button" className="btn-rec" onClick={() => setStatus('gravado')}>
+                          <Icon name="reel" /> Gravado, falta editar
+                        </button>
+                      )}
                     </div>
                   </div>
                   <label className="field">Atualizado por
@@ -313,7 +318,7 @@ function PostEditor() {
           )}
         </div>
         <div className="mf">
-          <div className="hint">{editing ? (needsCoverUpload(format) ? 'A capa também pode ser trocada pelo celular.' : 'A capa do carrossel é o primeiro slide do Drive.') : 'As tarefas gravar, editar, aprovar e postar nascem sozinhas.'}</div>
+          <div className="hint">{editing ? (needsCoverUpload(format) ? 'A capa também pode ser trocada pelo celular.' : 'A capa do carrossel é o primeiro slide do Drive.') : (isVideoFormat(format) ? 'As tarefas gravar, editar, aprovar e postar nascem sozinhas.' : 'As tarefas plano slide por slide, confecção, aprovar e postar nascem sozinhas.')}</div>
           <div style={{ display: 'flex', gap: 8 }}>
             {editing && <button type="button" className="btn" onClick={() => void remove()}>Apagar</button>}
             {!editing && step > 0 && <button type="button" className="btn" onClick={() => setStep(step - 1)}>Voltar</button>}

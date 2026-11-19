@@ -19,6 +19,28 @@ const STEP_PREFIX: Record<TaskStep, string> = {
   postar: 'Postar ',
 }
 
+export function isVideoFormat(format: string): boolean {
+  return format === 'reel' || format === 'video'
+}
+
+// Carrossel, post leve e stories não são gravados nem editados.
+export function stepPrefix(step: TaskStep, format: string): string {
+  if (!isVideoFormat(format) && step === 'gravar') return 'Plano slide por slide do '
+  if (!isVideoFormat(format) && step === 'editar') return 'Confecção do '
+  return STEP_PREFIX[step]
+}
+
+export function stepLabel(step: TaskStep, format: string): string {
+  if (!isVideoFormat(format) && step === 'gravar') return 'Plano slide por slide'
+  if (!isVideoFormat(format) && step === 'editar') return 'Confecção'
+  return { gravar: 'Gravar', editar: 'Editar', aprovar: 'Aprovar', postar: 'Postar' }[step]
+}
+
+export function defaultAssignees(format: string): Assignees {
+  if (isVideoFormat(format)) return { ...DEFAULT_ASSIGNEES }
+  return { ...DEFAULT_ASSIGNEES, gravar: 'Isabelle', editar: 'Lídia + Isabelle' }
+}
+
 export function reaches(status: PostStatus, need: PostStatus): boolean {
   return RANK.indexOf(status) >= RANK.indexOf(need)
 }
@@ -119,13 +141,13 @@ export function syncGeneratedTasks(tasks: Task[], post: Post, assignees: Assigne
     const prev = existing.get(step)
     // Só "Postar" acompanha a data do post. As outras etapas ficam no dia em que estavam.
     if (prev && step !== 'postar') {
-      next.push({ ...prev, title: STEP_PREFIX[step] + post.title, account: post.account, done: reaches(post.status, STEP_NEED[step]) })
+      next.push({ ...prev, title: stepPrefix(step, post.format) + post.title, account: post.account, done: reaches(post.status, STEP_NEED[step]) })
       return
     }
     if (!prev && existing.size > 0) return
     next.push({
       id: prev?.id || crypto.randomUUID(),
-      title: STEP_PREFIX[step] + post.title,
+      title: stepPrefix(step, post.format) + post.title,
       assignee: assignees[step] || prev?.assignee || DEFAULT_ASSIGNEES[step],
       account: post.account,
       due_date: due,

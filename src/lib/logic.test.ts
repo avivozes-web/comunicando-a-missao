@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
 import { addDays, startOfWeek, weekTitle } from './dates.ts'
-import { aspectForFormat, defaultChecklist, postsOnDay, syncGeneratedTasks, taskForPerson, workdayBefore } from './logic.ts'
+import { aspectForFormat, defaultAssignees, defaultChecklist, stepLabel, postsOnDay, syncGeneratedTasks, taskForPerson, workdayBefore } from './logic.ts'
 import type { Post } from './types.ts'
 
 function post(partial: Pick<Post, 'id' | 'scheduled_date' | 'status' | 'account'>): Post {
@@ -86,4 +86,13 @@ test('visão Richard mostra só as tarefas dele', () => {
   assert.equal(taskForPerson({ ...base, assignee: 'Isabelle + Richard' }, 'Richard'), true)
   assert.equal(taskForPerson({ ...base, assignee: 'Isabelle' }, 'Richard'), false)
   assert.equal(taskForPerson({ ...base, assignee: 'Isabelle' }, 'Isabelle'), true)
+})
+
+test('carrossel tem plano slide por slide e confecção, reel tem gravar e editar', () => {
+  assert.equal(stepLabel('gravar', 'carrossel'), 'Plano slide por slide')
+  assert.equal(stepLabel('editar', 'post_leve'), 'Confecção')
+  assert.equal(stepLabel('gravar', 'reel'), 'Gravar')
+  assert.equal(defaultAssignees('carrossel').editar, 'Lídia + Isabelle')
+  const tasks = syncGeneratedTasks([], { ...post({ id: 'c1', account: 'missao', scheduled_date: '2026-11-30', status: 'ideia' }), format: 'carrossel', title: 'Macedônia' })
+  assert.deepEqual(tasks.map((task) => task.title).slice(0, 2), ['Plano slide por slide do Macedônia', 'Confecção do Macedônia'])
 })

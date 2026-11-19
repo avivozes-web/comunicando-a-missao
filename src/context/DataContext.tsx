@@ -102,6 +102,23 @@ export function DataProvider({ children }: { children: ReactNode }) {
     }
   }, [])
 
+  // App instalado fica aberto em segundo plano: ao voltar para ele, busca os dados de novo.
+  useEffect(() => {
+    if (PREVIEW) return
+    let last = Date.now()
+    const onVisible = () => {
+      if (document.visibilityState !== 'visible' || Date.now() - last < 20000) return
+      last = Date.now()
+      void api.loadBundle().then(setBundle).catch(() => undefined)
+    }
+    document.addEventListener('visibilitychange', onVisible)
+    window.addEventListener('focus', onVisible)
+    return () => {
+      document.removeEventListener('visibilitychange', onVisible)
+      window.removeEventListener('focus', onVisible)
+    }
+  }, [])
+
   function commit(next: Bundle) {
     setBundle({ ...next })
   }

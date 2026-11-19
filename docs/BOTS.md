@@ -265,6 +265,9 @@ Regras de tarefa (19/11):
 - **Apagar tarefa fixa.** Apagar a linha de `tasks` de uma tarefa `fixed` apaga só aquele dia; o dia fica em `fixed_task_skips` e a rotina não recria. "De vez" = `fixed_tasks.active = false` e apagar as não feitas daquele dia em diante. Não apague `fixed_tasks` sem a Isabelle pedir.
 - Tarefa gerada pelo post que alguém apagou não volta quando o post é salvo de novo.
 - O "passou de ontem" não roda no sábado nem no domingo.
+- **Carrossel, post leve e stories não são gravados.** As etapas `gravar` e `editar` desses formatos se chamam "Plano slide por slide do …" e "Confecção do …" (`public.step_prefix(step, format)`). Reel e vídeo continuam "Gravar …" e "Editar …". O `step` no banco continua `gravar`/`editar`.
+- **Legendas:** a legenda do Instagram vai em `posts.legenda` e a do WhatsApp em `posts.legenda_whatsapp`. O app busca os dados de novo quando volta para a tela.
+- **App instalado:** o app confere `version.json` ao abrir e ao voltar para a tela; versão nova se instala sozinha (ou pelo aviso "Atualizar agora" / botão "Atualizar app"). Ninguém precisa reinstalar.
 
 ### `report_actions`
 
