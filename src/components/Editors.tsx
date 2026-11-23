@@ -9,6 +9,9 @@ import {
   ACCOUNTS,
   DEFAULT_ASSIGNEES,
   FORMATS,
+  IDEA_COURSES,
+  IDEA_FORMATS,
+  IDEA_STAGES,
   STATUSES,
   TEAM,
   type Account,
@@ -350,7 +353,11 @@ function IdeaEditor() {
       status: 'ideia',
       suggested_date: null,
       heart: false,
-      updated_by: 'Isabelle',
+      updated_by: ui.person || 'Isabelle',
+      course: null,
+      script_url: null,
+      archived: false,
+      post_id: null,
     })
   }, [open, editing])
 
@@ -365,9 +372,9 @@ function IdeaEditor() {
       <DialogContent>
         <div className="mh5">
           <div>
-            <div className="eb">Banco de ideias</div>
+            <div className="eb">Fábrica de Conteúdo</div>
             <DialogTitle className="dlg-title">{editing ? 'Editar ideia' : 'Nova ideia'}</DialogTitle>
-            <DialogDescription className="dlg-desc">Ideia, aprovada ou publicada. O que não for aprovado sai do banco.</DialogDescription>
+            <DialogDescription className="dlg-desc">Coloque o cartão na etapa certa. Arquivar esconde, sem apagar.</DialogDescription>
           </div>
           <button type="button" className="xb" onClick={ui.closeIdea} aria-label="Fechar"><Icon name="x" /></button>
         </div>
@@ -386,25 +393,34 @@ function IdeaEditor() {
             </label>
             <label className="field">Formato
               <select className="sel" value={draft.format} onChange={(event) => setDraft({ ...draft, format: event.target.value })}>
-                {FORMATS.map((item) => <option key={item.id} value={item.id}>{item.label}</option>)}
+                {IDEA_FORMATS.map((item) => <option key={item.id} value={item.id}>{item.label}</option>)}
+              </select>
+            </label>
+            <label className="field">Curso
+              <select className="sel" value={draft.course || ''} onChange={(event) => setDraft({ ...draft, course: (event.target.value || null) as Idea['course'] })} disabled={draft.account !== 'escola'}>
+                <option value="">{draft.account === 'escola' ? 'Sem curso' : 'Só na MJ Educação'}</option>
+                {IDEA_COURSES.map((item) => <option key={item.id} value={item.id}>{item.label}</option>)}
               </select>
             </label>
             <label className="field">Etiquetas
-              <input className="inp" value={draft.tags.join(', ')} onChange={(event) => setDraft({ ...draft, tags: event.target.value.split(',').map((tag) => tag.trim()).filter(Boolean) })} placeholder="FIMC, Portal" />
+              <input className="inp" value={draft.tags.join(', ')} onChange={(event) => setDraft({ ...draft, tags: event.target.value.split(',').map((tag) => tag.trim()).filter(Boolean) })} placeholder="FIMC, Portal, Campos" />
             </label>
             <label className="field">Data sugerida
               <input className="inp" type="date" value={draft.suggested_date || ''} onChange={(event) => setDraft({ ...draft, suggested_date: event.target.value || null })} />
             </label>
           </div>
-          <div className="status-row">
-            <button type="button" className={`st s-ideia ${draft.status === 'ideia' ? 'on' : ''}`} onClick={() => setDraft({ ...draft, status: 'ideia' })}>Ideia</button>
-            <button type="button" className={`st s-aprovada ${draft.status === 'aprovada' ? 'on' : ''}`} onClick={() => setDraft({ ...draft, status: 'aprovada' })}>Aprovada</button>
-            <button type="button" className={`st s-publicada ${draft.status === 'publicada' ? 'on' : ''}`} onClick={() => setDraft({ ...draft, status: 'publicada' })}>Publicada</button>
+          <label className="field">Link do roteiro (PDF)
+            <input className="inp" value={draft.script_url || ''} onChange={(event) => setDraft({ ...draft, script_url: event.target.value || null })} placeholder="https://drive.google.com/..." />
+          </label>
+          <div className="status-row factory-status-row">
+            {IDEA_STAGES.map((stage) => (
+              <button type="button" key={stage.id} className={`st ${stage.cls} ${draft.status === stage.id ? 'on' : ''}`} onClick={() => setDraft({ ...draft, status: stage.id })}>{stage.label}</button>
+            ))}
           </div>
         </div>
         <div className="mf">
-          {editing ? <button type="button" className="btn" onClick={() => { void data.removeIdea(editing.id); ui.closeIdea() }}>Tirar do banco</button> : <span />}
-          <button type="button" className="nx" onClick={() => void save(draft)}>Salvar</button>
+          {editing ? <button type="button" className="btn" onClick={() => { void data.archiveIdea(editing.id, true); ui.closeIdea(); ui.toast('Ideia arquivada.') }}>Arquivar</button> : <span />}
+          <button type="button" className="nx" onClick={() => void save({ ...draft, updated_by: ui.person || draft.updated_by, course: draft.account === 'escola' ? draft.course : null })}>Salvar</button>
         </div>
       </DialogContent>
     </Dialog>

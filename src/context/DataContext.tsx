@@ -17,6 +17,7 @@ type DataValue = {
   removeIdea: (id: string) => Promise<void>
   setIdeaStatus: (id: string, status: Idea['status']) => Promise<void>
   toggleHeart: (id: string) => Promise<void>
+  archiveIdea: (id: string, archived?: boolean) => Promise<void>
   saveTask: (task: Task) => Promise<void>
   saveComment: (comment: PostComment) => Promise<void>
   linkReportAction: (id: string, taskId: string) => Promise<void>
@@ -199,7 +200,7 @@ export function DataProvider({ children }: { children: ReactNode }) {
       await api.savePost(next)
     }),
     saveIdea: (idea) => run(async (current) => {
-      const next = { ...idea, updated_at: new Date().toISOString() }
+      const next = api.normalizeIdea({ ...idea, updated_at: new Date().toISOString() })
       if (PREVIEW) {
         const exists = current.ideas.some((item) => item.id === idea.id)
         current.ideas = exists ? current.ideas.map((item) => (item.id === idea.id ? next : item)) : [next, ...current.ideas]
@@ -236,6 +237,16 @@ export function DataProvider({ children }: { children: ReactNode }) {
       const idea = current.ideas.find((item) => item.id === id)
       if (!idea) return current
       const next = { ...idea, heart: !idea.heart }
+      if (PREVIEW) {
+        current.ideas = current.ideas.map((item) => (item.id === id ? next : item))
+        return current
+      }
+      await api.saveIdea(next)
+    }),
+    archiveIdea: (id, archived = true) => run(async (current) => {
+      const idea = current.ideas.find((item) => item.id === id)
+      if (!idea) return current
+      const next = { ...idea, archived, updated_at: new Date().toISOString() }
       if (PREVIEW) {
         current.ideas = current.ideas.map((item) => (item.id === id ? next : item))
         return current
@@ -352,6 +363,7 @@ async function loadPreview(): Promise<Bundle> {
   const response = await fetch(`${import.meta.env.BASE_URL}preview-data.json`)
   if (!response.ok) throw new Error('Pré-visualização sem dados.')
   const bundle = (await response.json()) as Bundle
+  bundle.ideas = (bundle.ideas || []).map((row) => api.normalizeIdea(row))
   bundle.comments = bundle.comments || []
   bundle.report_actions = bundle.report_actions || []
   maintain(bundle, todayISO())

@@ -26,7 +26,7 @@ const NAV = [
       { to: '/tarefas', label: 'Tarefas', icon: 'list' },
       { to: '/semana', label: 'Semana', icon: 'calx' },
       { to: '/ano', label: 'Ano 2027', icon: 'grid' },
-      { to: '/ideias', label: 'Banco de Ideias', icon: 'bulb' },
+      { to: '/ideias', label: 'Fábrica de Conteúdo', icon: 'bulb' },
     ],
   },
   {
@@ -50,7 +50,7 @@ const TITLES: Record<string, string> = {
   '/tarefas': 'Tarefas',
   '/semana': 'Semana',
   '/ano': 'Ano 2027',
-  '/ideias': 'Ideias',
+  '/ideias': 'Fábrica de Conteúdo',
   '/biblioteca': 'Biblioteca',
   '/analises': 'Análises',
   '/seguidores': 'Seguidores',
