@@ -8,7 +8,7 @@ function asBundle(rows: Record<string, unknown[]>): Bundle {
   const narrative = (rows.narrative?.[0] || { body: '', updated_by: null }) as Narrative
   return {
     posts: ((rows.posts || []) as Post[]).map(normalizePost),
-    ideas: (rows.ideas || []) as Idea[],
+    ideas: (rows.ideas || []).map((row) => normalizeIdea(row as Idea)),
     fixed_tasks: (rows.fixed_tasks || []) as Bundle['fixed_tasks'],
     tasks: ((rows.tasks || []) as Task[]).map(normalizeTask),
     year_months: (rows.year_months || []) as YearMonth[],
@@ -39,6 +39,29 @@ async function table(name: string, order?: string) {
 
 function missingRpc(message: string): boolean {
   return /function|schema|does not exist|404/i.test(message)
+}
+
+
+export function normalizeIdea(row: Partial<Idea> & { id: string; status?: string }): Idea {
+  const raw = String(row.status || 'ideia')
+  const status = (raw === 'publicada' ? 'postado' : raw) as Idea['status']
+  return {
+    id: row.id,
+    account: row.account === 'missao' ? 'missao' : 'escola',
+    title: row.title || '',
+    body: row.body || '',
+    format: row.format || 'carrossel',
+    tags: row.tags || [],
+    status,
+    suggested_date: row.suggested_date ?? null,
+    heart: Boolean(row.heart),
+    updated_by: row.updated_by ?? null,
+    updated_at: row.updated_at ?? null,
+    course: row.course ?? null,
+    script_url: row.script_url ?? null,
+    archived: Boolean(row.archived),
+    post_id: row.post_id ?? null,
+  }
 }
 
 export async function loadBundle(): Promise<Bundle> {

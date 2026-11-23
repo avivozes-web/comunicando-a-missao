@@ -2,7 +2,9 @@ export type Account = 'escola' | 'missao'
 export type Filter = 'todas' | Account
 export type PostStatus = 'ideia' | 'roteiro' | 'gravado' | 'editado' | 'arte_pronta' | 'aprovado' | 'pronto' | 'postado'
 export type PostFormat = 'reel' | 'carrossel' | 'stories' | 'post_leve' | 'video'
-export type IdeaStatus = 'ideia' | 'aprovada' | 'rejeitada' | 'publicada'
+export type IdeaStatus = 'ideia' | 'aprovada' | 'roteiro_pronto' | 'em_producao' | 'pronto_postar' | 'postado' | 'rejeitada'
+export type IdeaCourse = 'FIMC' | 'Teologia' | 'Missiologia' | 'Portal'
+export type IdeaFormat = 'reel' | 'carrossel'
 export type TaskKind = 'fixed' | 'adhoc' | 'generated'
 export type TaskStep = 'gravar' | 'editar' | 'aprovar' | 'postar'
 
@@ -49,6 +51,10 @@ export type Idea = {
   heart: boolean
   updated_by: string | null
   updated_at?: string | null
+  course: IdeaCourse | null
+  script_url: string | null
+  archived: boolean
+  post_id: string | null
 }
 
 export type FixedTask = {
@@ -281,6 +287,27 @@ export const FORMATS: { id: PostFormat; label: string }[] = [
   { id: 'stories', label: 'Stories' },
   { id: 'post_leve', label: 'Post leve' },
   { id: 'video', label: 'Vídeo' },
+]
+
+export const IDEA_STAGES: { id: IdeaStatus; label: string; cls: string }[] = [
+  { id: 'ideia', label: 'Ideia', cls: 's-ideia' },
+  { id: 'aprovada', label: 'Aprovada', cls: 's-aprovada' },
+  { id: 'roteiro_pronto', label: 'Roteiro pronto', cls: 's-roteiro-pronto' },
+  { id: 'em_producao', label: 'Em produção', cls: 's-em-producao' },
+  { id: 'pronto_postar', label: 'Pronto para postar', cls: 's-pronto-postar' },
+  { id: 'postado', label: 'Postado', cls: 's-postado' },
+]
+
+export const IDEA_COURSES: { id: IdeaCourse; label: string }[] = [
+  { id: 'FIMC', label: 'FIMC' },
+  { id: 'Teologia', label: 'Teologia' },
+  { id: 'Missiologia', label: 'Missiologia' },
+  { id: 'Portal', label: 'Portal' },
+]
+
+export const IDEA_FORMATS: { id: IdeaFormat; label: string }[] = [
+  { id: 'reel', label: 'Reels' },
+  { id: 'carrossel', label: 'Carrossel' },
 ]
 
 export const TEAM = ['Isabelle', 'Richard', 'Lídia', 'Esdras', 'Bezalel']

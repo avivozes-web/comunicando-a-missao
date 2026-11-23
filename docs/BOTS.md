@@ -152,7 +152,7 @@ Upsert: `POST /rest/v1/<tabela>?on_conflict=id` com `Prefer: resolution=merge-du
 | `body` | texto. Pode ser vazio |
 | `format` | texto livre. A tela conhece `reel`, `carrossel`, `stories`, `post_leve`, `video` |
 | `tags` | lista de textos, por exemplo `{FIMC}` |
-| `status` | `ideia`, `aprovada`, `rejeitada` ou `publicada`. `ideia` entra na fila "Esperando você" |
+| `status` | `ideia`, `aprovada`, `roteiro_pronto`, `em_producao`, `pronto_postar`, `postado` ou `rejeitada`. Ideias arquivadas usam `archived`. |
 | `suggested_date` | `YYYY-MM-DD` ou null |
 | `heart` | true ou false |
 | `updated_by` | nome de quem gravou, ou null |

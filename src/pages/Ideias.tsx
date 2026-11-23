@@ -5,72 +5,127 @@ import { useData } from '@/context/DataContext'
 import { useUi } from '@/context/UiContext'
 import { addDays, isoWeekday, todayISO, weekdayShort } from '@/lib/dates'
 import { matchesAccount } from '@/lib/logic'
-import type { Idea } from '@/lib/types'
+import { IDEA_COURSES, IDEA_FORMATS, IDEA_STAGES, type Idea, type IdeaCourse, type IdeaFormat, type IdeaStatus } from '@/lib/types'
+
+type FormatFilter = 'todos' | IdeaFormat
+type CourseFilter = 'todos' | IdeaCourse
 
 export function Ideias() {
   const data = useData()
   const ui = useUi()
-  const [history, setHistory] = useState(false)
-  const ideas = data.bundle.ideas.filter((idea) => matchesAccount(idea.account, ui.filter))
-  const coluna = ideas.filter((idea) => idea.status === 'ideia')
-  const aprovadas = ideas.filter((idea) => idea.status === 'aprovada')
-  const publicadas = ideas.filter((idea) => idea.status === 'publicada')
-  const cadence = useMemo(() => nextEsdras(ideas), [ideas])
+  const [format, setFormat] = useState<FormatFilter>('todos')
+  const [course, setCourse] = useState<CourseFilter>('todos')
+  const [mobileStage, setMobileStage] = useState<IdeaStatus>('ideia')
+
+  const ideas = data.bundle.ideas.filter((idea) => {
+    if (idea.archived) return false
+    if (!matchesAccount(idea.account, ui.filter)) return false
+    if (format !== 'todos' && idea.format !== format) return false
+    if (ui.filter === 'escola' && course !== 'todos' && idea.course !== course) return false
+    return true
+  })
+
+  const byStage = useMemo(() => {
+    const map = Object.fromEntries(IDEA_STAGES.map((stage) => [stage.id, [] as Idea[]])) as Record<IdeaStatus, Idea[]>
+    for (const idea of ideas) {
+      if (map[idea.status]) map[idea.status].push(idea)
+    }
+    return map
+  }, [ideas])
+
+  const cadence = useMemo(() => nextEsdras(data.bundle.ideas), [data.bundle.ideas])
+  const showCourse = ui.filter === 'escola'
 
   return (
-    <>
+    <div className="factory">
       <div className="top">
         <div>
-          <div className="eyebrow">Ideias</div>
-          <h1>Banco de Ideias</h1>
-          <div className="sub">Cada cartão anda por Ideia, Aprovada e Publicada. A aprovada fica aqui até ser usada.</div>
+          <div className="eyebrow">Criação</div>
+          <h1>Fábrica de Conteúdo</h1>
+          <div className="sub">Da ideia ao post, cada cartão fica na etapa em que está.</div>
           <div className="cadence">
             <span className="av" style={{ background: '#5B6CF0', width: 18, height: 18, fontSize: 8 }}>E</span>
             <div>
-              <b>Atualizado pelo Esdras toda segunda e quinta</b> <span className="prop">proposta — a Isabelle confirma</span>
               <div className="when">{cadence}</div>
             </div>
           </div>
         </div>
         <div style={{ display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap' }}>
-          <button type="button" className="btn" onClick={() => setHistory((value) => !value)}><Icon name="refresh" /> {history ? 'Ver o banco' : 'Ver histórico'}</button>
           <button type="button" className="btn pri" onClick={() => ui.openIdea(null)}><Icon name="plus" /> Nova ideia</button>
         </div>
       </div>
-      <div className="hint">
-        <div>As ideias <b>publicadas</b> saem destas colunas e vão para o Histórico, para a gente não repetir tema. As que <b>não forem aprovadas</b> saem do banco.</div>
-        <div className="arrowflow">
-          <span className="st s-ideia">Ideia</span>
-          <Icon name="chevron" size={14} />
-          <span className="st s-aprovada">Aprovada</span>
-          <Icon name="chevron" size={14} />
-          <span className="st s-publicada">Publicada</span>
+
+      <div className="factory-summary" aria-live="polite">{buildSummary(byStage)}</div>
+
+      <div className="factory-filters">
+        <div className="filt-label">Formato</div>
+        <div className="seg2 factory-seg">
+          <button type="button" className={format === 'todos' ? 'on' : ''} onClick={() => setFormat('todos')}>Todos</button>
+          {IDEA_FORMATS.map((item) => (
+            <button type="button" key={item.id} className={format === item.id ? 'on' : ''} onClick={() => setFormat(item.id)}>{item.label}</button>
+          ))}
         </div>
+        {showCourse && (
+          <>
+            <div className="filt-label">Curso</div>
+            <div className="seg2 factory-seg factory-seg-wrap">
+              <button type="button" className={course === 'todos' ? 'on' : ''} onClick={() => setCourse('todos')}>Todos</button>
+              {IDEA_COURSES.map((item) => (
+                <button type="button" key={item.id} className={course === item.id ? 'on' : ''} onClick={() => setCourse(item.id)}>{item.label}</button>
+              ))}
+            </div>
+          </>
+        )}
       </div>
-      {history ? (
-        <div className="card secbox">
-          <h3>Histórico</h3>
-          <p className="src">O que já foi publicado, para não repetir o tema.</p>
-          {publicadas.length === 0 && <div className="empty">Nenhuma ideia publicada ainda.</div>}
-          <div className="stack-sm">
-            {publicadas.map((idea) => <IdeaCard key={idea.id} idea={idea} />)}
-          </div>
-        </div>
-      ) : (
-        <div className="board">
-          <Column title="Ideia" ideas={coluna} />
-          <Column title="Aprovada" ideas={aprovadas} />
-        </div>
-      )}
-    </>
+      <p className="factory-filter-hint">A conta é escolhida no topo, em Conta: Todas, Escola (MJ Educação) ou Missão (Missão Josué).</p>
+
+      <div className="factory-tabs only-mobile" role="tablist" aria-label="Etapa">
+        {IDEA_STAGES.map((stage) => (
+          <button
+            type="button"
+            key={stage.id}
+            role="tab"
+            aria-selected={mobileStage === stage.id}
+            className={`factory-tab ${mobileStage === stage.id ? 'on' : ''}`}
+            onClick={() => setMobileStage(stage.id)}
+          >
+            <span className={`st ${stage.cls}`}>{stage.label}</span>
+            <span className="n">{byStage[stage.id].length}</span>
+          </button>
+        ))}
+      </div>
+
+      <div className="factory-board">
+        {IDEA_STAGES.map((stage) => (
+          <Column
+            key={stage.id}
+            stage={stage}
+            ideas={byStage[stage.id]}
+            hiddenOnMobile={mobileStage !== stage.id}
+          />
+        ))}
+      </div>
+    </div>
   )
 }
 
-function Column({ title, ideas }: { title: string; ideas: Idea[] }) {
+function Column({
+  stage,
+  ideas,
+  hiddenOnMobile,
+}: {
+  stage: (typeof IDEA_STAGES)[number]
+  ideas: Idea[]
+  hiddenOnMobile: boolean
+}) {
   return (
-    <div className="col">
-      <div className="ch"><h3>{title}</h3><span className="n">{ideas.length}</span></div>
+    <div className={`col factory-col factory-col-${stage.id}${hiddenOnMobile ? ' hide-mobile' : ''}`}>
+      <div className="ch">
+        <h3><span className={`st ${stage.cls}`}>{stage.label}</span></h3>
+        <span className="n">{ideas.length}</span>
+      </div>
       <div className="list">
+        {ideas.length === 0 && <div className="empty">Nenhum cartão nesta etapa.</div>}
         {ideas.map((idea) => <IdeaCard key={idea.id} idea={idea} />)}
       </div>
     </div>
@@ -80,13 +135,21 @@ function Column({ title, ideas }: { title: string; ideas: Idea[] }) {
 function IdeaCard({ idea }: { idea: Idea }) {
   const data = useData()
   const ui = useUi()
+  const stage = IDEA_STAGES.find((item) => item.id === idea.status)
+  const next = nextStage(idea)
   const when = !idea.suggested_date
     ? 'Sem data'
-    : idea.status === 'aprovada'
-      ? `Agendado ${idea.suggested_date.slice(8, 10)}/${idea.suggested_date.slice(5, 7)}`
-      : `Sugestão ${idea.suggested_date.slice(8, 10)}/${idea.suggested_date.slice(5, 7)}`
+    : formatDate(idea.suggested_date)
+  const nextLabel = next ? IDEA_STAGES.find((item) => item.id === next)?.label : null
+
+  async function advance() {
+    if (!next) return
+    await data.setIdeaStatus(idea.id, next)
+    ui.toast(`Passou para ${nextLabel}.`)
+  }
+
   return (
-    <div className="card ic">
+    <div className={`card ic factory-card factory-card-${idea.status}`}>
       <div className="ih">
         <div className={`bulb ${idea.account === 'escola' ? 'mj' : 'mi'}`}><Icon name="bulb" /></div>
         <span style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
@@ -101,17 +164,62 @@ function IdeaCard({ idea }: { idea: Idea }) {
       <div className="tg">
         <AccountChip account={idea.account} />
         <FormatChip format={idea.format} />
-        {idea.tags.map((tag) => <span key={tag} className="chip c-gray">{tag}</span>)}
-        <span className={`st ${idea.status === 'aprovada' ? 's-aprovada' : idea.status === 'publicada' ? 's-publicada' : 's-ideia'}`}>
-          {idea.status === 'aprovada' ? 'Aprovada' : idea.status === 'publicada' ? 'Publicada' : 'Ideia'}
-        </span>
+        {idea.course && <span className="chip c-gray">{idea.course}</span>}
+        {!idea.course && idea.tags.map((tag) => <span key={tag} className="chip c-gray">{tag}</span>)}
+        {stage && <span className={`st ${stage.cls}`}>{stage.label}</span>}
       </div>
       <div className="fb">
         <span className="when"><Icon name="cal" />{when}</span>
-        <div className="by" style={{ margin: 0 }}>atualizado por {idea.updated_by || 'Esdras'}</div>
+        {idea.updated_by && <div className="by" style={{ margin: 0 }}>{idea.updated_by}</div>}
+      </div>
+      <div className="factory-actions">
+        {idea.script_url && (
+          <a className="btn" href={idea.script_url} target="_blank" rel="noopener noreferrer">
+            <Icon name="external" /> Ver roteiro
+          </a>
+        )}
+        {next && (
+          <button type="button" className="btn pri factory-advance" onClick={() => void advance()}>
+            Avançar para {nextLabel}
+            <Icon name="chevron" />
+          </button>
+        )}
       </div>
     </div>
   )
+}
+
+function nextStage(idea: Idea): IdeaStatus | null {
+  const reels: IdeaStatus[] = ['ideia', 'aprovada', 'roteiro_pronto', 'em_producao', 'pronto_postar', 'postado']
+  const carousel: IdeaStatus[] = ['ideia', 'aprovada', 'em_producao', 'pronto_postar', 'postado']
+  const order = idea.format === 'carrossel' ? carousel : reels
+  const index = order.indexOf(idea.status)
+  if (index >= 0) return order[index + 1] || null
+  const fallback = reels.indexOf(idea.status)
+  return fallback >= 0 ? reels[fallback + 1] || null : null
+}
+
+function formatDate(iso: string): string {
+  return `${iso.slice(8, 10)}/${iso.slice(5, 7)}/${iso.slice(0, 4)}`
+}
+
+function buildSummary(byStage: Record<IdeaStatus, Idea[]>): string {
+  const bits: [IdeaStatus, string, string][] = [
+    ['pronto_postar', 'pronto para postar', 'prontos para postar'],
+    ['roteiro_pronto', 'com roteiro pronto', 'com roteiro pronto'],
+    ['em_producao', 'em produção', 'em produção'],
+    ['aprovada', 'aprovada', 'aprovadas'],
+    ['ideia', 'ideia', 'ideias'],
+    ['postado', 'postado', 'postados'],
+  ]
+  const parts = bits
+    .map(([id, one, many]) => {
+      const count = byStage[id]?.length || 0
+      if (!count) return null
+      return `${count} ${count === 1 ? one : many}`
+    })
+    .filter(Boolean)
+  return parts.length ? parts.join(' · ') : 'Nenhum cartão nesta seleção.'
 }
 
 function nextEsdras(ideas: Idea[]): string {
@@ -125,10 +233,11 @@ function nextEsdras(ideas: Idea[]): string {
   for (let i = 0; i < 8; i += 1) {
     const day = addDays(today, i)
     const weekday = isoWeekday(day)
-    if (weekday === 1 || weekday === 4) {
-      if (day >= today) { next = day; break }
+    if ((weekday === 1 || weekday === 4) && day >= today) {
+      next = day
+      break
     }
   }
   const lastText = last ? `${weekdayShort(last)} ${Number(last.slice(8, 10))}/${Number(last.slice(5, 7))}` : 'ainda sem atualização'
-  return `Última atualização: ${lastText} · Próxima: ${weekdayShort(next)} ${Number(next.slice(8, 10))}/${Number(next.slice(5, 7))}`
+  return `Última atualização do Esdras: ${lastText} · Próxima: ${weekdayShort(next)} ${Number(next.slice(8, 10))}/${Number(next.slice(5, 7))}`
 }
