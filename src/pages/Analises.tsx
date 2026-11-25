@@ -60,7 +60,7 @@ export function Analises() {
       {!selected?.payload ? (
         <div className="card secbox"><div className="empty">Não há números para este recorte. Quando um relatório chegar, os gráficos aparecem aqui.</div></div>
       ) : (
-        <ReportBody report={selected} previous={previous} events={data.bundle.events} />
+        <ReportBody report={selected} previous={previous} events={data.bundle.events.filter((event) => event.account === account)} />
       )}
       <div className="card pdfs">
         <h3>Relatórios em PDF</h3>
@@ -176,7 +176,8 @@ function ReportBody({ report, previous, events }: { report: Report; previous: Re
   const stories = obj(report.payload?.stories)
   const semana = obj(report.payload?.seguidores_semana)
   const horas = obj(conta?.horarios_semana)
-  const horasRef = emptyHours(horas) ? obj(obj(previous?.payload?.conta)?.horarios_semana) : null
+  const prevHoras = previous?.account === report.account ? obj(obj(previous?.payload?.conta)?.horarios_semana) : null
+  const horasRef = emptyHours(horas) && !emptyHours(prevHoras) ? prevHoras : null
   const grade = horasRef || horas
 
   return (
@@ -308,7 +309,7 @@ function ReportBody({ report, previous, events }: { report: Report; previous: Re
           <h3>Crescimento no relatório</h3>
           <p className="src">{typeof semana?.nota === 'string' ? stripHtml(semana.nota) : 'Sem nota de seguidores neste relatório.'}</p>
           <div className="daysg">
-            {growthDays(semana, events, report.period_start).map((day) => (
+            {growthDays(semana, events, report.period_start, report.account).map((day) => (
               <div className="dg" key={day.label}>
                 <div className="dd">{day.label}</div>
                 <div className={`dv ${day.saldo !== null && day.saldo < 0 ? 'neg' : ''}`}>{day.saldo === null ? '—' : signed(day.saldo)}</div>
@@ -417,7 +418,7 @@ function choose(reports: Report[], mode: 'semana' | 'mes' | 'datas', from: strin
 function previousOf(reports: Report[], current: Report | null): Report | null {
   if (!current) return null
   return reports
-    .filter((report) => report.kind === current.kind && report.payload && report.period_end < current.period_start)
+    .filter((report) => report.account === current.account && report.kind === current.kind && report.payload && report.period_end < current.period_start)
     .sort((a, b) => b.period_end.localeCompare(a.period_end))[0] || null
 }
 
@@ -484,9 +485,10 @@ function emptyHours(horas: Obj | null): boolean {
   const dias = horas?.dias
   return !dias || typeof dias !== 'object' || Object.keys(dias).length === 0
 }
-function growthDays(semana: Obj | null, events: FollowerEvent[], periodStart: string) {
+function growthDays(semana: Obj | null, events: FollowerEvent[], periodStart: string, account: Account) {
   const rows = Array.isArray(semana?.dias) ? semana.dias : []
   const year = Number(periodStart.slice(0, 4))
+  const ofAccount = events.filter((event) => event.account === account)
   return rows.map((row) => {
     const label = Array.isArray(row) ? String(row[0]) : '—'
     const saldo = Array.isArray(row) ? asNum(row[1]) : null
@@ -494,11 +496,11 @@ function growthDays(semana: Obj | null, events: FollowerEvent[], periodStart: st
     const match = label.match(/(\d{1,2})\/(\d{1,2})/)
     const iso = match ? `${year}-${match[2].padStart(2, '0')}-${match[1].padStart(2, '0')}` : null
     if (!note && iso) {
-      const dayEvents = events.filter((event) => event.event_date === iso)
+      const dayEvents = ofAccount.filter((event) => event.event_date === iso)
       if ((saldo || 0) < 0) note = dayEvents.filter((event) => event.kind === 'saiu' && event.arroba).map((event) => `saiu @${event.arroba}`).join(', ')
       if ((saldo || 0) > 0) {
         note = dayEvents.filter((event) => event.kind === 'entrou' && event.arroba).map((event) => {
-          const back = events.some((other) => other.kind === 'saiu' && other.arroba === event.arroba && other.event_date < event.event_date)
+          const back = ofAccount.some((other) => other.kind === 'saiu' && other.arroba === event.arroba && other.event_date < event.event_date)
           return `${back ? 'voltou' : 'entrou'} @${event.arroba}`
         }).join(', ')
       }
