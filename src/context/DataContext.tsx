@@ -1,8 +1,8 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from 'react'
 import * as api from '@/lib/api'
 import { addDays, isoWeekday, todayISO } from '@/lib/dates'
-import { syncGeneratedTasks } from '@/lib/logic'
-import type { Assignees, Bundle, GoalConfig, Idea, Post, PostComment, Task, YearDate, YearMonth } from '@/lib/types'
+import { aspectForFormat, defaultChecklist, mapIdeaStatus, syncGeneratedTasks, syncIdeaDateTasks } from '@/lib/logic'
+import type { Assignees, Bundle, GoalConfig, Idea, Post, PostComment, PostFormat, Task, YearDate, YearMonth } from '@/lib/types'
 import { PREVIEW, uid } from '@/lib/utils'
 
 type DataValue = {
@@ -14,6 +14,8 @@ type DataValue = {
   setCover: (postId: string, file: File) => Promise<string>
   toggleCheck: (postId: string, index: number) => Promise<void>
   saveIdea: (idea: Idea) => Promise<void>
+  launchIdea: (idea: Idea, date: string) => Promise<void>
+  linkTaskToIdea: (taskId: string, ideaId: string) => Promise<void>
   removeIdea: (id: string) => Promise<void>
   setIdeaStatus: (id: string, status: Idea['status']) => Promise<void>
   toggleHeart: (id: string) => Promise<void>
@@ -58,6 +60,7 @@ function maintain(bundle: Bundle, today: string) {
         rolled_from: null,
         origin_date: day,
         post_id: null,
+        idea_id: null,
         fixed_task_id: fixed.id,
         step: null,
         badge: null,
@@ -204,9 +207,55 @@ export function DataProvider({ children }: { children: ReactNode }) {
       if (PREVIEW) {
         const exists = current.ideas.some((item) => item.id === idea.id)
         current.ideas = exists ? current.ideas.map((item) => (item.id === idea.id ? next : item)) : [next, ...current.ideas]
+        current.tasks = syncIdeaDateTasks(current.tasks, next)
         return current
       }
       await api.saveIdea(next)
+    }),
+    launchIdea: (idea, date) => run(async (current) => {
+      const format: PostFormat = idea.format === 'carrossel' ? 'carrossel' : 'reel'
+      const post = {
+        id: idea.post_id || uid(),
+        account: idea.account,
+        title: idea.title,
+        format,
+        status: mapIdeaStatus(idea.status),
+        scheduled_date: date,
+        scheduled_time: null,
+        aspect: aspectForFormat(format),
+        legenda: null,
+        legenda_whatsapp: null,
+        ready_checks: {},
+        cover_url: null,
+        cover_thumb_url: null,
+        drive_url: idea.script_url,
+        checklist: defaultChecklist(format),
+        note: null,
+        date_tag: null,
+        updated_by: idea.updated_by,
+      }
+      const nextIdea = { ...idea, post_id: post.id, suggested_date: date, updated_at: new Date().toISOString() }
+      if (PREVIEW) {
+        const exists = current.posts.some((item) => item.id === post.id)
+        current.posts = exists ? current.posts.map((item) => (item.id === post.id ? post : item)) : [...current.posts, post]
+        current.tasks = syncGeneratedTasks(current.tasks, post)
+        current.ideas = current.ideas.map((item) => (item.id === idea.id ? api.normalizeIdea(nextIdea) : item))
+        current.tasks = syncIdeaDateTasks(current.tasks, api.normalizeIdea(nextIdea))
+        return current
+      }
+      await api.savePost(post)
+      await api.saveIdea(api.normalizeIdea(nextIdea))
+    }),
+    linkTaskToIdea: (taskId, ideaId) => run(async (current) => {
+      const task = current.tasks.find((item) => item.id === taskId)
+      const idea = current.ideas.find((item) => item.id === ideaId)
+      if (!task || !idea) return current
+      const next = { ...task, idea_id: idea.id, post_id: task.post_id || idea.post_id }
+      if (PREVIEW) {
+        current.tasks = current.tasks.map((item) => (item.id === taskId ? next : item))
+        return current
+      }
+      await api.saveTask(next)
     }),
     removeIdea: (id) => run(async (current) => {
       if (PREVIEW) {

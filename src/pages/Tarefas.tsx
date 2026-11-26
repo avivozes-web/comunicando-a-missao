@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { AccountChip, FormatChip, StatusBadge } from '@/components/Bits'
+import { Dialog, DialogContent, DialogDescription, DialogTitle } from '@/components/ui/dialog'
 import { AjusteDialog, authorFromEmail } from '@/components/AjusteDialog'
 import { Icon } from '@/components/Icon'
 import { useAuth } from '@/context/AuthContext'
@@ -8,9 +9,10 @@ import { useData } from '@/context/DataContext'
 import { useUi } from '@/context/UiContext'
 import { addDays, asDate, dayNumber, longDate, startOfWeek, weekdayShort, weekTitle } from '@/lib/dates'
 import { todayISO } from '@/lib/dates'
-import { matchesAccount, postsOnDay, resumoDoDia, taskBadge, taskForPerson } from '@/lib/logic'
+import { ideaIsLinked, linkedIdea, matchesAccount, postsOnDay, resumoDoDia, taskBadge, taskForPerson } from '@/lib/logic'
 import type { Idea, Post, Task } from '@/lib/types'
 import { uid } from '@/lib/utils'
+import { IDEA_STAGES } from '@/lib/types'
 
 type Order = 'prioridade' | 'az'
 
@@ -20,9 +22,10 @@ export function Tarefas() {
   const navigate = useNavigate()
   const { email } = useAuth()
   const today = todayISO()
-  const [order, setOrder] = useState<Order>('prioridade')
+  const [order, setOrder] = useState<Order>('az')
   const [offset, setOffset] = useState(0)
   const [ajuste, setAjuste] = useState<{ postId?: string; ideaId?: string } | null>(null)
+  const [linkTask, setLinkTask] = useState<Task | null>(null)
   const posts = data.bundle.posts.filter((post) => matchesAccount(post.account, ui.filter))
   const ideas = data.bundle.ideas.filter((idea) => matchesAccount(idea.account, ui.filter))
   const richard = ui.person === 'Richard'
@@ -135,7 +138,7 @@ export function Tarefas() {
           <span className="pill">{openToday.length} {openToday.length === 1 ? 'tarefa' : 'tarefas'}</span>
         </div>
         <div className="hgrid">
-          {openToday.map((task) => <TaskCard key={task.id} task={task} />)}
+          {openToday.map((task) => <TaskCard key={task.id} task={task} onLink={() => setLinkTask(task)} />)}
           {openToday.length === 0 && <div className="tc ghost"><div className="tt">Nada pendente hoje.</div></div>}
         </div>
       </div>
@@ -161,6 +164,8 @@ export function Tarefas() {
                 key={date}
                 date={date}
                 order={order}
+                setOrder={setOrder}
+                onLink={setLinkTask}
                 tasks={tasks.filter((task) => asDate(task.due_date) === date)}
                 posts={postsOnDay(posts, date)}
               />
@@ -183,6 +188,7 @@ export function Tarefas() {
           ui.toast('Ajuste registrado.')
         }}
       />
+      <LinkFactoryDialog task={linkTask} onClose={() => setLinkTask(null)} />
     </>
   )
 }
@@ -219,7 +225,7 @@ function moveItem(list: Task[], from: number, to: number): Task[] {
   return next
 }
 
-function DayColumn({ date, tasks, posts, order }: { date: string; tasks: Task[]; posts: Post[]; order: Order }) {
+function DayColumn({ date, tasks, posts, order, setOrder, onLink }: { date: string; tasks: Task[]; posts: Post[]; order: Order; setOrder: (order: Order) => void; onLink: (task: Task) => void }) {
   const data = useData()
   const ui = useUi()
   const weekend = weekdayShort(date) === 'sáb' || weekdayShort(date) === 'dom'
@@ -242,7 +248,8 @@ function DayColumn({ date, tasks, posts, order }: { date: string; tasks: Task[];
   }
 
   function begin(event: React.PointerEvent<HTMLButtonElement>, index: number) {
-    if (order !== 'prioridade' || list.length < 2) return
+    if (list.length < 2) return
+    if (order !== 'prioridade') setOrder('prioridade')
     event.preventDefault()
     event.stopPropagation()
     const handle = event.currentTarget
@@ -274,7 +281,7 @@ function DayColumn({ date, tasks, posts, order }: { date: string; tasks: Task[];
     <div className={`dcol ${weekend ? 'weekend' : ''}`}>
       <div className="dh2"><span>{dayLabel(date).split(' ')[0]}</span><b>{dayNumber(date)}</b></div>
       <div className="list">
-        {list.map((task, index) => <TaskCard key={task.id} task={task} drag={order === 'prioridade' ? (event) => begin(event, index) : undefined} />)}
+        {list.map((task, index) => <TaskCard key={task.id} task={task} drag={(event) => begin(event, index)} onLink={() => onLink(task)} />)}
         {weekend && list.length === 0 && posts.length === 0 && <div className="tc ghost"><div className="tt">Folga</div></div>}
         {posts.map((post) => (
           <button type="button" key={post.id} className={`tc day-post ${post.account === 'missao' ? 'mi' : ''}`} onClick={() => ui.openPost(post)}>
@@ -291,18 +298,47 @@ function DayColumn({ date, tasks, posts, order }: { date: string; tasks: Task[];
   )
 }
 
-function TaskCard({ task, drag }: { task: Task; drag?: (event: React.PointerEvent<HTMLButtonElement>) => void }) {
+function TaskCard({ task, drag, onLink }: { task: Task; drag?: (event: React.PointerEvent<HTMLButtonElement>) => void; onLink?: () => void }) {
   const data = useData()
   const ui = useUi()
+  const navigate = useNavigate()
+  const [menu, setMenu] = useState(false)
   const badge = taskBadge(task, data.bundle.posts)
+  const idea = linkedIdea(task, data.bundle.ideas)
+
+  function openFactory() {
+    if (!idea) return
+    navigate('/ideias')
+    ui.openIdea(idea)
+  }
+
   return (
     <div className={`tc ${task.done ? 'done' : ''} ${task.rolled_from ? 'roll' : ''}`}>
       <div className="tt">
-        {drag && <button type="button" className="grip" aria-label="Arrastar para mudar a prioridade" onPointerDown={drag}><Icon name="grip" size={14} /></button>}
+        {drag && <button type="button" className="grip" aria-label="Arrastar para mudar a ordem" onPointerDown={drag}><Icon name="grip" size={14} /></button>}
         <button type="button" className="bx" aria-label={task.done ? 'Desmarcar' : 'Concluir'} onClick={() => void data.toggleTask(task.id)}>
           {task.done && <Icon name="check" size={9} />}
         </button>
         <button type="button" className="task-title" onClick={() => ui.openTask(task)}>{task.title}</button>
+        {idea && (
+          <button type="button" className="task-go" aria-label="Abrir na Fábrica de Conteúdo" title="Abrir na Fábrica" onClick={openFactory}>
+            <Icon name="chevron" size={16} />
+          </button>
+        )}
+        <div className="task-menu">
+          <button type="button" className="task-dots" aria-label="Mais opções" aria-expanded={menu} onClick={() => setMenu((open) => !open)}>
+            <Icon name="more" size={16} />
+          </button>
+          {menu && (
+            <div className="task-pop">
+              {idea ? (
+                <button type="button" onClick={() => { setMenu(false); openFactory() }}>Abrir na Fábrica</button>
+              ) : (
+                <button type="button" onClick={() => { setMenu(false); onLink?.() }}>Linkar à Fábrica</button>
+              )}
+            </div>
+          )}
+        </div>
       </div>
       <div className="who">
         {task.kind === 'fixed' && <Icon name="repeat" />}
@@ -314,5 +350,51 @@ function TaskCard({ task, drag }: { task: Task; drag?: (event: React.PointerEven
         {badge && <span className="ared" style={{ padding: '2px 6px', fontSize: 9.5 }}>{badge}</span>}
       </div>
     </div>
+  )
+}
+
+function LinkFactoryDialog({ task, onClose }: { task: Task | null; onClose: () => void }) {
+  const data = useData()
+  const ui = useUi()
+  const options = data.bundle.ideas.filter((idea) => !idea.archived && idea.status !== 'rejeitada' && !ideaIsLinked(idea, data.bundle.tasks))
+
+  async function choose(ideaId: string) {
+    if (!task) return
+    await data.linkTaskToIdea(task.id, ideaId)
+    ui.toast('Linkado à Fábrica.')
+    onClose()
+  }
+
+  return (
+    <Dialog open={task !== null} onOpenChange={(value) => !value && onClose()}>
+      <DialogContent>
+        <div className="mh5">
+          <div>
+            <div className="eb">Tarefas</div>
+            <DialogTitle className="dlg-title">Linkar à Fábrica</DialogTitle>
+            <DialogDescription className="dlg-desc">Escolha um conteúdo que ainda não está linkado. Depois, a setinha abre o roteiro e o cartão.</DialogDescription>
+          </div>
+          <button type="button" className="xb" onClick={onClose} aria-label="Fechar"><Icon name="x" /></button>
+        </div>
+        <div className="mb">
+          {options.length === 0 && <div className="empty">Nenhum conteúdo livre para linkar.</div>}
+          <div className="link-list">
+            {options.map((idea) => {
+              const stage = IDEA_STAGES.find((item) => item.id === idea.status)
+              return (
+                <button type="button" className="link-item" key={idea.id} onClick={() => void choose(idea.id)}>
+                  <b>{idea.title}</b>
+                  <span>
+                    {idea.account === 'escola' ? 'Escola' : 'Missão'}
+                    {stage ? ` · ${stage.label}` : ''}
+                    {idea.course ? ` · ${idea.course}` : ''}
+                  </span>
+                </button>
+              )
+            })}
+          </div>
+        </div>
+      </DialogContent>
+    </Dialog>
   )
 }

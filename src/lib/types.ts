@@ -55,6 +55,8 @@ export type Idea = {
   script_url: string | null
   archived: boolean
   post_id: string | null
+  record_date: string | null
+  edit_date: string | null
 }
 
 export type FixedTask = {
@@ -78,6 +80,7 @@ export type Task = {
   rolled_from: string | null
   origin_date: string | null
   post_id: string | null
+  idea_id: string | null
   fixed_task_id: string | null
   step: TaskStep | null
   badge: string | null
@@ -314,7 +317,17 @@ export const TEAM = ['Isabelle', 'Richard', 'Lídia', 'Esdras', 'Bezalel']
 
 export const DEFAULT_ASSIGNEES: Assignees = {
   gravar: 'Isabelle',
-  editar: 'Bezalel',
+  editar: 'Isabelle + Bezalel',
   aprovar: 'Lídia + Isabelle',
   postar: 'Lídia',
 }
+
+export const ASSIGNEE_OPTIONS = [
+  ...TEAM,
+  'Isabelle + Bezalel',
+  'Isabelle + Richard',
+  'Lídia + Isabelle',
+  'Isabelle + Esdras',
+  'Isabelle · Bezalel · Lídia',
+]
+

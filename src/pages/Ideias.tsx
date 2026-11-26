@@ -148,6 +148,20 @@ function IdeaCard({ idea }: { idea: Idea }) {
     ui.toast(`Passou para ${nextLabel}.`)
   }
 
+  async function launch() {
+    if (idea.post_id) {
+      ui.toast('Este conteúdo já está na semana.')
+      return
+    }
+    if (!idea.suggested_date) {
+      ui.openIdea(idea)
+      ui.toast('Coloque a data de postar e clique em Lançar na semana.')
+      return
+    }
+    await data.launchIdea(idea, idea.suggested_date)
+    ui.toast('Lançado na semana.')
+  }
+
   return (
     <div className={`card ic factory-card factory-card-${idea.status}`}>
       <div className="ih">
@@ -170,6 +184,8 @@ function IdeaCard({ idea }: { idea: Idea }) {
       </div>
       <div className="fb">
         <span className="when"><Icon name="cal" />{when}</span>
+        {idea.record_date && <span className="when">Gravar {formatDate(idea.record_date)}</span>}
+        {idea.edit_date && <span className="when">Editar {formatDate(idea.edit_date)}</span>}
         {idea.updated_by && <div className="by" style={{ margin: 0 }}>{idea.updated_by}</div>}
       </div>
       <div className="factory-actions">
@@ -177,6 +193,11 @@ function IdeaCard({ idea }: { idea: Idea }) {
           <a className="btn" href={idea.script_url} target="_blank" rel="noopener noreferrer">
             <Icon name="external" /> Ver roteiro
           </a>
+        )}
+        {!idea.post_id && (
+          <button type="button" className="btn" onClick={() => void launch()}>
+            Lançar na semana
+          </button>
         )}
         {next && (
           <button type="button" className="btn pri factory-advance" onClick={() => void advance()}>

@@ -13,6 +13,7 @@ import {
   IDEA_FORMATS,
   IDEA_STAGES,
   STATUSES,
+  ASSIGNEE_OPTIONS,
   TEAM,
   type Account,
   type Assignees,
@@ -64,6 +65,7 @@ function PostEditor() {
   const [checkText, setCheckText] = useState('')
   const [coverUrl, setCoverUrl] = useState<string | null>(null)
   const [who, setWho] = useState<Assignees>(DEFAULT_ASSIGNEES)
+  const [factoryId, setFactoryId] = useState<string | null>(null)
   const [busy, setBusy] = useState(false)
 
   useEffect(() => {
@@ -102,6 +104,7 @@ function PostEditor() {
       setUpdatedBy('Isabelle')
       setCoverUrl(null)
       setWho(DEFAULT_ASSIGNEES)
+      setFactoryId(null)
     }
   }, [open, editing, ui.postDate])
 
@@ -131,7 +134,12 @@ function PostEditor() {
   async function save() {
     setBusy(true)
     try {
-      await data.savePost(build(), editing ? undefined : who)
+      const post = build()
+      await data.savePost(post, editing ? undefined : who)
+      if (!editing && factoryId) {
+        const idea = data.bundle.ideas.find((item) => item.id === factoryId)
+        if (idea) await data.saveIdea({ ...idea, post_id: post.id, suggested_date: idea.suggested_date || post.scheduled_date })
+      }
       ui.closePost()
       ui.toast('Conteúdo salvo.')
     } catch {
@@ -177,6 +185,25 @@ function PostEditor() {
           </div>
         )}
         <div className="mb">
+          {!editing && (
+            <label className="field">Já está na Fábrica?
+              <select className="sel" value={factoryId || ''} onChange={(event) => {
+                const id = event.target.value || null
+                setFactoryId(id)
+                const idea = data.bundle.ideas.find((item) => item.id === id)
+                if (!idea) return
+                setAccount(idea.account)
+                setFormat(idea.format === 'carrossel' ? 'carrossel' : 'reel')
+                setTitle(idea.title)
+                if (idea.suggested_date) setDate(idea.suggested_date)
+              }}>
+                <option value="">Não, é um conteúdo novo</option>
+                {data.bundle.ideas.filter((idea) => !idea.archived && !idea.post_id).map((idea) => (
+                  <option key={idea.id} value={idea.id}>{idea.title}</option>
+                ))}
+              </select>
+            </label>
+          )}
           {(editing || step === 0) && (
             <div className="choice">
               {ACCOUNTS.map((item) => (
@@ -229,10 +256,7 @@ function PostEditor() {
                   <div />
                   <div className="who"><b>{stepName(key, format)}</b><span>antes de sair</span></div>
                   <select className="sel" value={who[key]} onChange={(event) => setWho({ ...who, [key]: event.target.value })}>
-                    {TEAM.map((name) => <option key={name}>{name}</option>)}
-                    <option>Lídia + Isabelle</option>
-                    <option>Isabelle + Richard</option>
-                    <option>Isabelle · Bezalel · Lídia</option>
+                    {ASSIGNEE_OPTIONS.map((name) => <option key={name}>{name}</option>)}
                   </select>
                 </div>
               ))}
@@ -358,6 +382,8 @@ function IdeaEditor() {
       script_url: null,
       archived: false,
       post_id: null,
+      record_date: null,
+      edit_date: null,
     })
   }, [open, editing])
 
@@ -405,10 +431,17 @@ function IdeaEditor() {
             <label className="field">Etiquetas
               <input className="inp" value={draft.tags.join(', ')} onChange={(event) => setDraft({ ...draft, tags: event.target.value.split(',').map((tag) => tag.trim()).filter(Boolean) })} placeholder="FIMC, Portal, Campos" />
             </label>
-            <label className="field">Data sugerida
+            <label className="field">Data de postar
               <input className="inp" type="date" value={draft.suggested_date || ''} onChange={(event) => setDraft({ ...draft, suggested_date: event.target.value || null })} />
             </label>
+            <label className="field">Dia de gravar
+              <input className="inp" type="date" value={draft.record_date || ''} onChange={(event) => setDraft({ ...draft, record_date: event.target.value || null })} />
+            </label>
+            <label className="field">Dia de editar
+              <input className="inp" type="date" value={draft.edit_date || ''} onChange={(event) => setDraft({ ...draft, edit_date: event.target.value || null })} />
+            </label>
           </div>
+          <p className="src">O dia de gravar e o dia de editar viram tarefa nesses dias, na aba Tarefas.</p>
           <label className="field">Link do roteiro (PDF)
             <input className="inp" value={draft.script_url || ''} onChange={(event) => setDraft({ ...draft, script_url: event.target.value || null })} placeholder="https://drive.google.com/..." />
           </label>
@@ -420,7 +453,18 @@ function IdeaEditor() {
         </div>
         <div className="mf">
           {editing ? <button type="button" className="btn" onClick={() => { void data.archiveIdea(editing.id, true); ui.closeIdea(); ui.toast('Ideia arquivada.') }}>Arquivar</button> : <span />}
-          <button type="button" className="nx" onClick={() => void save({ ...draft, updated_by: ui.person || draft.updated_by, course: draft.account === 'escola' ? draft.course : null })}>Salvar</button>
+          <div className="top-actions">
+            {draft.suggested_date && !draft.post_id && (
+              <button type="button" className="btn" onClick={() => void (async () => {
+                const next = { ...draft, updated_by: ui.person || draft.updated_by, course: draft.account === 'escola' ? draft.course : null }
+                await data.saveIdea(next)
+                await data.launchIdea(next, next.suggested_date!)
+                ui.closeIdea()
+                ui.toast('Lançado na semana.')
+              })()}>Lançar na semana</button>
+            )}
+            <button type="button" className="nx" onClick={() => void save({ ...draft, updated_by: ui.person || draft.updated_by, course: draft.account === 'escola' ? draft.course : null })}>Salvar</button>
+          </div>
         </div>
       </DialogContent>
     </Dialog>
@@ -449,6 +493,7 @@ function TaskEditor() {
       rolled_from: null,
       origin_date: ui.taskDate || todayISO(),
       post_id: null,
+      idea_id: null,
       fixed_task_id: null,
       step: null,
       badge: null,
@@ -474,11 +519,11 @@ function TaskEditor() {
             <input className="inp" value={draft.title} onChange={(event) => setDraft({ ...draft, title: event.target.value })} />
           </label>
           <div className="form-grid">
-            <label className="field">Quem (responsável)
-              <input className="inp" list="team-names" value={draft.assignee} onChange={(event) => setDraft({ ...draft, assignee: event.target.value })} />
-              <datalist id="team-names">
-                {[...TEAM, 'Isabelle + Richard', 'Lídia + Isabelle', 'Isabelle + Esdras'].map((name) => <option key={name} value={name} />)}
-              </datalist>
+            <label className="field">Quem faz
+              <select className="sel" value={draft.assignee} onChange={(event) => setDraft({ ...draft, assignee: event.target.value })}>
+                {!ASSIGNEE_OPTIONS.includes(draft.assignee) && draft.assignee && <option value={draft.assignee}>{draft.assignee}</option>}
+                {ASSIGNEE_OPTIONS.map((name) => <option key={name} value={name}>{name}</option>)}
+              </select>
             </label>
             <label className="field">Data
               <input className="inp" type="date" value={asDate(draft.due_date)} onChange={(event) => {

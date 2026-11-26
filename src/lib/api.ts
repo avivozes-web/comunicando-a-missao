@@ -61,6 +61,8 @@ export function normalizeIdea(row: Partial<Idea> & { id: string; status?: string
     script_url: row.script_url ?? null,
     archived: Boolean(row.archived),
     post_id: row.post_id ?? null,
+    record_date: row.record_date ?? null,
+    edit_date: row.edit_date ?? null,
   }
 }
 
@@ -162,6 +164,7 @@ function normalizeTask(task: Task): Task {
     origin_date: task.origin_date ? asDate(task.origin_date) : null,
     rolled_from: task.rolled_from ? asDate(task.rolled_from) : null,
     note: task.note ?? null,
+    idea_id: task.idea_id ?? null,
   }
 }
 

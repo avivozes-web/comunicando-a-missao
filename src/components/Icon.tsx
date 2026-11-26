@@ -35,6 +35,7 @@ const ICONS: Record<string, string> = {
   refresh: '<path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5M12 7v5l3 2"/>',
   menu: '<path d="M4 6h16M4 12h16M4 18h16"/>',
   grip: '<path d="M9 6h.01M9 12h.01M9 18h.01M15 6h.01M15 12h.01M15 18h.01"/>',
+  more: '<circle cx="12" cy="5" r="1.7"/><circle cx="12" cy="12" r="1.7"/><circle cx="12" cy="19" r="1.7"/>',
   bell: '<path d="M6 8a6 6 0 1 1 12 0c0 7 3 9 3 9H3s3-2 3-9M10 21h4"/>',
   cap: '<path d="M22 10 12 4 2 10l10 6 10-6z"/><path d="M6 12v5c1.5 2 4 3 6 3s4.5-1 6-3v-5"/><path d="M22 10v6"/>',
   compass: '<circle cx="12" cy="12" r="9"/><path d="m16 8-2.5 6.5L7 16l2.5-6.5L16 8z"/>',

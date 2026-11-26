@@ -202,6 +202,7 @@ export function DayDictation() {
         rolled_from: null,
         origin_date: date,
         post_id: null,
+        idea_id: null,
         fixed_task_id: null,
         step: null,
         badge: null,

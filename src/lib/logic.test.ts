@@ -1,8 +1,8 @@
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
 import { addDays, startOfWeek, weekTitle } from './dates.ts'
-import { aspectForFormat, defaultAssignees, defaultChecklist, stepLabel, postsOnDay, syncGeneratedTasks, taskForPerson, workdayBefore } from './logic.ts'
-import type { Post } from './types.ts'
+import { aspectForFormat, defaultAssignees, defaultChecklist, postarPrefix, stepLabel, postsOnDay, syncGeneratedTasks, syncIdeaDateTasks, taskForPerson, workdayBefore } from './logic.ts'
+import type { Idea, Post } from './types.ts'
 
 function post(partial: Pick<Post, 'id' | 'scheduled_date' | 'status' | 'account'>): Post {
   return {
@@ -70,15 +70,33 @@ test('data automática no fim de semana vai para a sexta', () => {
   assert.equal(workdayBefore('2026-11-21'), '2026-11-20')
   assert.equal(workdayBefore('2026-11-22'), '2026-11-20')
   assert.equal(workdayBefore('2026-11-23'), '2026-11-23')
+})
+
+test('conteúdo novo gera só a tarefa de postar, no dia do post', () => {
   const tasks = syncGeneratedTasks([], post({ id: 'p1', account: 'escola', scheduled_date: '2026-11-30', status: 'ideia' }))
-  assert.deepEqual(tasks.map((task) => task.due_date), ['2026-11-27', '2026-11-27', '2026-11-27', '2026-11-30'])
+  assert.equal(tasks.length, 1)
+  assert.equal(tasks[0].step, 'postar')
+  assert.equal(tasks[0].due_date, '2026-11-30')
+  assert.equal(tasks[0].title, 'Postar o vídeo: p1')
+  assert.equal(postarPrefix('carrossel'), 'Postar o carrossel: ')
 })
 
 test('mudar a data do post só leva a tarefa Postar', () => {
   const first = syncGeneratedTasks([], post({ id: 'p2', account: 'escola', scheduled_date: '2026-11-26', status: 'ideia' }))
+  first.push({
+    ...first[0],
+    id: 'gravar-p2',
+    title: 'Gravar p2',
+    step: 'gravar',
+    due_date: '2026-11-23',
+    origin_date: '2026-11-23',
+    sort: 80,
+    done: false,
+  })
   const moved = syncGeneratedTasks(first, post({ id: 'p2', account: 'escola', scheduled_date: '2026-12-03', status: 'ideia' }))
   const byStep = Object.fromEntries(moved.map((task) => [task.step, task.due_date]))
-  assert.deepEqual(byStep, { gravar: '2026-11-23', editar: '2026-11-24', aprovar: '2026-11-25', postar: '2026-12-03' })
+  assert.deepEqual(byStep, { postar: '2026-12-03', gravar: '2026-11-23' })
+  assert.equal(moved.find((task) => task.step === 'postar')?.title, 'Postar o vídeo: p2')
 })
 
 test('visão Richard mostra só as tarefas dele', () => {
@@ -93,6 +111,33 @@ test('carrossel tem plano slide por slide e confecção, reel tem gravar e edita
   assert.equal(stepLabel('editar', 'post_leve'), 'Confecção')
   assert.equal(stepLabel('gravar', 'reel'), 'Gravar')
   assert.equal(defaultAssignees('carrossel').editar, 'Lídia + Isabelle')
+  assert.equal(defaultAssignees('reel').editar, 'Isabelle + Bezalel')
   const tasks = syncGeneratedTasks([], { ...post({ id: 'c1', account: 'missao', scheduled_date: '2026-11-30', status: 'ideia' }), format: 'carrossel', title: 'Macedônia' })
-  assert.deepEqual(tasks.map((task) => task.title).slice(0, 2), ['Plano slide por slide do Macedônia', 'Confecção do Macedônia'])
+  assert.deepEqual(tasks.map((task) => task.title), ['Postar o carrossel: Macedônia'])
+})
+
+test('datas de gravar e editar na Fábrica viram tarefas nesses dias', () => {
+  const idea: Idea = {
+    id: 'idea-1',
+    account: 'escola',
+    title: 'Tem teologia e Teologia',
+    body: '',
+    format: 'reel',
+    tags: [],
+    status: 'roteiro_pronto',
+    suggested_date: '2026-12-04',
+    heart: false,
+    updated_by: 'Isabelle',
+    course: 'Teologia',
+    script_url: null,
+    archived: false,
+    post_id: null,
+    record_date: '2026-11-24',
+    edit_date: '2026-11-25',
+  }
+  const tasks = syncIdeaDateTasks([], idea)
+  assert.deepEqual(tasks.map((task) => [task.step, task.due_date, task.title, task.assignee, task.done]), [
+    ['gravar', '2026-11-24', 'Gravar Tem teologia e Teologia', 'Isabelle', false],
+    ['editar', '2026-11-25', 'Editar Tem teologia e Teologia', 'Isabelle + Bezalel', false],
+  ])
 })

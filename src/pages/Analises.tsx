@@ -105,6 +105,7 @@ function WeekActions({ account, report }: { account: Account; report: Report | n
       rolled_from: null,
       origin_date: due,
       post_id: null,
+      idea_id: null,
       fixed_task_id: null,
       step: null,
       badge: 'eventual',
